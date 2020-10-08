@@ -25,8 +25,8 @@ void INITCFG_ConfigIO()
 	GPIO_InitPushPullOutput(GPIO_R0_M);
 	GPIO_InitPushPullOutput(GPIO_R1_M);
 	GPIO_InitPushPullOutput(GPIO_R2_M);
-	GPIO_InitPushPullOutput(GPIO_INT_SYNC1_OUT);
-	GPIO_InitPushPullOutput(GPIO_INT_SYNC2_OUT);
+	GPIO_InitPushPullOutput(GPIO_SYNC1_OUT);
+	GPIO_InitPushPullOutput(GPIO_SYNC2_OUT);
 	GPIO_InitPushPullOutput(GPIO_INT_LED);
 	GPIO_InitPushPullOutput(GPIO_CS_SYNC1);
 	GPIO_InitPushPullOutput(GPIO_CS_SYNC2);

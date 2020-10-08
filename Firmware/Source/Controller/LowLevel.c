@@ -24,27 +24,27 @@ void LL_SetStateExtMsrLed(bool State)
 }
 //-----------------------------
 
-void LL_SetStateInterruptLineSync1(bool State)
+void LL_SetStateLineSync1(bool State)
 {
-	GPIO_SetState(GPIO_INT_SYNC1_OUT, State);
+	GPIO_SetState(GPIO_SYNC1_OUT, State);
 }
 //-----------------------------
 
-void LL_SetStateInterruptLineSync2(bool State)
+void LL_SetStateLineSync2(bool State)
 {
-	GPIO_SetState(GPIO_INT_SYNC2_OUT, State);
+	GPIO_SetState(GPIO_SYNC2_OUT, State);
 }
 //-----------------------------
 
-bool LL_GetStateInterruptLineSync1()
+bool LL_GetStateLineSync1()
 {
-	return GPIO_GetState(GPIO_INT_SYNC1_IN);
+	return GPIO_GetState(GPIO_SYNC1_IN);
 }
 //-----------------------------
 
-bool LL_GetStateInterruptLineSync2()
+bool LL_GetStateLineSync2()
 {
-	return GPIO_GetState(GPIO_INT_SYNC2_IN);
+	return GPIO_GetState(GPIO_SYNC2_IN);
 }
 //-----------------------------
 
