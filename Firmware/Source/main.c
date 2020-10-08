@@ -23,6 +23,18 @@ int main()
 	// Настройка системного счетчика
 	INITCFG_ConfigTimer7();
 	
+	// Настройка таймера для АЦП
+	INITCFG_ConfigTimer6();
+
+	// Настройка SPI
+	INITCFG_ConfigSPI();
+
+	// Настройка АЦП
+	INITCFG_ConfigADC();
+
+	// Настройка DMA
+	INITCFG_ConfigDMA();
+
 	// Настройка сторожевого таймера
 	INITCFG_ConfigWatchDog();
 	
