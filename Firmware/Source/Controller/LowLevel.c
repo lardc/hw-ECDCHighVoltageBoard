@@ -92,11 +92,11 @@ void LL_SetCurrentRage(uint16_t Range)
 	}
 }
 
-void LL_DiscreteOpAmpWriteDAC(uint16_t Data, GPIO_PortPinSetting CS_SYNC)
+void LL_WriteDACx(uint16_t Data, void (*SetState_CS_SYNC)(bool State))
 {
-	GPIO_SetState(CS_SYNC, false);
+	SetState_CS_SYNC(false);
 	SPI_WriteByte(SPI1, Data);
-	GPIO_SetState(CS_SYNC, true);
+	SetState_CS_SYNC(true);
 	DELAY_US(1);
 
 	GPIO_SetState(GPIO_LDAC, false);
@@ -105,3 +105,65 @@ void LL_DiscreteOpAmpWriteDAC(uint16_t Data, GPIO_PortPinSetting CS_SYNC)
 	DELAY_US(1);
 }
 //---------------------
+
+void LL_GroupStateCS_SYNC(bool State)
+{
+	GPIO_SetState(GPIO_CS_SYNC1, State);
+	GPIO_SetState(GPIO_CS_SYNC2, State);
+	GPIO_SetState(GPIO_CS_SYNC3, State);
+	GPIO_SetState(GPIO_CS_SYNC4, State);
+	GPIO_SetState(GPIO_CS_SYNC5, State);
+	GPIO_SetState(GPIO_CS_SYNC6, State);
+	GPIO_SetState(GPIO_CS_SYNC7, State);
+	GPIO_SetState(GPIO_CS_SYNC8, State);
+}
+//---------------------
+
+void LL_SetStateCS_SYNC1(bool State)
+{
+	GPIO_SetState(GPIO_CS_SYNC1, State);
+}
+//---------------------
+
+void LL_SetStateCS_SYNC2(bool State)
+{
+	GPIO_SetState(GPIO_CS_SYNC2, State);
+}
+//---------------------
+
+void LL_SetStateCS_SYNC3(bool State)
+{
+	GPIO_SetState(GPIO_CS_SYNC3, State);
+}
+//---------------------
+
+void LL_SetStateCS_SYNC4(bool State)
+{
+	GPIO_SetState(GPIO_CS_SYNC4, State);
+}
+//---------------------
+
+void LL_SetStateCS_SYNC5(bool State)
+{
+	GPIO_SetState(GPIO_CS_SYNC5, State);
+}
+//---------------------
+
+void LL_SetStateCS_SYNC6(bool State)
+{
+	GPIO_SetState(GPIO_CS_SYNC6, State);
+}
+//---------------------
+
+void LL_SetStateCS_SYNC7(bool State)
+{
+	GPIO_SetState(GPIO_CS_SYNC7, State);
+}
+//---------------------
+
+void LL_SetStateCS_SYNC8(bool State)
+{
+	GPIO_SetState(GPIO_CS_SYNC8, State);
+}
+//---------------------
+

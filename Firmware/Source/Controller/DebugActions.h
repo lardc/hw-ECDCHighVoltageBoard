@@ -12,5 +12,9 @@ void DBGACT_GenerateImpulseToLineSync1();
 void DBGACT_GenerateImpulseToLineSync2();
 bool DBGACT_ReadStateLineSync1();
 bool DBGACT_ReadStateLineSync2();
+void DBGACT_SetCurrentRange(uint16_t Range);
+bool DBGACT_ReadStatePowerSupplies();
+void DBGACT_SetCurrentCutoff(uint16_t Data);
+void DBGACT_SetVoltageCell(uint16_t CellNumber, uint16_t Data);
 
 #endif //__DEBUGACTIONS_H

@@ -10,6 +10,10 @@
 #define ACT_DBG_IS_STATE_SYNC_1			52	// Состояние линии SYNC_1
 #define ACT_DBG_IS_STATE_SYNC_2			53	// Состояние линии SYNC_2
 #define ACT_DBG_PULSE_EXT_LEDS			54	// Однократное зажигание внешних светодиодов
+#define ACT_DBG_SET_CURRENT_RANGE		55	// Установка диапазона по току (0, 1, 2)
+#define ACT_DBG_ARE_PS_STATE			56	// Проверка активности источников питания на 500В
+#define ACT_DBG_SET_CURRENT_CUTOFF		57	// Установка отсечки по току на всех ячейках DiscreteOpAmp
+#define ACT_DBG_SET_VOLTAGE_CELL		58	// Установка напряжения на заданной ячейке
 
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
@@ -22,7 +26,8 @@
 // Сохраняемые регистры
 
 // Несохраняемы регистры чтения-записи
-#define REG_DBG							150	// Регистр режима Отладки
+#define REG_DBG							150	// Регистр режима Отладки 1
+#define REG_DBG_CELL_NUM				151	// Регистр режима Отладки 2
 
 // Регистры только чтение
 #define REG_DEV_STATE					192	// Регистр состояния

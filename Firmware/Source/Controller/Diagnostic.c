@@ -42,6 +42,30 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 			}
 			break;
 
+		case ACT_DBG_SET_CURRENT_RANGE:
+			{
+				DBGACT_SetCurrentRange(DataTable[REG_DBG]);
+			}
+			break;
+
+		case ACT_DBG_ARE_PS_STATE:
+			{
+				DataTable[REG_DBG] = DBGACT_ReadStatePowerSupplies();
+			}
+			break;
+
+		case ACT_DBG_SET_CURRENT_CUTOFF:
+			{
+				DBGACT_SetCurrentCutoff(DataTable[REG_DBG]);
+			}
+			break;
+
+		case ACT_DBG_SET_VOLTAGE_CELL:
+			{
+				DBGACT_SetVoltageCell(DataTable[REG_DBG_CELL_NUM], DataTable[REG_DBG]);
+			}
+			break;
+
 		default:
 			return false;
 	}
