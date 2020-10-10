@@ -23,8 +23,8 @@ GPIO_PortPinSettingMacro GPIO_EXT_LED2			= {GPIOB, Pin_15};
 GPIO_PortPinSettingMacro GPIO_R0_M				= {GPIOB, Pin_2};
 GPIO_PortPinSettingMacro GPIO_R1_M				= {GPIOB, Pin_0};
 GPIO_PortPinSettingMacro GPIO_R2_M				= {GPIOB, Pin_1};
-GPIO_PortPinSettingMacro GPIO_SYNC1_OUT			= {GPIOB, Pin_4};
-GPIO_PortPinSettingMacro GPIO_SYNC2_OUT			= {GPIOB, Pin_5};
+GPIO_PortPinSettingMacro GPIO_SYNC1_OUT			= {GPIOA, Pin_15};
+GPIO_PortPinSettingMacro GPIO_SYNC2_OUT			= {GPIOB, Pin_3};
 GPIO_PortPinSettingMacro GPIO_INT_LED			= {GPIOB, Pin_6};
 GPIO_PortPinSettingMacro GPIO_CS_SYNC1			= {GPIOB, Pin_14};
 GPIO_PortPinSettingMacro GPIO_CS_SYNC2			= {GPIOB, Pin_13};
@@ -36,8 +36,8 @@ GPIO_PortPinSettingMacro GPIO_CS_SYNC7			= {GPIOA, Pin_2};
 GPIO_PortPinSettingMacro GPIO_CS_SYNC8			= {GPIOA, Pin_3};
 
 // Определения для входных портов
-GPIO_PortPinSettingMacro GPIO_SYNC1_IN			= {GPIOA, Pin_15};
-GPIO_PortPinSettingMacro GPIO_SYNC2_IN			= {GPIOB, Pin_3};
+GPIO_PortPinSettingMacro GPIO_SYNC1_IN			= {GPIOB, Pin_4};
+GPIO_PortPinSettingMacro GPIO_SYNC2_IN			= {GPIOB, Pin_5};
 GPIO_PortPinSettingMacro GPIO_PS_STATES			= {GPIOB, Pin_7};
 
 // Определения для портов альтернативных функций

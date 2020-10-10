@@ -39,13 +39,25 @@ void DBGACT_GenerateImpulseToLineSync2()
 
 bool DBGACT_ReadStateLineSync1()
 {
-	return LL_GetStateLineSync1();
+	bool LineState;
+
+	(DataTable[REG_DBG]) ? LL_SetStateLineSync1(true) : LL_SetStateLineSync1(false);
+	CONTROL_DelayMs(100);
+	LineState = LL_GetStateLineSync1();
+	LL_SetStateLineSync1(false);
+	return LineState;
 }
 //-----------------------------
 
 bool DBGACT_ReadStateLineSync2()
 {
-	return LL_GetStateLineSync2();
+	bool LineState;
+
+	(DataTable[REG_DBG]) ? LL_SetStateLineSync2(true) : LL_SetStateLineSync2(false);
+	CONTROL_DelayMs(100);
+	LineState = LL_GetStateLineSync2();
+	LL_SetStateLineSync2(false);
+	return LineState;
 }
 //-----------------------------
 

@@ -37,8 +37,19 @@ void INITCFG_ConfigIO()
 	GPIO_InitPushPullOutput(GPIO_CS_SYNC7);
 	GPIO_InitPushPullOutput(GPIO_CS_SYNC8);
 
+	// Начальная установка состояний выводов
 	GPIO_SetState(GPIO_EXT_LED1, true);
 	GPIO_SetState(GPIO_EXT_LED2, true);
+	GPIO_SetState(GPIO_SYNC1_OUT, true);
+	GPIO_SetState(GPIO_SYNC2_OUT, true);
+	GPIO_SetState(GPIO_CS_SYNC1, true);
+	GPIO_SetState(GPIO_CS_SYNC2, true);
+	GPIO_SetState(GPIO_CS_SYNC3, true);
+	GPIO_SetState(GPIO_CS_SYNC4, true);
+	GPIO_SetState(GPIO_CS_SYNC5, true);
+	GPIO_SetState(GPIO_CS_SYNC6, true);
+	GPIO_SetState(GPIO_CS_SYNC7, true);
+	GPIO_SetState(GPIO_CS_SYNC8, true);
 
 
 	// Альтернативные функции
