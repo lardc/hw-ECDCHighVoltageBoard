@@ -61,8 +61,8 @@ void LL_SetCurrentRage(uint16_t Range)
 		case 0:
 		{
 			GPIO_SetState(GPIO_R0_M, true);
-			GPIO_SetState(GPIO_R1_M, false);
-			GPIO_SetState(GPIO_R2_M, false);
+			GPIO_SetState(GPIO_R1_M, true);
+			GPIO_SetState(GPIO_R2_M, true);
 		}
 		break;
 
@@ -70,23 +70,31 @@ void LL_SetCurrentRage(uint16_t Range)
 		{
 			GPIO_SetState(GPIO_R0_M, false);
 			GPIO_SetState(GPIO_R1_M, true);
-			GPIO_SetState(GPIO_R2_M, false);
+			GPIO_SetState(GPIO_R2_M, true);
 		}
 		break;
 
 		case 2:
 		{
-			GPIO_SetState(GPIO_R0_M, false);
+			GPIO_SetState(GPIO_R0_M, true);
 			GPIO_SetState(GPIO_R1_M, false);
 			GPIO_SetState(GPIO_R2_M, true);
+		}
+		break;
+
+		case 3:
+		{
+			GPIO_SetState(GPIO_R0_M, true);
+			GPIO_SetState(GPIO_R1_M, true);
+			GPIO_SetState(GPIO_R2_M, false);
 		}
 		break;
 
 		default:
 		{
 			GPIO_SetState(GPIO_R0_M, true);
-			GPIO_SetState(GPIO_R1_M, false);
-			GPIO_SetState(GPIO_R2_M, false);
+			GPIO_SetState(GPIO_R1_M, true);
+			GPIO_SetState(GPIO_R2_M, true);
 		}
 		break;
 	}
