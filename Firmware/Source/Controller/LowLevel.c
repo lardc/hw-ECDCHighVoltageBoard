@@ -14,13 +14,13 @@ void LL_ToggleBoardLED()
 
 void LL_SetStateExtPowerLed(bool State)
 {
-	GPIO_SetState(GPIO_EXT_LED1, State);
+	GPIO_SetState(GPIO_EXT_LED1, !State);
 }
 //-----------------------------
 
 void LL_SetStateExtMsrLed(bool State)
 {
-	GPIO_SetState(GPIO_EXT_LED2, State);
+	GPIO_SetState(GPIO_EXT_LED2, !State);
 }
 //-----------------------------
 
