@@ -59,4 +59,8 @@
 #define ERR_DEVICE_NOT_READY			3	//  Устройство не готово для смены состояния
 #define ERR_WRONG_PWD					4	//  Неправильный ключ
 
+// Endpoints
+#define EP_VOLTAGE						1
+#define EP_CURRENT						2
+
 #endif //  __DEV_OBJ_DIC_H
