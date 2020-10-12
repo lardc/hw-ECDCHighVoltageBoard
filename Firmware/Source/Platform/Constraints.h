@@ -10,6 +10,10 @@
 #define NO		0
 #define YES		1
 
+#define POWER_ON_TIMEOUT_MIN		0			// мс
+#define POWER_ON_TIMEOUT_MAX		10000		// мс
+#define POWER_ON_TIMEOUT_DEF		5000		// мс
+
 // Types
 typedef struct __TableItemConstraint
 {

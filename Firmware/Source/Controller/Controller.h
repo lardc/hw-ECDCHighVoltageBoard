@@ -13,9 +13,15 @@ typedef enum __DeviceState
 	DS_None = 0,
 	DS_Fault = 1,
 	DS_Disabled = 2,
-	DS_Enabled = 3,
+	DS_Ready = 3,
 	DS_InProcess = 4
 } DeviceState;
+
+typedef enum __SubState
+{
+	SS_None = 0,
+	SS_PowerOn = 1
+}SubState;
 
 // Variables
 //

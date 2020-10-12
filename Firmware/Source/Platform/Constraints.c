@@ -8,7 +8,7 @@
 // Constants
 //
 const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
-		{0, 0, 0},																	// 0
+		{POWER_ON_TIMEOUT_MIN, POWER_ON_TIMEOUT_MAX, POWER_ON_TIMEOUT_DEF},			// 0
 		{0, 0, 0},																	// 1
 		{0, 0, 0},																	// 2
 		{0, 0, 0},																	// 3

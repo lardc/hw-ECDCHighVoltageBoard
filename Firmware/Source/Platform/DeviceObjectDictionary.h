@@ -24,6 +24,7 @@
 
 // Регистры
 // Сохраняемые регистры
+#define REG_POWER_ON_TIMEOUT			0	// Таймаут ожидания готовности блоков питания
 
 // Несохраняемы регистры чтения-записи
 #define REG_DBG							150	// Регистр режима Отладки 1
@@ -45,6 +46,7 @@
 
 //  Fault and disable codes
 #define DF_NONE							0
+#define DF_POWER_SUPPLY					1
 
 // Problem
 #define PROBLEM_NONE					0
