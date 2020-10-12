@@ -4,6 +4,8 @@
 // Команды
 #define ACT_ENABLE_POWER				1	// Переход в состояние ожидания
 #define ACT_DISABLE_POWER				2	// Отключение блока
+#define ACT_CLR_FAULT					3	// Очистка всех fault
+#define ACT_CLR_WARNING					4	// Очистка всех warning
 
 #define ACT_DBG_PULSE_SYNC1				50	// Одиночный импусль в линию SYNC_1
 #define ACT_DBG_PULSE_SYNC2				51	// Одиночный импусль в линию SYNC_2

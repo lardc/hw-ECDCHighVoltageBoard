@@ -38,6 +38,7 @@ void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
 void CONTROL_PowerMonitor();
 void CONTROL_Process();
+void CONTROL_StopProcess();
 
 // Functions
 //
@@ -118,6 +119,18 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 				*pUserError = ERR_OPERATION_BLOCKED;
 			break;
 
+		case ACT_CLR_FAULT:
+			if (CONTROL_State == DS_Fault)
+			{
+				CONTROL_SetDeviceState(DS_None, SS_None);
+				DataTable[REG_FAULT_REASON] = DF_NONE;
+			}
+			break;
+
+		case ACT_CLR_WARNING:
+			DataTable[REG_WARNING] = WARNING_NONE;
+			break;
+
 		default:
 			return DIAG_HandleDiagnosticAction(ActionID, pUserError);
 			
@@ -158,6 +171,12 @@ void CONTROL_PowerMonitor()
 //-----------------------------------------------
 
 void CONTROL_Process()
+{
+
+}
+//-----------------------------------------------
+
+void CONTROL_StopProcess()
 {
 
 }
