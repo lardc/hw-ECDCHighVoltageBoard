@@ -9,6 +9,21 @@
 #include "Controller.h"
 #include "DataTable.h"
 
+// Defines
+#define DBG_CELL_0				0
+#define DBG_CELL_1				1
+#define DBG_CELL_2				2
+#define DBG_CELL_3				3
+#define DBG_CELL_4				4
+#define DBG_CELL_5				5
+#define DBG_CELL_6				6
+#define DBG_CELL_7				7
+//
+#define DBG_CURRENT_RANGE_0		0
+#define DBG_CURRENT_RANGE_1		1
+#define DBG_CURRENT_RANGE_2		2
+#define DBG_CURRENT_RANGE_3		3
+
 // Functions
 //
 void DBGACT_BlinkExtLeds()
@@ -63,7 +78,24 @@ bool DBGACT_ReadStateLineSync2()
 
 void DBGACT_SetCurrentRange(uint16_t Range)
 {
-	LL_SetCurrentRage(Range);
+	switch(Range)
+	{
+		case DBG_CURRENT_RANGE_0:
+			LL_SetCurrentRange0();
+			break;
+
+		case DBG_CURRENT_RANGE_1:
+			LL_SetCurrentRange1();
+			break;
+
+		case DBG_CURRENT_RANGE_2:
+			LL_SetCurrentRange2();
+			break;
+
+		case DBG_CURRENT_RANGE_3:
+			LL_SetCurrentRange3();
+			break;
+	}
 }
 //-----------------------------
 
@@ -83,28 +115,28 @@ void DBGACT_SetVoltageCell(uint16_t CellNumber, uint16_t Data)
 {
 	switch(CellNumber)
 	{
-		case 0:
+		case DBG_CELL_0:
 			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC1);
 			break;
-		case 1:
+		case DBG_CELL_1:
 			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC2);
 			break;
-		case 2:
+		case DBG_CELL_2:
 			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC3);
 			break;
-		case 3:
+		case DBG_CELL_3:
 			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC4);
 			break;
-		case 4:
+		case DBG_CELL_4:
 			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC5);
 			break;
-		case 5:
+		case DBG_CELL_5:
 			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC6);
 			break;
-		case 6:
+		case DBG_CELL_6:
 			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC7);
 			break;
-		case 7:
+		case DBG_CELL_7:
 			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC8);
 			break;
 	}

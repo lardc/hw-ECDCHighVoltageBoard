@@ -18,7 +18,6 @@ void LL_SetStateLineSync2(bool State);
 bool LL_GetStateLineSync1();
 bool LL_GetStateLineSync2();
 bool LL_ArePowerSuppliesReady();
-void LL_SetCurrentRage(uint16_t Range);
 void LL_WriteDACx(uint16_t Data, void (*SetState_CS_SYNC)(bool State));
 void LL_GroupStateCS_SYNC(bool State);
 void LL_SetStateCS_SYNC1(bool State);
@@ -29,5 +28,9 @@ void LL_SetStateCS_SYNC5(bool State);
 void LL_SetStateCS_SYNC6(bool State);
 void LL_SetStateCS_SYNC7(bool State);
 void LL_SetStateCS_SYNC8(bool State);
+void LL_SetCurrentRange0();
+void LL_SetCurrentRange1();
+void LL_SetCurrentRange2();
+void LL_SetCurrentRange3();
 
 #endif //__LOWLEVEL_H

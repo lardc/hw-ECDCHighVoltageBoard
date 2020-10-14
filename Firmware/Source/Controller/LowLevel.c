@@ -54,51 +54,37 @@ bool LL_ArePowerSuppliesReady()
 }
 //-----------------------------
 
-void LL_SetCurrentRage(uint16_t Range)
+void LL_SetCurrentRange0()
 {
-	switch(Range)
-	{
-		case 0:
-		{
-			GPIO_SetState(GPIO_R0_M, true);
-			GPIO_SetState(GPIO_R1_M, true);
-			GPIO_SetState(GPIO_R2_M, true);
-		}
-		break;
-
-		case 1:
-		{
-			GPIO_SetState(GPIO_R0_M, false);
-			GPIO_SetState(GPIO_R1_M, true);
-			GPIO_SetState(GPIO_R2_M, true);
-		}
-		break;
-
-		case 2:
-		{
-			GPIO_SetState(GPIO_R0_M, true);
-			GPIO_SetState(GPIO_R1_M, false);
-			GPIO_SetState(GPIO_R2_M, true);
-		}
-		break;
-
-		case 3:
-		{
-			GPIO_SetState(GPIO_R0_M, true);
-			GPIO_SetState(GPIO_R1_M, true);
-			GPIO_SetState(GPIO_R2_M, false);
-		}
-		break;
-
-		default:
-		{
-			GPIO_SetState(GPIO_R0_M, true);
-			GPIO_SetState(GPIO_R1_M, true);
-			GPIO_SetState(GPIO_R2_M, true);
-		}
-		break;
-	}
+	GPIO_SetState(GPIO_R0_M, true);
+	GPIO_SetState(GPIO_R1_M, true);
+	GPIO_SetState(GPIO_R2_M, true);
 }
+//-----------------------------
+
+void LL_SetCurrentRange1()
+{
+	GPIO_SetState(GPIO_R0_M, false);
+	GPIO_SetState(GPIO_R1_M, true);
+	GPIO_SetState(GPIO_R2_M, true);
+}
+//-----------------------------
+
+void LL_SetCurrentRange2()
+{
+	GPIO_SetState(GPIO_R0_M, true);
+	GPIO_SetState(GPIO_R1_M, false);
+	GPIO_SetState(GPIO_R2_M, true);
+}
+//-----------------------------
+
+void LL_SetCurrentRange3()
+{
+	GPIO_SetState(GPIO_R0_M, true);
+	GPIO_SetState(GPIO_R1_M, true);
+	GPIO_SetState(GPIO_R2_M, false);
+}
+//-----------------------------
 
 void LL_WriteDACx(uint16_t Data, void (*SetState_CS_SYNC)(bool State))
 {
