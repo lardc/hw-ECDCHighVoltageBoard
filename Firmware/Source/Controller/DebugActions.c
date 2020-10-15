@@ -8,6 +8,7 @@
 #include "Delay.h"
 #include "Controller.h"
 #include "DataTable.h"
+#include "DiscreteOpAmp.h"
 
 // Defines
 #define DBG_CELL_0				0
@@ -107,38 +108,12 @@ bool DBGACT_ReadStatePowerSupplies()
 
 void DBGACT_SetCurrentCutoff(uint16_t Data)
 {
-	LL_WriteDACx((Data | DAC_CHANNEL_B), &LL_GroupStateCS_SYNC);
+	LL_WriteDACx((Data | DAC_CHANNEL_B), DISOPAMP_POSITION_CELL0, DISOPAMP_TOTAL_CELL, true);
 }
 //-----------------------------
 
 void DBGACT_SetVoltageCell(uint16_t CellNumber, uint16_t Data)
 {
-	switch(CellNumber)
-	{
-		case DBG_CELL_0:
-			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC1);
-			break;
-		case DBG_CELL_1:
-			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC2);
-			break;
-		case DBG_CELL_2:
-			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC3);
-			break;
-		case DBG_CELL_3:
-			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC4);
-			break;
-		case DBG_CELL_4:
-			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC5);
-			break;
-		case DBG_CELL_5:
-			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC6);
-			break;
-		case DBG_CELL_6:
-			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC7);
-			break;
-		case DBG_CELL_7:
-			LL_WriteDACx((Data & ~DAC_CHANNEL_B), &LL_SetStateCS_SYNC8);
-			break;
-	}
+	LL_WriteDACx((Data & ~DAC_CHANNEL_B), CellNumber, 1, true);
 }
 //-----------------------------

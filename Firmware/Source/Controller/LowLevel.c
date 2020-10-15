@@ -3,6 +3,20 @@
 // Include
 #include "Board.h"
 #include "Delay.h"
+#include "Global.h"
+
+// Arrays
+void (*LL_CsSyncControl[DISOPAMP_TOTAL_CELL])(bool State) =
+{
+	&LL_SetStateCS_SYNC1,
+	&LL_SetStateCS_SYNC2,
+	&LL_SetStateCS_SYNC3,
+	&LL_SetStateCS_SYNC4,
+	&LL_SetStateCS_SYNC5,
+	&LL_SetStateCS_SYNC6,
+	&LL_SetStateCS_SYNC7,
+	&LL_SetStateCS_SYNC8
+};
 
 // Functions
 //
@@ -86,30 +100,31 @@ void LL_SetCurrentRange3()
 }
 //-----------------------------
 
-void LL_WriteDACx(uint16_t Data, void (*SetState_CS_SYNC)(bool State))
+void LL_WriteDACx(Int16U Data, Int16U CellStartNumber, Int16U CellTotal, bool ToggleLDAC)
 {
-	SetState_CS_SYNC(false);
+	// Установка линий CS_SYNC в 0
+	for(int i = CellStartNumber; i < CellTotal; i++)
+		LL_CsSyncControl[i](false);
+
 	SPI_WriteByte(SPI1, Data);
-	SetState_CS_SYNC(true);
+
+	// Установка линий CS_SYNC в 1
+	for(int i = CellStartNumber; i < CellTotal; i++)
+		LL_CsSyncControl[i](true);
+
 	DELAY_US(1);
 
-	GPIO_SetState(GPIO_LDAC, false);
-	DELAY_US(5);
-	GPIO_SetState(GPIO_LDAC, true);
-	DELAY_US(1);
+	if(ToggleLDAC)
+		LL_ToggleLDAC();
 }
 //---------------------
 
-void LL_GroupStateCS_SYNC(bool State)
+void LL_ToggleLDAC()
 {
-	GPIO_SetState(GPIO_CS_SYNC1, State);
-	GPIO_SetState(GPIO_CS_SYNC2, State);
-	GPIO_SetState(GPIO_CS_SYNC3, State);
-	GPIO_SetState(GPIO_CS_SYNC4, State);
-	GPIO_SetState(GPIO_CS_SYNC5, State);
-	GPIO_SetState(GPIO_CS_SYNC6, State);
-	GPIO_SetState(GPIO_CS_SYNC7, State);
-	GPIO_SetState(GPIO_CS_SYNC8, State);
+	GPIO_SetState(GPIO_LDAC, false);
+	DELAY_US(1);
+	GPIO_SetState(GPIO_LDAC, true);
+	DELAY_US(1);
 }
 //---------------------
 
