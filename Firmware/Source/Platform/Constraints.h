@@ -13,6 +13,18 @@
 #define POWER_ON_TIMEOUT_MIN		0			// мс
 #define POWER_ON_TIMEOUT_MAX		10000		// мс
 #define POWER_ON_TIMEOUT_DEF		5000		// мс
+//
+#define COEF_P2_MIN					0
+#define COEF_P2_MAX					INT16U_MAX
+#define COEF_P2_DEF					0
+//
+#define COEF_K_MIN					1
+#define COEF_K_MAX					1000
+#define COEF_K_DEF					1
+//
+#define OFFSET_MIN					0
+#define OFFSET_MAX					INT16U_MAX
+#define OFFSET_DEF					0
 
 // Types
 typedef struct __TableItemConstraint

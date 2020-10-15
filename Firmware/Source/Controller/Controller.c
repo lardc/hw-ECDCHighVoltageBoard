@@ -39,6 +39,7 @@ void CONTROL_ResetToDefaultState();
 void CONTROL_PowerMonitor();
 void CONTROL_Process();
 void CONTROL_StopProcess();
+void CONTROL_StartPrepare();
 
 // Functions
 //
@@ -114,6 +115,30 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			if(CONTROL_State == DS_Ready)
 			{
 				CONTROL_SetDeviceState(DS_None, SS_None);
+				CONTROL_StopProcess();
+			}
+			else
+				*pUserError = ERR_OPERATION_BLOCKED;
+			break;
+
+		case ACT_START_PROCESS:
+			if (CONTROL_State == DS_Ready)
+			{
+				CONTROL_SetDeviceState(DS_InProcess, SS_None);
+				CONTROL_StartPrepare();
+			}
+			else
+				if (CONTROL_State == DS_InProcess)
+					*pUserError = ERR_OPERATION_BLOCKED;
+				else
+					*pUserError = ERR_DEVICE_NOT_READY;
+			break;
+
+		case ACT_STOP_PROCESS:
+			if (CONTROL_State == DS_InProcess)
+			{
+				CONTROL_SetDeviceState(DS_None, SS_None);
+				CONTROL_StopProcess();
 			}
 			else
 				*pUserError = ERR_OPERATION_BLOCKED;
@@ -167,6 +192,12 @@ void CONTROL_PowerMonitor()
 			}
 		}
 	}
+}
+//-----------------------------------------------
+
+void CONTROL_StartPrepare()
+{
+
 }
 //-----------------------------------------------
 

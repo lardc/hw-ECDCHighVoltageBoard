@@ -4,6 +4,9 @@
 #include "ConvertUtils.h"
 #include "Global.h"
 
+// Variables
+Int16U CurrentRange = 0;
+
 // Functions prototypes
 void DISOPAMP_SetCurrentRange(float Current);
 
@@ -13,20 +16,32 @@ void DISOPAMP_SetCurrentRange(float Current);
 void DISOPAMP_SetCurrentCutOff(float Current)
 {
 	DISOPAMP_SetCurrentRange(Current);
-	LL_WriteDACx(CU_ItoDAC(Current), DISOPAMP_POSITION_CELL0, DISOPAMP_TOTAL_CELL, true);
+	LL_WriteDACx(CU_ItoDAC(Current, CurrentRange), DISOPAMP_POSITION_CELL0, DISOPAMP_TOTAL_CELL, true);
 }
 //-----------------------------
 
 void DISOPAMP_SetCurrentRange(float Current)
 {
 	if(Current >= DISOPAMP_CURRENT_THRESHOLD_RANGE_3)
+	{
 		LL_SetCurrentRange3();
+		CurrentRange = 3;
+	}
 	else if(Current >= DISOPAMP_CURRENT_THRESHOLD_RANGE_2)
+	{
 		LL_SetCurrentRange2();
+		CurrentRange = 2;
+	}
 	else if(Current >= DISOPAMP_CURRENT_THRESHOLD_RANGE_1)
+	{
 			LL_SetCurrentRange1();
+			CurrentRange = 1;
+	}
 	else
+	{
 		LL_SetCurrentRange0();
+		CurrentRange = 0;
+	}
 }
 //-----------------------------
 
