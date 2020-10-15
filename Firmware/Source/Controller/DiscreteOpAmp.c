@@ -63,7 +63,7 @@ void DISOPAMP_SetVoltage(float Voltage)
 			LL_WriteDACx(CU_VtoDAC(DISOPAMP_CELL_VOLATGE_MAX, i), DISOPAMP_POSITION_CELL1, 1, false);
 	}
 
-	LL_WriteDACx(0, DISOPAMP_POSITION_CELL1 + CellCounter + 1, DISOPAMP_TOTAL_CELL - CellCounter - 1, false);
+	LL_WriteDACx(0, DISOPAMP_POSITION_CELL1 + CellCounter, DISOPAMP_TOTAL_CELL - CellCounter - 1, false);
 
 	LL_ToggleLDAC();
 }
