@@ -5,13 +5,13 @@
 
 // Functions
 //
-Int16U CU_VtoDAC(Int16U Voltage)
+Int16U CU_VtoDAC(float Voltage, Int16U CellNumber)
 {
 	return 0;
 }
 //-----------------------------
 
-Int16U CU_ItoDAC(Int32U Current)
+Int16U CU_ItoDAC(float Current)
 {
 	return 0;
 }

@@ -5,7 +5,7 @@
 #include "ZwBase.h"
 
 // Functions
-Int16U CU_VtoDAC(Int16U Voltage);
-Int16U CU_ItoDAC(Int32U Current);
+Int16U CU_VtoDAC(float Voltage, Int16U CellNumber);
+Int16U CU_ItoDAC(float Current);
 
 #endif /* CONVERTUTILS_H_ */
