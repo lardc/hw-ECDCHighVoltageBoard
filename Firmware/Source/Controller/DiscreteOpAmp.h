@@ -4,6 +4,9 @@
 // Includes
 #include "ZwBase.h"
 
+// Variables
+extern Int16U CurrentCutOffRange;
+
 // Functions
 void DISOPAMP_SetCurrentCutOff(float Current);
 void DISOPAMP_SetVoltage(float Voltage);

@@ -58,9 +58,9 @@ Int16U CU_VtoDAC(float Voltage, Int16U CellNumber)
 	Temp = CU_XtoDAC(Voltage, DisOpAmpVParams[CellNumber]);
 
 	if (Temp > DAC_MAX_VAL)
-		return (DAC_MAX_VAL  | DAC_CHANNEL_B);
+		return DAC_MAX_VAL;
 	else
-		return (Temp | DAC_CHANNEL_B);
+		return Temp;
 }
 //-----------------------------
 
@@ -68,7 +68,7 @@ Int16U CU_ItoDAC(float Current, Int16U CurrentRange)
 {
 	Int16U Temp;
 
-	Temp = CU_XtoDAC(Current, DisOpAmpIParams[CurrentRange]) & ~DAC_CHANNEL_B;
+	Temp = CU_XtoDAC(Current, DisOpAmpIParams[CurrentRange]);
 
 	if (Temp > DAC_MAX_VAL)
 		return DAC_MAX_VAL;

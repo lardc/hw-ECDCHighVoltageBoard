@@ -5,7 +5,7 @@
 #include "Global.h"
 
 // Variables
-Int16U CurrentRange = 0;
+Int16U CurrentCutOffRange = 0;
 
 // Functions prototypes
 void DISOPAMP_SetCurrentRange(float Current);
@@ -16,7 +16,7 @@ void DISOPAMP_SetCurrentRange(float Current);
 void DISOPAMP_SetCurrentCutOff(float Current)
 {
 	DISOPAMP_SetCurrentRange(Current);
-	LL_WriteDACx(CU_ItoDAC(Current, CurrentRange), DISOPAMP_POSITION_CELL0, DISOPAMP_TOTAL_CELL, true);
+	LL_WriteDACx(CU_ItoDAC(Current, CurrentCutOffRange) & ~DAC_CHANNEL_B, DISOPAMP_POSITION_CELL0, DISOPAMP_TOTAL_CELL, true);
 }
 //-----------------------------
 
@@ -25,22 +25,22 @@ void DISOPAMP_SetCurrentRange(float Current)
 	if(Current >= DISOPAMP_CURRENT_THRESHOLD_RANGE_3)
 	{
 		LL_SetCurrentRange3();
-		CurrentRange = 3;
+		CurrentCutOffRange = 3;
 	}
 	else if(Current >= DISOPAMP_CURRENT_THRESHOLD_RANGE_2)
 	{
 		LL_SetCurrentRange2();
-		CurrentRange = 2;
+		CurrentCutOffRange = 2;
 	}
 	else if(Current >= DISOPAMP_CURRENT_THRESHOLD_RANGE_1)
 	{
 			LL_SetCurrentRange1();
-			CurrentRange = 1;
+			CurrentCutOffRange = 1;
 	}
 	else
 	{
 		LL_SetCurrentRange0();
-		CurrentRange = 0;
+		CurrentCutOffRange = 0;
 	}
 }
 //-----------------------------
@@ -55,15 +55,15 @@ void DISOPAMP_SetVoltage(float Voltage)
 		CellCounter++;
 	}
 
-	LL_WriteDACx(CU_VtoDAC(Voltage, DISOPAMP_POSITION_CELL0), DISOPAMP_POSITION_CELL0, 1, false);
+	LL_WriteDACx(CU_VtoDAC(Voltage, DISOPAMP_POSITION_CELL0) | DAC_CHANNEL_B, DISOPAMP_POSITION_CELL0, 1, false);
 
 	if(CellCounter)
 	{
 		for(int i = DISOPAMP_POSITION_CELL1; i <= CellCounter; i++)
-			LL_WriteDACx(CU_VtoDAC(DISOPAMP_CELL_VOLATGE_MAX, i), DISOPAMP_POSITION_CELL1, 1, false);
+			LL_WriteDACx(CU_VtoDAC(DISOPAMP_CELL_VOLATGE_MAX, i) | DAC_CHANNEL_B, DISOPAMP_POSITION_CELL1, 1, false);
 	}
 
-	LL_WriteDACx(0, DISOPAMP_POSITION_CELL1 + CellCounter, DISOPAMP_TOTAL_CELL - CellCounter - 1, false);
+	LL_WriteDACx(DAC_CHANNEL_B, DISOPAMP_POSITION_CELL1 + CellCounter, DISOPAMP_TOTAL_CELL - CellCounter - 1, false);
 
 	LL_ToggleLDAC();
 }
