@@ -2,7 +2,7 @@
 #include "Board.h"
 #include "SysConfig.h"
 #include "BCCIxParams.h"
-#include "Logic.h"
+#include "Measurement.h"
 
 // Functions
 //
@@ -138,7 +138,7 @@ void INITCFG_ConfigDMA()
 	DMA_Reset(DMA_ADC_DUT_U_CHANNEL);
 	DMAChannelX_Config(DMA_ADC_DUT_U_CHANNEL, DMA_MEM2MEM_DIS, DMA_LvlPriority_LOW, DMA_MSIZE_16BIT, DMA_PSIZE_16BIT,
 							DMA_MINC_EN, DMA_PINC_DIS, DMA_CIRCMODE_EN, DMA_READ_FROM_PERIPH);
-	DMAChannelX_DataConfig(DMA_ADC_DUT_U_CHANNEL, (uint32_t)(&LOGIC_ADC_VoltageRaw[0]), (uint32_t)(&ADC1->DR), ADC_DMA_BUFF_SIZE);
+	DMAChannelX_DataConfig(DMA_ADC_DUT_U_CHANNEL, (uint32_t)(&MEASURE_ADC_VoltageRaw[0]), (uint32_t)(&ADC1->DR), ADC_DMA_BUFF_SIZE);
 	DMA_Interrupt(DMA_ADC_DUT_U_CHANNEL, DMA_TRANSFER_COMPLETE, 0, true);
 	DMA_ChannelEnable(DMA_ADC_DUT_U_CHANNEL, true);
 
@@ -146,7 +146,7 @@ void INITCFG_ConfigDMA()
 	DMA_Reset(DMA_ADC_DUT_I_CHANNEL);
 	DMAChannelX_Config(DMA_ADC_DUT_I_CHANNEL, DMA_MEM2MEM_DIS, DMA_LvlPriority_LOW, DMA_MSIZE_16BIT, DMA_PSIZE_16BIT,
 							DMA_MINC_EN, DMA_PINC_DIS, DMA_CIRCMODE_EN, DMA_READ_FROM_PERIPH);
-	DMAChannelX_DataConfig(DMA_ADC_DUT_I_CHANNEL, (uint32_t)(&LOGIC_ADC_CurrentRaw[0]), (uint32_t)(&ADC2->DR), ADC_DMA_BUFF_SIZE);
+	DMAChannelX_DataConfig(DMA_ADC_DUT_I_CHANNEL, (uint32_t)(&MEASURE_ADC_CurrentRaw[0]), (uint32_t)(&ADC2->DR), ADC_DMA_BUFF_SIZE);
 	DMA_Interrupt(DMA_ADC_DUT_I_CHANNEL, DMA_TRANSFER_COMPLETE, 0, true);
 	DMA_ChannelEnable(DMA_ADC_DUT_I_CHANNEL, true);
 }

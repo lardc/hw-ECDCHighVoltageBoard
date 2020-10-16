@@ -1,7 +1,18 @@
 // Includes
 #include "Board.h"
 #include "Logic.h"
+#include "ConvertUtils.h"
+#include "DataTable.h"
 
 // Variables
-uint16_t LOGIC_ADC_VoltageRaw[PULSE_ARR_MAX_LENGTH];
-uint16_t LOGIC_ADC_CurrentRaw[PULSE_ARR_MAX_LENGTH];
+float VoltageTarget = 0;
+float CurrentCutOff = 0;
+
+void LOGIC_CacheVariables()
+{
+	CU_LoadConvertParams();
+
+	VoltageTarget = (float)DataTable[REG_VOLTAGE_SETPOINT] / 10;
+	CurrentCutOff = (float)((Int32U)((DataTable[REG_CURRENT_CUTOFF_H] << 16) | DataTable[REG_CURRENT_CUTOFF_L])) / 10;
+}
+//-----------------------------

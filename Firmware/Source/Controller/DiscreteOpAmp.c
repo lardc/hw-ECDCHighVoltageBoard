@@ -69,6 +69,12 @@ void DISOPAMP_SetVoltage(float Voltage)
 }
 //-----------------------------
 
+Int16U DISOPAMP_GetCurrentRange()
+{
+	return CurrentCutOffRange;
+}
+//-----------------------------
+
 
 
 
