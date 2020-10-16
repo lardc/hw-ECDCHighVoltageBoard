@@ -31,6 +31,17 @@ void USB_LP_CAN_RX0_IRQHandler()
 }
 //-----------------------------------------
 
+void TIM6_IRQHandler()
+{
+	if(TIM_StatusCheck(TIM6))
+	{
+		CONTROL_HighPriorityProcess();
+
+		TIM_StatusClear(TIM6);
+	}
+}
+//-----------------------------------------
+
 void TIM7_IRQHandler()
 {
 	static uint16_t LED_BlinkTimeCounter = 0;

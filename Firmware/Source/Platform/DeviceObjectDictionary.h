@@ -98,6 +98,10 @@
 #define REG_ADC_I_RANGE3_P0				77	// Диапазон 3 - Смещение тонкой подстройки Р0
 #define REG_ADC_I_RANGE3_K				78	// Диапазон 3 - Коэффициент тонкой подстройки K
 #define REG_ADC_I_RANGE3_B				79	// Диапазон 3 - Смещение тонкой подстройки B
+//
+#define REG_REGULATOR_Kp				80	// Пропорциональный коэффициент регулятора
+#define REG_REGULATOR_Ki				81	// Интегральный коэффициент регулятора
+#define REG_PULSE_WIDTH					82	// Длительность импульса (мкс)
 
 
 #define REG_VOLTAGE_SETPOINT			128	// Уставка по напряжению, В х 10
