@@ -7,5 +7,8 @@
 // Functions
 Int16U CU_VtoDAC(float Voltage, Int16U CellNumber);
 Int16U CU_ItoDAC(float Current, Int16U CurrentRange);
+float CU_ADCtoI(Int16U Data, Int16U CurrentRange);
+float CU_ADCtoV(Int16U Data);
+void CU_LoadConvertParams();
 
 #endif /* CONVERTUTILS_H_ */
