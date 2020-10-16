@@ -10,6 +10,7 @@
 #include "SysConfig.h"
 #include "DebugActions.h"
 #include "Diagnostic.h"
+#include "Logic.h"
 
 // Types
 //
@@ -18,11 +19,9 @@ typedef void (*FUNC_AsyncDelegate)();
 // Variables
 //
 volatile DeviceState CONTROL_State = DS_None;
-volatile SubState CONTROL_SubState = SS_None;
 static Boolean CycleActive = false;
 //
 volatile Int64U CONTROL_TimeCounter = 0;
-volatile Int64U CONTROL_PowerOnCounter = 0;
 volatile Int16U CONTROL_ValuesVoltageCounter = 0;
 volatile Int16U CONTROL_ValuesCurrentCounter = 0;
 volatile Int16U CONTROL_ValuesVoltage[VALUES_x_SIZE];
@@ -37,7 +36,6 @@ void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
 void CONTROL_PowerMonitor();
-void CONTROL_Process();
 void CONTROL_StopProcess();
 void CONTROL_StartPrepare();
 
@@ -85,7 +83,6 @@ void CONTROL_ResetToDefaultState()
 void CONTROL_Idle()
 {
 	CONTROL_PowerMonitor();
-	CONTROL_Process();
 
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();
@@ -124,8 +121,8 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 		case ACT_START_PROCESS:
 			if (CONTROL_State == DS_Ready)
 			{
-				CONTROL_SetDeviceState(DS_InProcess, SS_None);
 				CONTROL_StartPrepare();
+				CONTROL_SetDeviceState(DS_InProcess, SS_None);
 			}
 			else
 				if (CONTROL_State == DS_InProcess)
@@ -166,44 +163,45 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 void CONTROL_PowerMonitor()
 {
+	Int16U PowerState;
+
 	if(CONTROL_State == DS_InProcess)
 	{
-		if(CONTROL_SubState == SS_PowerOn)
+		PowerState = LOGIC_PowerMonitor();
+
+		if(PowerState)
 		{
-			if(CONTROL_PowerOnCounter == 0)
-				CONTROL_PowerOnCounter = CONTROL_TimeCounter + DataTable[REG_POWER_ON_TIMEOUT];
-			else
-			{
-				if(!LL_ArePowerSuppliesReady())
-				{
-					if(CONTROL_TimeCounter >= CONTROL_PowerOnCounter)
-						CONTROL_SwitchToFault(DF_POWER_SUPPLY);
-				}
-				else
-					CONTROL_SetDeviceState(DS_Ready, SS_None);
-			}
+			CONTROL_SwitchToFault(PowerState);
+			CONTROL_StopProcess();
 		}
 		else
 		{
-			if(!LL_ArePowerSuppliesReady())
-			{
-				CONTROL_SwitchToFault(DF_POWER_SUPPLY);
-				CONTROL_StopProcess();
-			}
+			if(LOGIC_SubState == SS_PowerOnReady)
+				CONTROL_SetDeviceState(DS_Ready, SS_None);
 		}
+
+	}
+}
+//-----------------------------------------------
+
+void CONTROL_HighPriorityProcess()
+{
+	float SampleVoltage, SampleCurrent;
+
+	if(CONTROL_State == DS_InProcess)
+	{
+		SampleVoltage = MEASURE_SampleVoltage();
+		SampleCurrent = MEASURE_SampleCurrent();
+
+		LOGIC_RegulatorCycle(SampleVoltage);
+		LOGIC_Process(SampleVoltage, SampleCurrent);
 	}
 }
 //-----------------------------------------------
 
 void CONTROL_StartPrepare()
 {
-
-}
-//-----------------------------------------------
-
-void CONTROL_Process()
-{
-
+	LOGIC_CacheVariables();
 }
 //-----------------------------------------------
 
@@ -222,7 +220,7 @@ void CONTROL_SwitchToFault(Int16U Reason)
 
 void CONTROL_SetDeviceState(DeviceState NewState, SubState NewSubState)
 {
-	CONTROL_SubState = NewSubState;
+	LOGIC_SetSubState(NewSubState);
 	CONTROL_State = NewState;
 	DataTable[REG_DEV_STATE] = NewState;
 }
