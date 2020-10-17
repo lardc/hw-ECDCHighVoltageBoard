@@ -102,6 +102,8 @@
 #define REG_REGULATOR_Kp				80	// Пропорциональный коэффициент регулятора
 #define REG_REGULATOR_Ki				81	// Интегральный коэффициент регулятора
 #define REG_PULSE_WIDTH					82	// Длительность импульса (мкс)
+#define REG_BETWEEN_PULSES_DELAY		83	// Длительность паузы между импульсами (мкс)
+#define REG_VOLATGE_RATE				84	// Скорость нарастания напряжения (х10 В/мс)
 
 
 #define REG_VOLTAGE_SETPOINT			128	// Уставка по напряжению, В х 10

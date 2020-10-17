@@ -13,6 +13,10 @@ Int16U RegulatorPulseCounter = 0;
 Int16U PulsePointsQuantity = 0;
 volatile SubState LOGIC_SubState = SS_None;
 volatile Int64U LOGIC_PowerOnCounter = 0;
+volatile Int64U LOGIC_BetweenPulsesDelay = 0;
+
+// Functions prototypes
+void LOGIC_ChangeVoltageAmplitude();
 
 void LOGIC_CacheVariables()
 {
@@ -63,16 +67,11 @@ void LOGIC_Process(float Voltage, float Current)
 	{
 		case SS_Pulse:
 			if(Current >= CurrentCutOff)
-				LOGIC_SetSubState(SS_Interrupted);
+				LOGIC_StopProcess();
 			break;
 
 		case SS_Pause:
-			break;
-
-		case SS_Interrupted:
-			break;
-
-		case SS_Finished:
+			LOGIC_ChangeVoltageAmplitude(Voltage);
 			break;
 
 		default:
@@ -105,6 +104,25 @@ Int16U LOGIC_PowerMonitor()
 	}
 
 	return 0;
+}
+//-----------------------------
+
+void LOGIC_ChangeVoltageAmplitude()
+{
+	float dV = 0;
+
+	if(!LOGIC_BetweenPulsesDelay)
+		LOGIC_BetweenPulsesDelay = CONTROL_TimeCounter + DataTable[REG_BETWEEN_PULSES_DELAY];
+
+	if(CONTROL_TimeCounter >= LOGIC_BetweenPulsesDelay)
+	{
+		LOGIC_BetweenPulsesDelay = 0;
+
+		dV = (float)DataTable[REG_VOLATGE_RATE] / 10000 * (DataTable[REG_BETWEEN_PULSES_DELAY] + DataTable[REG_PULSE_WIDTH]);
+		VoltageTarget += dV;
+
+		LOGIC_SetSubState(SS_Pulse);
+	}
 }
 //-----------------------------
 
