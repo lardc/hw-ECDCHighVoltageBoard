@@ -88,12 +88,12 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 77
 		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 78
 		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 79
-		{0, 0, 0},																	// 80
-		{0, 0, 0},																	// 81
-		{0, 0, 0},																	// 82
-		{0, 0, 0},																	// 83
-		{0, 0, 0},																	// 84
-		{0, 0, 0},																	// 85
+		{REGULATOR_KP_MIN, REGULATOR_KP_MAX, REGULATOR_KP_DEF},						// 80
+		{REGULATOR_KI_MIN, REGULATOR_KI_MAX, REGULATOR_KI_DEF},						// 81
+		{PULSE_WIDTH_MIN, PULSE_WIDTH_MAX, PULSE_WIDTH_DEF},						// 82
+		{BETWEN_PULSES_DELAY_MIN, BETWEN_PULSES_DELAY_MAX, BETWEN_PULSES_DELAY_DEF},// 83
+		{VOLTAGE_RATE_MIN, VOLTAGE_RATE_MAX, VOLTAGE_RATE_DEF},						// 84
+		{TEST_TIME_MIN, TEST_TIME_MAX, TEST_TIME_DEF},								// 85
 		{0, 0, 0},																	// 86
 		{0, 0, 0},																	// 87
 		{0, 0, 0},																	// 88

@@ -102,8 +102,9 @@
 #define REG_REGULATOR_Kp				80	// Пропорциональный коэффициент регулятора
 #define REG_REGULATOR_Ki				81	// Интегральный коэффициент регулятора
 #define REG_PULSE_WIDTH					82	// Длительность импульса (мкс)
-#define REG_BETWEEN_PULSES_DELAY		83	// Длительность паузы между импульсами (мкс)
+#define REG_BETWEEN_PULSES_DELAY		83	// Длительность паузы между импульсами (мс)
 #define REG_VOLATGE_RATE				84	// Скорость нарастания напряжения (х10 В/мс)
+#define REG_TEST_TIME					85	// Время прикладывания напряжения после выхода на уставку (мс)
 
 
 #define REG_VOLTAGE_SETPOINT			128	// Уставка по напряжению, В х 10
@@ -131,12 +132,14 @@
 //  Fault and disable codes
 #define DF_NONE							0
 #define DF_POWER_SUPPLY					1
+#define DF_FOLOWING_ERROR				2
 
 // Problem
 #define PROBLEM_NONE					0
 
 //  Warning
 #define WARNING_NONE					0
+#define WARNING_CURRENT_CUTOFF			1
 
 //  User Errors
 #define ERR_NONE						0

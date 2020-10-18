@@ -25,6 +25,30 @@
 #define OFFSET_MIN					0
 #define OFFSET_MAX					INT16U_MAX
 #define OFFSET_DEF					0
+//
+#define REGULATOR_KP_MIN			0
+#define REGULATOR_KP_MAX			INT16U_MAX
+#define REGULATOR_KP_DEF			1000
+//
+#define REGULATOR_KI_MIN			0
+#define REGULATOR_KI_MAX			INT16U_MAX
+#define REGULATOR_KI_DEF			0
+//
+#define PULSE_WIDTH_MIN				1000		// (мкс)
+#define PULSE_WIDTH_MAX				20000		// (мкс)
+#define PULSE_WIDTH_DEF				10000		// (мкс)
+//
+#define BETWEN_PULSES_DELAY_MIN		10			// (мс)
+#define BETWEN_PULSES_DELAY_MAX		100			// (мс)
+#define BETWEN_PULSES_DELAY_DEF		10			// (мс)
+//
+#define VOLTAGE_RATE_MIN			4			// (х10 В/мс)
+#define VOLTAGE_RATE_MAX			8000		// (х10 В/мс)
+#define VOLTAGE_RATE_DEF			40			// (х10 В/мс)
+//
+#define TEST_TIME_MIN				1			// (мс)
+#define TEST_TIME_MAX				100			// (мс)
+#define TEST_TIME_DEF				10			// (мс)
 
 // Types
 typedef struct __TableItemConstraint

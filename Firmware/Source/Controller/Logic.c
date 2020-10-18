@@ -7,13 +7,14 @@
 #include "LowLevel.h"
 
 // Variables
-float VoltageTarget, CurrentCutOff, RegulatorPcoef, RegulatorIcoef, RegulatorAlowedError;
+float VoltageTarget, VoltageSetpoint, CurrentCutOff, RegulatorPcoef, RegulatorIcoef, RegulatorAlowedError, dV;
 float  Qi;
 Int16U RegulatorPulseCounter = 0;
 Int16U PulsePointsQuantity = 0;
 volatile SubState LOGIC_SubState = SS_None;
 volatile Int64U LOGIC_PowerOnCounter = 0;
 volatile Int64U LOGIC_BetweenPulsesDelay = 0;
+volatile Int64U LOGIC_TestTime = 0;
 
 // Functions prototypes
 void LOGIC_ChangeVoltageAmplitude();
@@ -22,15 +23,16 @@ void LOGIC_CacheVariables()
 {
 	CU_LoadConvertParams();
 
-	VoltageTarget = (float)DataTable[REG_VOLTAGE_SETPOINT] / 10;
+	VoltageSetpoint = (float)DataTable[REG_VOLTAGE_SETPOINT] / 10;
 	CurrentCutOff = (float)((Int32U)((DataTable[REG_CURRENT_CUTOFF_H] << 16) | DataTable[REG_CURRENT_CUTOFF_L])) / 10;
 	PulsePointsQuantity = DataTable[REG_PULSE_WIDTH] / TIMER6_uS;
 	RegulatorPcoef = (float)DataTable[REG_REGULATOR_Kp] / 1000;
 	RegulatorIcoef = (float)DataTable[REG_REGULATOR_Ki] / 1000;
+	dV = (float)DataTable[REG_VOLATGE_RATE] / 10 * (DataTable[REG_BETWEEN_PULSES_DELAY] + (float)DataTable[REG_PULSE_WIDTH] / 1000);
 }
 //-----------------------------
 
-void LOGIC_RegulatorCycle(float Voltage)
+Int16U LOGIC_RegulatorCycle(float Voltage)
 {
 	float RegulatorError, Qp, RegulatorOut;
 
@@ -43,6 +45,13 @@ void LOGIC_RegulatorCycle(float Voltage)
 			Qi += RegulatorError * RegulatorIcoef;
 			LOGIC_SetSubState(SS_Pulse);
 		}
+		else
+		{
+			LOGIC_StopProcess();
+
+			return DF_FOLOWING_ERROR;
+		}
+
 		Qp = RegulatorError * RegulatorIcoef;
 		RegulatorOut = VoltageTarget + Qp +Qi;
 
@@ -58,25 +67,56 @@ void LOGIC_RegulatorCycle(float Voltage)
 			LOGIC_SetSubState(SS_Pause);
 		}
 	}
+
+	return DF_NONE;
 }
 //-----------------------------
 
-void LOGIC_Process(float Voltage, float Current)
+bool LOGIC_Process(MeasureSample* Sample, Int16U* Fault)
 {
 	switch(LOGIC_SubState)
 	{
 		case SS_Pulse:
-			if(Current >= CurrentCutOff)
-				LOGIC_StopProcess();
+			if(Sample->Current >= CurrentCutOff)
+			{
+				DataTable[REG_WARNING] = WARNING_CURRENT_CUTOFF;
+				LOGIC_SetSubState(SS_Finished);
+			}
+			else
+			{
+				*Fault = LOGIC_RegulatorCycle(Sample->Voltage);
+
+				if(*Fault != DF_NONE)
+					LOGIC_SetSubState(SS_Finished);
+			}
 			break;
 
 		case SS_Pause:
-			LOGIC_ChangeVoltageAmplitude(Voltage);
+			LOGIC_ChangeVoltageAmplitude(Sample->Voltage);
+			break;
+
+		case SS_Finished:
+			LOGIC_StopProcess();
+			return true;
 			break;
 
 		default:
 			break;
 	}
+
+	return false;
+}
+//-----------------------------
+
+void LOGIC_StopProcess()
+{
+	Qi = 0;
+	RegulatorPulseCounter = 0;
+	VoltageTarget = 0;
+	LOGIC_TestTime = 0;
+	DISOPAMP_SetVoltage(0);
+
+	LOGIC_SetSubState(SS_None);
 }
 //-----------------------------
 
@@ -103,7 +143,7 @@ Int16U LOGIC_PowerMonitor()
 			return DF_POWER_SUPPLY;
 	}
 
-	return 0;
+	return DF_NONE;
 }
 //-----------------------------
 
@@ -118,10 +158,26 @@ void LOGIC_ChangeVoltageAmplitude()
 	{
 		LOGIC_BetweenPulsesDelay = 0;
 
-		dV = (float)DataTable[REG_VOLATGE_RATE] / 10000 * (DataTable[REG_BETWEEN_PULSES_DELAY] + DataTable[REG_PULSE_WIDTH]);
-		VoltageTarget += dV;
+		if((VoltageTarget + dV) <= VoltageSetpoint)
+		{
+			VoltageTarget += dV;
+			LOGIC_SetSubState(SS_PulseStart);
+		}
+		else
+		{
+			if(!LOGIC_TestTime)
+			{
+				VoltageTarget = VoltageSetpoint;
+				LOGIC_TestTime = CONTROL_TimeCounter + DataTable[REG_TEST_TIME];
 
-		LOGIC_SetSubState(SS_Pulse);
+				LOGIC_SetSubState(SS_PulseStart);
+			}
+
+			if(CONTROL_TimeCounter >= LOGIC_TestTime)
+				LOGIC_SetSubState(SS_Finished);
+			else
+				LOGIC_SetSubState(SS_PulseStart);
+		}
 	}
 }
 //-----------------------------
