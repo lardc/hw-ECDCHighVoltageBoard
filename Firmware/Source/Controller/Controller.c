@@ -193,7 +193,7 @@ void CONTROL_HighPriorityProcess()
 	{
 		MEASURE_SampleParams(&SampleParams);
 
-		if(LOGIC_Process(SampleParams, Fault))
+		if(LOGIC_Process(&SampleParams, &Fault))
 		{
 			if(Fault)
 			{
