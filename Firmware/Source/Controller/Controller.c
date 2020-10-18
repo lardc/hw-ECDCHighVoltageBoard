@@ -111,8 +111,8 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 		case ACT_DISABLE_POWER:
 			if(CONTROL_State == DS_Ready)
 			{
-				CONTROL_SetDeviceState(DS_None, SS_None);
 				CONTROL_StopProcess();
+				CONTROL_SetDeviceState(DS_None, SS_None);
 			}
 			else
 				*pUserError = ERR_OPERATION_BLOCKED;
@@ -122,7 +122,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			if (CONTROL_State == DS_Ready)
 			{
 				CONTROL_StartPrepare();
-				CONTROL_SetDeviceState(DS_InProcess, SS_None);
+				CONTROL_SetDeviceState(DS_InProcess, SS_Pulse);
 			}
 			else
 				if (CONTROL_State == DS_InProcess)
@@ -134,8 +134,8 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 		case ACT_STOP_PROCESS:
 			if (CONTROL_State == DS_InProcess)
 			{
-				CONTROL_SetDeviceState(DS_None, SS_None);
 				CONTROL_StopProcess();
+				CONTROL_SetDeviceState(DS_None, SS_None);
 			}
 			else
 				*pUserError = ERR_OPERATION_BLOCKED;
@@ -171,8 +171,8 @@ void CONTROL_PowerMonitor()
 
 		if(PowerState)
 		{
-			CONTROL_SwitchToFault(PowerState);
 			CONTROL_StopProcess();
+			CONTROL_SwitchToFault(PowerState);
 		}
 		else
 		{
@@ -186,15 +186,26 @@ void CONTROL_PowerMonitor()
 
 void CONTROL_HighPriorityProcess()
 {
-	float SampleVoltage, SampleCurrent;
+	MeasureSample SampleParams;
+	Int16U Fault = 0;
 
 	if(CONTROL_State == DS_InProcess)
 	{
-		SampleVoltage = MEASURE_SampleVoltage();
-		SampleCurrent = MEASURE_SampleCurrent();
+		MEASURE_SampleParams(&SampleParams);
 
-		LOGIC_RegulatorCycle(SampleVoltage);
-		LOGIC_Process(SampleVoltage, SampleCurrent);
+		if(LOGIC_Process(SampleParams, Fault))
+		{
+			if(Fault)
+			{
+				DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
+				CONTROL_SwitchToFault(Fault);
+			}
+			else
+			{
+				DataTable[REG_OP_RESULT] = OPRESULT_OK;
+				CONTROL_SetDeviceState(DS_Ready, SS_None);
+			}
+		}
 	}
 }
 //-----------------------------------------------
