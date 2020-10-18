@@ -25,6 +25,7 @@ volatile Int64U LOGIC_TestTime = 0;
 // Functions prototypes
 void LOGIC_ChangeVoltageAmplitude();
 void LOGIC_LoggingProcess(MeasureSample* Sample);
+void LOGIC_SaveMeasuredData(MeasureSample* Sample);
 
 // Functions
 //
@@ -107,6 +108,7 @@ bool LOGIC_Process(MeasureSample* Sample, Int16U* Fault)
 			break;
 
 		case SS_Finished:
+			LOGIC_SaveMeasuredData(Sample);
 			LOGIC_StopProcess();
 			return true;
 			break;
@@ -116,6 +118,17 @@ bool LOGIC_Process(MeasureSample* Sample, Int16U* Fault)
 	}
 
 	return false;
+}
+//-----------------------------
+
+void LOGIC_SaveMeasuredData(MeasureSample* Sample)
+{
+	Int32U Current;
+
+	DataTable[REG_RESULT_VOLTAGE] = (Int16U)(Sample->Voltage * 10);
+	Current = (Int16U)(Sample->Current * 10);
+	DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
+	DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
 }
 //-----------------------------
 

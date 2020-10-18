@@ -109,8 +109,8 @@
 
 
 #define REG_VOLTAGE_SETPOINT			128	// Уставка по напряжению, В х 10
-#define REG_CURRENT_CUTOFF_H			129	// Ограничение по току, мкА х 10
-#define REG_CURRENT_CUTOFF_L			128	// Ограничение по току, мкА х 10
+#define REG_CURRENT_CUTOFF_H			129	// Ограничение по току (старшая часть), мкА х 10
+#define REG_CURRENT_CUTOFF_L			128	// Ограничение по току (младшая часть), мкА х 10
 
 // Несохраняемы регистры чтения-записи
 #define REG_DBG							150	// Регистр режима Отладки 1
@@ -124,6 +124,9 @@
 #define REG_WARNING						195	// Регистр Warning
 #define REG_PROBLEM						196	// Регистр Problem
 #define REG_OP_RESULT					197	// Регистр результата операции
+#define REG_RESULT_VOLTAGE				198	// Достигнутое напряжение во время теста (В * 10)
+#define REG_RESULT_CURRENT_H			199	// Измеренный ток (старшая часть), при заданном напряжении (мкА * 10)
+#define REG_RESULT_CURRENT_L			200	// Измеренный ток (младшая часть), при заданном напряжении (мкА * 10)
 // -----------------------------
 
 // Operation results
