@@ -22,8 +22,7 @@ volatile DeviceState CONTROL_State = DS_None;
 static Boolean CycleActive = false;
 //
 volatile Int64U CONTROL_TimeCounter = 0;
-volatile Int16U CONTROL_ValuesVoltageCounter = 0;
-volatile Int16U CONTROL_ValuesCurrentCounter = 0;
+volatile Int16U CONTROL_Values_Counter = 0;
 volatile Int16U CONTROL_ValuesVoltage[VALUES_x_SIZE];
 volatile Int16U CONTROL_ValuesCurrent[VALUES_x_SIZE];
 
@@ -46,7 +45,7 @@ void CONTROL_Init()
 	// Переменные для конфигурации EndPoint
 	Int16U EPIndexes[EP_COUNT] = {EP_VOLTAGE, EP_CURRENT};
 	Int16U EPSized[EP_COUNT] = {VALUES_x_SIZE, VALUES_x_SIZE};
-	pInt16U EPCounters[EP_COUNT] = {(pInt16U)&CONTROL_ValuesVoltageCounter, (pInt16U)&CONTROL_ValuesCurrentCounter,};
+	pInt16U EPCounters[EP_COUNT] = {(pInt16U)&CONTROL_Values_Counter, (pInt16U)&CONTROL_Values_Counter,};
 	pInt16U EPDatas[EP_COUNT] = {(pInt16U)CONTROL_ValuesVoltage, (pInt16U)CONTROL_ValuesCurrent,};
 
 	// Конфигурация сервиса работы Data-table и EPROM
@@ -212,6 +211,8 @@ void CONTROL_HighPriorityProcess()
 
 void CONTROL_StartPrepare()
 {
+	DEVPROFILE_ResetScopes(0);
+	DEVPROFILE_ResetEPReadState();
 	LOGIC_CacheVariables();
 }
 //-----------------------------------------------

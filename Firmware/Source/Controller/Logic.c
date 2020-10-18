@@ -6,6 +6,12 @@
 #include "DiscreteOpAmp.h"
 #include "LowLevel.h"
 
+// Definitions
+#define CURRENT_RANGE0		0
+#define CURRENT_RANGE1		1
+#define CURRENT_RANGE2		2
+#define CURRENT_RANGE3		3
+
 // Variables
 float VoltageTarget, VoltageSetpoint, CurrentCutOff, RegulatorPcoef, RegulatorIcoef, RegulatorAlowedError, dV;
 float  Qi;
@@ -18,7 +24,10 @@ volatile Int64U LOGIC_TestTime = 0;
 
 // Functions prototypes
 void LOGIC_ChangeVoltageAmplitude();
+void LOGIC_LoggingProcess(MeasureSample* Sample);
 
+// Functions
+//
 void LOGIC_CacheVariables()
 {
 	CU_LoadConvertParams();
@@ -74,6 +83,8 @@ Int16U LOGIC_RegulatorCycle(float Voltage)
 
 bool LOGIC_Process(MeasureSample* Sample, Int16U* Fault)
 {
+	LOGIC_LoggingProcess(Sample);
+
 	switch(LOGIC_SubState)
 	{
 		case SS_Pulse:
@@ -105,6 +116,46 @@ bool LOGIC_Process(MeasureSample* Sample, Int16U* Fault)
 	}
 
 	return false;
+}
+//-----------------------------
+
+void LOGIC_LoggingProcess(MeasureSample* Sample)
+{
+	static Int16U ScopeLogStep = 0, LocalCounter = 0;
+
+	// —брос локального счЄтчика в начале логгировани€
+	if (CONTROL_Values_Counter == 0)
+		LocalCounter = 0;
+
+	if (ScopeLogStep++ >= DataTable[REG_SCOPE_STEP])
+	{
+		ScopeLogStep = 0;
+
+		CONTROL_ValuesVoltage[LocalCounter] = (Int16U)Sample->Voltage;
+
+		switch(DISOPAMP_GetCurrentRange())
+		{
+			case CURRENT_RANGE0:
+			case CURRENT_RANGE1:
+				CONTROL_ValuesCurrent[LocalCounter] = (Int16U)(Sample->Current * 10);
+				break;
+
+			case CURRENT_RANGE2:
+			case CURRENT_RANGE3:
+				CONTROL_ValuesCurrent[LocalCounter] = (Int16U)(Sample->Current);
+				break;
+		}
+
+		++LocalCounter;
+	}
+
+	// ”словие обновлени€ глобального счЄтчика данных
+	if (CONTROL_Values_Counter < VALUES_x_SIZE)
+		CONTROL_Values_Counter = LocalCounter;
+
+	// —брос локального счЄтчика
+	if (LocalCounter >= VALUES_x_SIZE)
+		LocalCounter = 0;
 }
 //-----------------------------
 
