@@ -38,43 +38,42 @@ void LOGIC_CacheVariables()
 	RegulatorPcoef = (float)DataTable[REG_REGULATOR_Kp] / 1000;
 	RegulatorIcoef = (float)DataTable[REG_REGULATOR_Ki] / 1000;
 	dV = (float)DataTable[REG_VOLATGE_RATE] / 10 * (DataTable[REG_BETWEEN_PULSES_DELAY] + (float)DataTable[REG_PULSE_WIDTH] / 1000);
+	RegulatorAlowedError = (float)DataTable[REG_REGULATOR_ALOWED_ERR] / 1000;
 }
 //-----------------------------
 
 Int16U LOGIC_RegulatorCycle(float Voltage)
 {
-	float RegulatorError, Qp, RegulatorOut;
+	float RegulatorError, Qp, RegulatorOut, ErrorX;
 
-	if(LOGIC_SubState == SS_PulseStart || LOGIC_SubState == SS_Pulse)
+	RegulatorError = (RegulatorPulseCounter == 0) ? 0 : (VoltageTarget - Voltage);
+	ErrorX = RegulatorError / VoltageSetpoint;
+
+	if(ErrorX <= RegulatorAlowedError)
 	{
-		RegulatorError = (RegulatorPulseCounter == 0) ? 0 : (VoltageTarget - Voltage);
+		Qi += RegulatorError * RegulatorIcoef;
+		LOGIC_SetSubState(SS_Pulse);
+	}
+	else
+	{
+		LOGIC_StopProcess();
 
-		if(RegulatorError <= RegulatorAlowedError)
-		{
-			Qi += RegulatorError * RegulatorIcoef;
-			LOGIC_SetSubState(SS_Pulse);
-		}
-		else
-		{
-			LOGIC_StopProcess();
+		return DF_FOLOWING_ERROR;
+	}
 
-			return DF_FOLOWING_ERROR;
-		}
+	Qp = RegulatorError * RegulatorPcoef;
+	RegulatorOut = VoltageTarget + Qp +Qi;
 
-		Qp = RegulatorError * RegulatorIcoef;
-		RegulatorOut = VoltageTarget + Qp +Qi;
+	DISOPAMP_SetVoltage(RegulatorOut);
 
-		DISOPAMP_SetVoltage(RegulatorOut);
+	RegulatorPulseCounter++;
 
-		RegulatorPulseCounter++;
-
-		if(RegulatorPulseCounter >= PulsePointsQuantity)
-		{
-			Qi = 0;
-			RegulatorPulseCounter = 0;
-			DISOPAMP_SetVoltage(0);
-			LOGIC_SetSubState(SS_Pause);
-		}
+	if(RegulatorPulseCounter >= PulsePointsQuantity)
+	{
+		Qi = 0;
+		RegulatorPulseCounter = 0;
+		DISOPAMP_SetVoltage(0);
+		LOGIC_SetSubState(SS_Pause);
 	}
 
 	return DF_NONE;
@@ -87,6 +86,7 @@ bool LOGIC_Process(MeasureSample* Sample, Int16U* Fault)
 
 	switch(LOGIC_SubState)
 	{
+		case SS_PulseStart:
 		case SS_Pulse:
 			if(Sample->Current >= CurrentCutOff)
 			{

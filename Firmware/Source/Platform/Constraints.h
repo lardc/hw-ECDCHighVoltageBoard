@@ -49,6 +49,10 @@
 #define TEST_TIME_MIN				1			// (мс)
 #define TEST_TIME_MAX				100			// (мс)
 #define TEST_TIME_DEF				10			// (мс)
+//
+#define ALOWED_ERROR_MIN			0			// (% * 10)
+#define ALOWED_ERROR_MAX			100			// (% * 10)
+#define ALOWED_ERROR_DEF			30			// (% * 10)
 
 // Types
 typedef struct __TableItemConstraint
