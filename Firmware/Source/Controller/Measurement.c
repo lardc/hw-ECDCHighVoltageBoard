@@ -16,6 +16,14 @@ void MEASURE_StartSamplingVoltage();
 void MEASURE_StartSamplingCurrent();
 
 // Functions
+//
+void MEASURE_SampleParams(MeasureSample* Sample)
+{
+	Sample->Voltage = MEASURE_SampleVoltage();
+	Sample->Current = MEASURE_SampleCurrent();
+}
+//-----------------------------------------------
+
 float MEASURE_SampleVoltage()
 {
 	float SampleVoltage;

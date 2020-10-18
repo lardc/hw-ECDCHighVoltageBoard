@@ -5,6 +5,12 @@
 #include "SysConfig.h"
 #include "ZwBase.h"
 
+typedef struct __MeasureSample
+{
+	float Current;
+	float Voltage;
+}MeasureSample;
+
 // Definitions
 #define PULSE_ARR_MAX_LENGTH			300				// Количество точек оцифровки
 
@@ -15,4 +21,5 @@ extern Int16U MEASURE_ADC_CurrentRaw[ADC_DMA_BUFF_SIZE];
 // Functions
 float MEASURE_SampleVoltage();
 float MEASURE_SampleCurrent();
+void MEASURE_SampleParams(MeasureSample* Sample);
 #endif /* MEASUREMENT_H_ */
