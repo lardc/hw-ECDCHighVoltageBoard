@@ -65,9 +65,11 @@ Int16U LOGIC_RegulatorCycle(float Voltage)
 	}
 	else
 	{
-		LOGIC_StopProcess();
-
-		return DF_FOLOWING_ERROR;
+		if(!DataTable[REG_MUTE_FOLLOWING_ERR])
+		{
+			LOGIC_StopProcess();
+			return DF_FOLOWING_ERROR;
+		}
 	}
 
 	Qp = RegulatorError * RegulatorPcoef;
@@ -222,8 +224,6 @@ Int16U LOGIC_PowerMonitor()
 
 void LOGIC_ChangeVoltageAmplitude()
 {
-	float dV = 0;
-
 	if(!LOGIC_BetweenPulsesDelay)
 		LOGIC_BetweenPulsesDelay = CONTROL_TimeCounter + DataTable[REG_BETWEEN_PULSES_DELAY];
 

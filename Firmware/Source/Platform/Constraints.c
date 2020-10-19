@@ -13,8 +13,8 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 		{BETWEN_PULSES_DELAY_MIN, BETWEN_PULSES_DELAY_MAX, BETWEN_PULSES_DELAY_DEF},// 2
 		{VOLTAGE_RATE_MIN, VOLTAGE_RATE_MAX, VOLTAGE_RATE_DEF},						// 3
 		{TEST_TIME_MIN, TEST_TIME_MAX, TEST_TIME_DEF},								// 4
-		{0, 0, 0},																	// 5
-		{0, 0, 0},																	// 6
+		{ALOWED_ERROR_MIN, ALOWED_ERROR_MAX, ALOWED_ERROR_DEF},						// 5
+		{NO, YES, NO},																// 6
 		{0, 0, 0},																	// 7
 		{0, 0, 0},																	// 8
 		{0, 0, 0},																	// 9
