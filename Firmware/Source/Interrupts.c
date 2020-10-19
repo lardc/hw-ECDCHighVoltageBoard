@@ -31,7 +31,7 @@ void USB_LP_CAN_RX0_IRQHandler()
 }
 //-----------------------------------------
 
-void TIM6_IRQHandler()
+void TIM6_DAC_IRQHandler()
 {
 	if(TIM_StatusCheck(TIM6))
 	{
