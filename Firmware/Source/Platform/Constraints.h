@@ -53,6 +53,8 @@
 #define ALOWED_ERROR_MIN			0			// (% * 10)
 #define ALOWED_ERROR_MAX			100			// (% * 10)
 #define ALOWED_ERROR_DEF			30			// (% * 10)
+//
+#define VOLTAGE_SETPOINT_MAX		40000		// (Â * 10)
 
 // Types
 typedef struct __TableItemConstraint
