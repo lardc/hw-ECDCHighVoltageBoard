@@ -179,6 +179,7 @@ void LOGIC_StopProcess()
 	VoltageTarget = 0;
 	LOGIC_TestTime = 0;
 	DISOPAMP_SetVoltage(0);
+	TIM_Stop(TIM6);
 
 	LOGIC_SetSubState(SS_None);
 }
