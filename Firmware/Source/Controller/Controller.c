@@ -213,7 +213,7 @@ void CONTROL_StartPrepare()
 {
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
-	LOGIC_CacheVariables();
+	LOGIC_StartPrepare();
 
 	TIM_Start(TIM6);
 }

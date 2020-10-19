@@ -32,11 +32,11 @@ extern float CurrentCutOff;
 extern volatile SubState LOGIC_SubState;
 
 // Functions
-void LOGIC_CacheVariables();
 Int16U LOGIC_RegulatorCycle(float Voltage);
 bool LOGIC_Process(MeasureSample* Sample, Int16U* Fault);
 void LOGIC_SetSubState(SubState NewSubState);
 Int16U LOGIC_PowerMonitor();
 void LOGIC_StopProcess();
+void LOGIC_StartPrepare();
 
 #endif /* LOGIC_H_ */

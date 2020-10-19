@@ -26,13 +26,21 @@ volatile Int64U LOGIC_TestTime = 0;
 void LOGIC_ChangeVoltageAmplitude();
 void LOGIC_LoggingProcess(MeasureSample* Sample);
 void LOGIC_SaveMeasuredData(MeasureSample* Sample);
+void LOGIC_SetCurrentCutOff(float Current);
+void LOGIC_CacheVariables();
 
 // Functions
 //
+void LOGIC_StartPrepare()
+{
+	LOGIC_CacheVariables();
+	CU_LoadConvertParams();
+	LOGIC_SetCurrentCutOff(CurrentCutOff);
+}
+//-----------------------------
+
 void LOGIC_CacheVariables()
 {
-	CU_LoadConvertParams();
-
 	VoltageSetpoint = (float)DataTable[REG_VOLTAGE_SETPOINT] / 10;
 	CurrentCutOff = (float)((Int32U)((DataTable[REG_CURRENT_CUTOFF_H] << 16) | DataTable[REG_CURRENT_CUTOFF_L])) / 10;
 	PulsePointsQuantity = DataTable[REG_PULSE_WIDTH] / TIMER6_uS;
@@ -244,6 +252,12 @@ void LOGIC_ChangeVoltageAmplitude()
 				LOGIC_SetSubState(SS_PulseStart);
 		}
 	}
+}
+//-----------------------------
+
+void LOGIC_SetCurrentCutOff(float Current)
+{
+	DISOPAMP_SetCurrentCutOff(Current);
 }
 //-----------------------------
 
