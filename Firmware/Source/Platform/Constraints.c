@@ -9,10 +9,10 @@
 //
 const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 		{POWER_ON_TIMEOUT_MIN, POWER_ON_TIMEOUT_MAX, POWER_ON_TIMEOUT_DEF},			// 0
-		{0, 0, 0},																	// 1
-		{0, 0, 0},																	// 2
-		{0, 0, 0},																	// 3
-		{0, 0, 0},																	// 4
+		{PULSE_WIDTH_MIN, PULSE_WIDTH_MAX, PULSE_WIDTH_DEF},						// 1
+		{BETWEN_PULSES_DELAY_MIN, BETWEN_PULSES_DELAY_MAX, BETWEN_PULSES_DELAY_DEF},// 2
+		{VOLTAGE_RATE_MIN, VOLTAGE_RATE_MAX, VOLTAGE_RATE_DEF},						// 3
+		{TEST_TIME_MIN, TEST_TIME_MAX, TEST_TIME_DEF},								// 4
 		{0, 0, 0},																	// 5
 		{0, 0, 0},																	// 6
 		{0, 0, 0},																	// 7
@@ -90,10 +90,10 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 79
 		{REGULATOR_KP_MIN, REGULATOR_KP_MAX, REGULATOR_KP_DEF},						// 80
 		{REGULATOR_KI_MIN, REGULATOR_KI_MAX, REGULATOR_KI_DEF},						// 81
-		{PULSE_WIDTH_MIN, PULSE_WIDTH_MAX, PULSE_WIDTH_DEF},						// 82
-		{BETWEN_PULSES_DELAY_MIN, BETWEN_PULSES_DELAY_MAX, BETWEN_PULSES_DELAY_DEF},// 83
-		{VOLTAGE_RATE_MIN, VOLTAGE_RATE_MAX, VOLTAGE_RATE_DEF},						// 84
-		{TEST_TIME_MIN, TEST_TIME_MAX, TEST_TIME_DEF},								// 85
+		{0, 0, 0},																	// 82
+		{0, 0, 0},																	// 83
+		{0, 0, 0},																	// 84
+		{0, 0, 0},																	// 85
 		{0, 0, 0},																	// 86
 		{0, 0, 0},																	// 87
 		{0, 0, 0},																	// 88

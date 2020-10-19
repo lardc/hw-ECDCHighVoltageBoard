@@ -30,6 +30,11 @@
 // Регистры
 // Сохраняемые регистры
 #define REG_POWER_ON_TIMEOUT			0	// Таймаут ожидания готовности блоков питания
+#define REG_PULSE_WIDTH					1	// Длительность импульса (мкс)
+#define REG_BETWEEN_PULSES_DELAY		2	// Длительность паузы между импульсами (мс)
+#define REG_VOLATGE_RATE				3	// Скорость нарастания напряжения (х10 В/мс)
+#define REG_TEST_TIME					4	// Время прикладывания напряжения после выхода на уставку (мс)
+#define REG_REGULATOR_ALOWED_ERR		5	// Допустимая ошибка регулирования (% * 10)
 // 1 - 19
 #define REG_DAC_V_CELL0_P2				20	// Ячейка 0 - Коэффициент точной подстройки Р2 x1e6
 #define REG_DAC_V_CELL0_P1				21	// Ячейка 0 - Коэффициент точной подстройки Р1 x1000
@@ -101,12 +106,6 @@
 //
 #define REG_REGULATOR_Kp				80	// Пропорциональный коэффициент регулятора
 #define REG_REGULATOR_Ki				81	// Интегральный коэффициент регулятора
-#define REG_PULSE_WIDTH					82	// Длительность импульса (мкс)
-#define REG_BETWEEN_PULSES_DELAY		83	// Длительность паузы между импульсами (мс)
-#define REG_VOLATGE_RATE				84	// Скорость нарастания напряжения (х10 В/мс)
-#define REG_TEST_TIME					85	// Время прикладывания напряжения после выхода на уставку (мс)
-#define REG_REGULATOR_ALOWED_ERR		86	// Допустимая ошибка регулирования (% * 10)
-
 
 #define REG_VOLTAGE_SETPOINT			128	// Уставка по напряжению, В х 10
 #define REG_CURRENT_CUTOFF_H			129	// Ограничение по току (старшая часть), мкА х 10
