@@ -57,7 +57,7 @@ bool DBGACT_ReadStateLineSync1()
 {
 	bool LineState;
 
-	(DataTable[REG_DBG]) ? LL_SetStateLineSync1(true) : LL_SetStateLineSync1(false);
+	LL_SetStateLineSync1(DataTable[REG_DBG]);
 	CONTROL_DelayMs(100);
 	LineState = LL_GetStateLineSync1();
 	LL_SetStateLineSync1(false);
@@ -69,7 +69,7 @@ bool DBGACT_ReadStateLineSync2()
 {
 	bool LineState;
 
-	(DataTable[REG_DBG]) ? LL_SetStateLineSync2(true) : LL_SetStateLineSync2(false);
+	LL_SetStateLineSync2(DataTable[REG_DBG]);
 	CONTROL_DelayMs(100);
 	LineState = LL_GetStateLineSync2();
 	LL_SetStateLineSync2(false);

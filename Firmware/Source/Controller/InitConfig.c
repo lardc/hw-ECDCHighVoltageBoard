@@ -20,7 +20,7 @@ void INITCFG_ConfigIO()
 	
 	// Выходы
 	GPIO_InitPushPullOutput(GPIO_LDAC);
-	GPIO_InitOpenDrainOutput(GPIO_EXT_LED1, NoPull);
+	GPIO_InitPushPullOutput(GPIO_EXT_LED1);
 	GPIO_InitOpenDrainOutput(GPIO_EXT_LED2, NoPull);
 	GPIO_InitPushPullOutput(GPIO_R0_M);
 	GPIO_InitPushPullOutput(GPIO_R1_M);
@@ -70,7 +70,7 @@ void INITCFG_ConfigCAN()
 	RCC_CAN_Clk_EN(CAN_1_ClkEN);
 	NCAN_Init(SYSCLK, CAN_BAUDRATE, FALSE);
 	NCAN_FIFOInterrupt(TRUE);
-	NCAN_FilterInit(0, CAN_SLAVE_FILTER_ID, CAN_MASTER_FILTER_ID);
+	NCAN_FilterInit(0, CAN_SLAVE_FILTER_ID, CAN_SLAVE_FILTER_ID);
 }
 //------------------------------------------------
 
@@ -101,7 +101,7 @@ void INITCFG_ConfigTimer6()
 void INITCFG_ConfigWatchDog()
 {
 	IWDG_Config();
-	IWDG_ConfigureFastUpdate();
+	IWDG_ConfigureSlowUpdate();
 }
 //------------------------------------------------
 
@@ -112,7 +112,7 @@ void INITCFG_ConfigADC()
 	ADC_Calibration(ADC1);
 	ADC_TrigConfig(ADC1, ADCxx_SOFT_TRIG, RISE);
 	ADC_ChannelSeqReset(ADC1);
-	ADC_ChannelSet_Sequence(ADC1, ADC1_VOLTAGE_CHANNEL, 1);
+	ADC_ChannelSet_Sequence(ADC1, ADC1_VOLTAGE_CHANNEL, 4);
 	ADC_ChannelSeqLen(ADC1, 1);
 	ADC_DMAConfig(ADC1);
 	ADC_Enable(ADC1);
@@ -121,7 +121,7 @@ void INITCFG_ConfigADC()
 	ADC_Calibration(ADC2);
 	ADC_TrigConfig(ADC2, ADCxx_SOFT_TRIG, RISE);
 	ADC_ChannelSeqReset(ADC2);
-	ADC_ChannelSet_Sequence(ADC2, ADC2_CURRENT_CHANNEL, 1);
+	ADC_ChannelSet_Sequence(ADC2, ADC2_CURRENT_CHANNEL, 4);
 	ADC_ChannelSeqLen(ADC2, 1);
 	ADC_DMAConfig(ADC2);
 	ADC_Enable(ADC2);

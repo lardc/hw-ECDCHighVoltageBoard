@@ -11,6 +11,7 @@
 #include "DebugActions.h"
 #include "Diagnostic.h"
 #include "Logic.h"
+#include "BCCIxParams.h"
 
 // Types
 //
@@ -45,13 +46,14 @@ void CONTROL_Init()
 	// Переменные для конфигурации EndPoint
 	Int16U EPIndexes[EP_COUNT] = {EP_VOLTAGE, EP_CURRENT};
 	Int16U EPSized[EP_COUNT] = {VALUES_x_SIZE, VALUES_x_SIZE};
-	pInt16U EPCounters[EP_COUNT] = {(pInt16U)&CONTROL_Values_Counter, (pInt16U)&CONTROL_Values_Counter,};
-	pInt16U EPDatas[EP_COUNT] = {(pInt16U)CONTROL_ValuesVoltage, (pInt16U)CONTROL_ValuesCurrent,};
+	pInt16U EPCounters[EP_COUNT] = {(pInt16U)&CONTROL_Values_Counter, (pInt16U)&CONTROL_Values_Counter};
+	pInt16U EPDatas[EP_COUNT] = {(pInt16U)CONTROL_ValuesVoltage, (pInt16U)CONTROL_ValuesCurrent};
 
 	// Конфигурация сервиса работы Data-table и EPROM
 	EPROMServiceConfig EPROMService = {(FUNC_EPROM_WriteValues)&NFLASH_WriteDT, (FUNC_EPROM_ReadValues)&NFLASH_ReadDT};
 	// Инициализация data table
 	DT_Init(EPROMService, false);
+	DT_SaveFirmwareInfo(CAN_SALVE_NID, 0);
 	// Инициализация device profile
 	DEVPROFILE_Init(&CONTROL_DispatchAction, &CycleActive);
 	DEVPROFILE_InitEPService(EPIndexes, EPSized, EPCounters, EPDatas);
@@ -100,9 +102,10 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 				{
 					CONTROL_SetDeviceState(DS_InProcess, SS_PowerOn);
 				}
-				else if(CONTROL_State != DS_InProcess)
+				else
 				{
-					*pUserError = ERR_DEVICE_NOT_READY;
+					if(CONTROL_State == DS_InProcess)
+						*pUserError = ERR_DEVICE_NOT_READY;
 				}
 				break;
 			}
@@ -114,7 +117,8 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 				CONTROL_SetDeviceState(DS_None, SS_None);
 			}
 			else
-				*pUserError = ERR_OPERATION_BLOCKED;
+				if(CONTROL_State != DS_None)
+					*pUserError = ERR_OPERATION_BLOCKED;
 			break;
 
 		case ACT_START_PROCESS:
@@ -186,7 +190,7 @@ void CONTROL_PowerMonitor()
 void CONTROL_HighPriorityProcess()
 {
 	MeasureSample SampleParams;
-	Int16U Fault = 0;
+	static Int16U Fault = 0;
 
 	if(CONTROL_State == DS_InProcess)
 	{

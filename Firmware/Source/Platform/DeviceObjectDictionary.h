@@ -36,7 +36,8 @@
 #define REG_TEST_TIME					4	// Время прикладывания напряжения после выхода на уставку (мс)
 #define REG_REGULATOR_ALOWED_ERR		5	// Допустимая ошибка регулирования (% * 10)
 #define REG_MUTE_FOLLOWING_ERR			6	// Выключить слежение за ошибкой DF_FOLOWING_ERROR
-// 1 - 19
+#define REG_FOLLOWING_ERR_CNT_NUM		7	// Значение счетчика FollowingError, при котором выставляется ошибка DF_FOLLOWING_ERR
+// 8 - 19
 #define REG_DAC_V_CELL0_P2				20	// Ячейка 0 - Коэффициент точной подстройки Р2 x1e6
 #define REG_DAC_V_CELL0_P1				21	// Ячейка 0 - Коэффициент точной подстройки Р1 x1000
 #define REG_DAC_V_CELL0_P0				22	// Ячейка 0 - Смещение точной подстройки Р0
@@ -128,6 +129,12 @@
 #define REG_RESULT_CURRENT_H			199	// Измеренный ток (старшая часть), при заданном напряжении (мкА * 10)
 #define REG_RESULT_CURRENT_L			200	// Измеренный ток (младшая часть), при заданном напряжении (мкА * 10)
 // -----------------------------
+#define REG_FWINFO_SLAVE_NID			256	// Device CAN slave node ID
+#define REG_FWINFO_MASTER_NID			257	// Device CAN master node ID (if presented)
+// 258 - 259
+#define REG_FWINFO_STR_LEN				260	// Length of the information string record
+#define REG_FWINFO_STR_BEGIN			261	// Begining of the information string record
+
 
 // Operation results
 #define OPRESULT_NONE					0	// No information or not finished

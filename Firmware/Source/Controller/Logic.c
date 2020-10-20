@@ -6,12 +6,6 @@
 #include "DiscreteOpAmp.h"
 #include "LowLevel.h"
 
-// Definitions
-#define CURRENT_RANGE0		0
-#define CURRENT_RANGE1		1
-#define CURRENT_RANGE2		2
-#define CURRENT_RANGE3		3
-
 // Variables
 float VoltageTarget, VoltageSetpoint, CurrentCutOff, RegulatorPcoef, RegulatorIcoef, RegulatorAlowedError, dV;
 float  Qi;
@@ -53,6 +47,8 @@ void LOGIC_CacheVariables()
 
 Int16U LOGIC_RegulatorCycle(float Voltage)
 {
+	static Int16U FollowingErrorCounter = 0;
+
 	float RegulatorError, Qp, RegulatorOut, ErrorX;
 
 	RegulatorError = (RegulatorPulseCounter == 0) ? 0 : (VoltageTarget - Voltage);
@@ -60,6 +56,8 @@ Int16U LOGIC_RegulatorCycle(float Voltage)
 
 	if(ErrorX <= RegulatorAlowedError)
 	{
+		FollowingErrorCounter = 0;
+
 		Qi += RegulatorError * RegulatorIcoef;
 		LOGIC_SetSubState(SS_Pulse);
 	}
@@ -67,8 +65,13 @@ Int16U LOGIC_RegulatorCycle(float Voltage)
 	{
 		if(!DataTable[REG_MUTE_FOLLOWING_ERR])
 		{
-			LOGIC_StopProcess();
-			return DF_FOLOWING_ERROR;
+			FollowingErrorCounter++;
+
+			if(FollowingErrorCounter >= DataTable[REG_FOLLOWING_ERR_CNT_NUM])
+			{
+				FollowingErrorCounter = 0;
+				return DF_FOLOWING_ERROR;
+			}
 		}
 	}
 
@@ -106,7 +109,9 @@ bool LOGIC_Process(MeasureSample* Sample, Int16U* Fault)
 			}
 			else
 			{
+				LL_SetStateExtPowerLed(false);
 				*Fault = LOGIC_RegulatorCycle(Sample->Voltage);
+				LL_SetStateExtPowerLed(true);
 
 				if(*Fault != DF_NONE)
 					LOGIC_SetSubState(SS_Finished);
@@ -238,11 +243,11 @@ void LOGIC_ChangeVoltageAmplitude()
 		}
 		else
 		{
+			VoltageTarget = VoltageSetpoint;
+
 			if(!LOGIC_TestTime)
 			{
-				VoltageTarget = VoltageSetpoint;
 				LOGIC_TestTime = CONTROL_TimeCounter + DataTable[REG_TEST_TIME];
-
 				LOGIC_SetSubState(SS_PulseStart);
 			}
 

@@ -47,6 +47,9 @@ Int16U CU_XtoDAC(float Value, DisOpAmpConvertParams Coefficients)
 	Temp = Value * Value * Coefficients.P2 + Value * Coefficients.P1 + Coefficients.P0;
 	Temp = (Temp + Coefficients.B) * Coefficients.K;
 
+	if(Temp < 0)
+		Temp = 0;
+
 	return (Int16U)Temp;
 }
 //-----------------------------

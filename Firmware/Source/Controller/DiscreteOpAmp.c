@@ -25,22 +25,22 @@ void DISOPAMP_SetCurrentRange(float Current)
 	if(Current >= DISOPAMP_CURRENT_THRESHOLD_RANGE_3)
 	{
 		LL_SetCurrentRange3();
-		CurrentCutOffRange = 3;
+		CurrentCutOffRange = CURRENT_RANGE3;
 	}
 	else if(Current >= DISOPAMP_CURRENT_THRESHOLD_RANGE_2)
 	{
 		LL_SetCurrentRange2();
-		CurrentCutOffRange = 2;
+		CurrentCutOffRange = CURRENT_RANGE2;
 	}
 	else if(Current >= DISOPAMP_CURRENT_THRESHOLD_RANGE_1)
 	{
 			LL_SetCurrentRange1();
-			CurrentCutOffRange = 1;
+			CurrentCutOffRange = CURRENT_RANGE1;
 	}
 	else
 	{
 		LL_SetCurrentRange0();
-		CurrentCutOffRange = 0;
+		CurrentCutOffRange = CURRENT_RANGE0;
 	}
 }
 //-----------------------------
