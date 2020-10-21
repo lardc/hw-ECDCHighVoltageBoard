@@ -115,7 +115,7 @@ void CU_LoadConvertParams()
 	MeasureVParams.P2 = (float)(Int16S)DataTable[REG_ADC_VOLTAGE_P2] / 1e6;
 	MeasureVParams.P1 = (float)DataTable[REG_ADC_VOLTAGE_P1] / 1000;
 	MeasureVParams.P0 = (Int16S)DataTable[REG_ADC_VOLTAGE_P0];
-	MeasureVParams.K = DataTable[REG_ADC_VOLTAGE_K];
+	MeasureVParams.K = (float)DataTable[REG_ADC_VOLTAGE_K] / 1000;
 	MeasureVParams.B = (Int16S)DataTable[REG_ADC_VOLTAGE_B];
 
 	for(int i = DISOPAMP_POSITION_CELL1; i < DISOPAMP_TOTAL_CELL; i++)
@@ -139,7 +139,7 @@ void CU_LoadConvertParams()
 		MeasureIParams[i].P2 = (float)(Int16S)DataTable[REG_ADC_I_RANGE0_P2 + i * 5] / 1e6;
 		MeasureIParams[i].P1 = (float)DataTable[REG_ADC_I_RANGE0_P1 + i * 5] / 1000;
 		MeasureIParams[i].P0 = (Int16S)DataTable[REG_ADC_I_RANGE0_P0 + i * 5];
-		MeasureIParams[i].K = DataTable[REG_ADC_I_RANGE0_K + i * 5];
+		MeasureIParams[i].K = (float)DataTable[REG_ADC_I_RANGE0_K + i * 5] / 1000;
 		MeasureIParams[i].B = (Int16S)DataTable[REG_ADC_I_RANGE0_B + i * 5];
 	}
 }

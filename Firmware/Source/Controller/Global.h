@@ -24,6 +24,7 @@
 #define DISOPAMP_POSITION_CELL5					5
 #define DISOPAMP_POSITION_CELL6					6
 #define DISOPAMP_POSITION_CELL7					7
+#define DSIOPAMP_STACK_VOLTAGE_MAX				(DISOPAMP_CELL_VOLATGE_MAX * DISOPAMP_TOTAL_CELL)
 
 // Временные параметры
 #define TIME_LED_BLINK							500		// Мигание светодиодом (в мс)

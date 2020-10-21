@@ -20,7 +20,7 @@
 
 // Timers
 #define TIMER7_uS						1000		// в мкс
-#define TIMER6_uS						300			// в мкс
+#define TIMER6_uS						100			// в мкс
 // ----------------------------------------------
 
 // CAN
@@ -37,7 +37,7 @@
 #define DMA_ADC_DUT_I_CHANNEL			DMA2_Channel1	// Канал DMA для АЦП тока
 #define ADC1_VOLTAGE_CHANNEL			1				// АЦП1 номер канала напряжения
 #define ADC2_CURRENT_CHANNEL			3				// АЦП1 номер канала тока
-#define ADC_DMA_BUFF_SIZE				10				// Количество данных для DMA
+#define ADC_DMA_BUFF_SIZE				5				// Количество данных для DMA
 // ----------------------------------------------
 
 #endif // __SYSCONFIG_H

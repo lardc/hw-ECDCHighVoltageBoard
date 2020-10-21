@@ -78,6 +78,9 @@ Int16U LOGIC_RegulatorCycle(float Voltage)
 	Qp = RegulatorError * RegulatorPcoef;
 	RegulatorOut = VoltageTarget + Qp +Qi;
 
+	if(RegulatorOut > DSIOPAMP_STACK_VOLTAGE_MAX)
+		RegulatorOut = DSIOPAMP_STACK_VOLTAGE_MAX;
+
 	DISOPAMP_SetVoltage(RegulatorOut);
 
 	RegulatorPulseCounter++;
@@ -109,9 +112,7 @@ bool LOGIC_Process(MeasureSample* Sample, Int16U* Fault)
 			}
 			else
 			{
-				LL_SetStateExtPowerLed(false);
 				*Fault = LOGIC_RegulatorCycle(Sample->Voltage);
-				LL_SetStateExtPowerLed(true);
 
 				if(*Fault != DF_NONE)
 					LOGIC_SetSubState(SS_Finished);

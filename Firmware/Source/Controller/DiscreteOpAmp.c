@@ -49,7 +49,7 @@ void DISOPAMP_SetVoltage(float Voltage)
 {
 	Int16U CellCounter = 0;
 
-	while(Voltage >= DISOPAMP_CELL_VOLATGE_MAX)
+	while(Voltage > DISOPAMP_CELL_VOLATGE_MAX)
 	{
 		Voltage -= DISOPAMP_CELL_VOLATGE_MAX;
 		CellCounter++;
@@ -63,7 +63,8 @@ void DISOPAMP_SetVoltage(float Voltage)
 			LL_WriteDACx(CU_VtoDAC(DISOPAMP_CELL_VOLATGE_MAX, i) | DAC_CHANNEL_B, DISOPAMP_POSITION_CELL1, 1, false);
 	}
 
-	LL_WriteDACx(DAC_CHANNEL_B, DISOPAMP_POSITION_CELL1 + CellCounter, DISOPAMP_TOTAL_CELL - CellCounter - 1, false);
+	if(DISOPAMP_TOTAL_CELL - CellCounter - 1)
+		LL_WriteDACx(DAC_CHANNEL_B, DISOPAMP_POSITION_CELL1 + CellCounter, DISOPAMP_TOTAL_CELL - CellCounter - 1, false);
 
 	LL_ToggleLDAC();
 }

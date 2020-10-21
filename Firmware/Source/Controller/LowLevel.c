@@ -112,8 +112,6 @@ void LL_WriteDACx(Int16U Data, Int16U CellStartNumber, Int16U CellTotal, bool To
 	for(int i = CellStartNumber; i < CellTotal; i++)
 		LL_CsSyncControl[i](true);
 
-	DELAY_US(1);
-
 	if(ToggleLDAC)
 		LL_ToggleLDAC();
 }
@@ -124,7 +122,6 @@ void LL_ToggleLDAC()
 	GPIO_SetState(GPIO_LDAC, false);
 	DELAY_US(1);
 	GPIO_SetState(GPIO_LDAC, true);
-	DELAY_US(1);
 }
 //---------------------
 
