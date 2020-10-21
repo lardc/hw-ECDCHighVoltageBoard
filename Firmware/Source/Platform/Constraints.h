@@ -47,7 +47,7 @@
 #define VOLTAGE_RATE_DEF			40			// (х10 В/мс)
 //
 #define TEST_TIME_MIN				1			// (мс)
-#define TEST_TIME_MAX				100			// (мс)
+#define TEST_TIME_MAX				1000		// (мс)
 #define TEST_TIME_DEF				10			// (мс)
 //
 #define ALOWED_ERROR_MIN			0			// (% * 10)

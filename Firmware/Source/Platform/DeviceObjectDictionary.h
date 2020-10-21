@@ -148,6 +148,8 @@
 
 // Problem
 #define PROBLEM_NONE					0
+#define PROBLEM_SHORT_CICUIT			1
+#define PROBLEM_CURRENT_CUTOFF			2
 
 //  Warning
 #define WARNING_NONE					0

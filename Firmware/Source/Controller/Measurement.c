@@ -16,7 +16,7 @@ void MEASURE_StartNewSampling();
 
 // Functions
 //
-void MEASURE_SampleParams(MeasureSample* Sample)
+void MEASURE_SampleParams(volatile MeasureSample* Sample)
 {
 	Sample->Voltage = MEASURE_SampleVoltage();
 	Sample->Current = MEASURE_SampleCurrent();

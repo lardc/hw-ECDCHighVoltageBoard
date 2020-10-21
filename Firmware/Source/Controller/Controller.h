@@ -20,6 +20,7 @@ extern volatile Int16U CONTROL_ValuesCurrent[VALUES_x_SIZE];
 void CONTROL_Init();
 void CONTROL_Idle();
 void CONTROL_DelayMs(uint32_t Delay);
-void CONTROL_HighPriorityProcess();
+void CONTROL_HighPriorityFastProcess();
+void CONTROL_HighPrioritySlowProcess();
 
 #endif // __CONTROLLER_H

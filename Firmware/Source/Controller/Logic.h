@@ -20,10 +20,9 @@ typedef enum __SubState
 	SS_None = 0,
 	SS_PowerOn = 1,
 	SS_PowerOnReady = 2,
-	SS_PulseStart = 3,
+	SS_PulsePrepare = 3,
 	SS_Pulse = 4,
-	SS_Pause = 5,
-	SS_Finished = 6
+	SS_Finished = 5
 }SubState;
 
 // Variables
@@ -33,10 +32,12 @@ extern volatile SubState LOGIC_SubState;
 
 // Functions
 Int16U LOGIC_RegulatorCycle(float Voltage);
-bool LOGIC_Process(MeasureSample* Sample, Int16U* Fault);
+bool LOGIC_Process(volatile MeasureSample* Sample);
 void LOGIC_SetSubState(SubState NewSubState);
 Int16U LOGIC_PowerMonitor();
 void LOGIC_StopProcess();
 void LOGIC_StartPrepare();
+bool LOGIC_CheckExcessCurrentCutOff(float Current);
+void LOGIC_LoggingProcess(volatile MeasureSample* Sample);
 
 #endif /* LOGIC_H_ */

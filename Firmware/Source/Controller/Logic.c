@@ -18,8 +18,7 @@ volatile Int64U LOGIC_TestTime = 0;
 
 // Functions prototypes
 void LOGIC_ChangeVoltageAmplitude();
-void LOGIC_LoggingProcess(MeasureSample* Sample);
-void LOGIC_SaveMeasuredData(MeasureSample* Sample);
+void LOGIC_SaveMeasuredData(volatile MeasureSample* Sample);
 void LOGIC_SetCurrentCutOff(float Current);
 void LOGIC_CacheVariables();
 
@@ -57,9 +56,7 @@ Int16U LOGIC_RegulatorCycle(float Voltage)
 	if(ErrorX <= RegulatorAlowedError)
 	{
 		FollowingErrorCounter = 0;
-
 		Qi += RegulatorError * RegulatorIcoef;
-		LOGIC_SetSubState(SS_Pulse);
 	}
 	else
 	{
@@ -90,36 +87,19 @@ Int16U LOGIC_RegulatorCycle(float Voltage)
 		Qi = 0;
 		RegulatorPulseCounter = 0;
 		DISOPAMP_SetVoltage(0);
-		LOGIC_SetSubState(SS_Pause);
+		TIM_Stop(TIM6);
+		LOGIC_SetSubState(SS_PulsePrepare);
 	}
 
 	return DF_NONE;
 }
 //-----------------------------
 
-bool LOGIC_Process(MeasureSample* Sample, Int16U* Fault)
+bool LOGIC_Process(volatile MeasureSample* Sample)
 {
-	LOGIC_LoggingProcess(Sample);
-
 	switch(LOGIC_SubState)
 	{
-		case SS_PulseStart:
-		case SS_Pulse:
-			if(Sample->Current >= CurrentCutOff)
-			{
-				DataTable[REG_WARNING] = WARNING_CURRENT_CUTOFF;
-				LOGIC_SetSubState(SS_Finished);
-			}
-			else
-			{
-				*Fault = LOGIC_RegulatorCycle(Sample->Voltage);
-
-				if(*Fault != DF_NONE)
-					LOGIC_SetSubState(SS_Finished);
-			}
-			break;
-
-		case SS_Pause:
+		case SS_PulsePrepare:
 			LOGIC_ChangeVoltageAmplitude(Sample->Voltage);
 			break;
 
@@ -137,7 +117,7 @@ bool LOGIC_Process(MeasureSample* Sample, Int16U* Fault)
 }
 //-----------------------------
 
-void LOGIC_SaveMeasuredData(MeasureSample* Sample)
+void LOGIC_SaveMeasuredData(volatile MeasureSample* Sample)
 {
 	Int32U Current;
 
@@ -148,7 +128,7 @@ void LOGIC_SaveMeasuredData(MeasureSample* Sample)
 }
 //-----------------------------
 
-void LOGIC_LoggingProcess(MeasureSample* Sample)
+void LOGIC_LoggingProcess(volatile MeasureSample* Sample)
 {
 	static Int16U ScopeLogStep = 0, LocalCounter = 0;
 
@@ -190,11 +170,13 @@ void LOGIC_LoggingProcess(MeasureSample* Sample)
 
 void LOGIC_StopProcess()
 {
+	DISOPAMP_SetVoltage(0);
+
 	Qi = 0;
 	RegulatorPulseCounter = 0;
 	VoltageTarget = 0;
 	LOGIC_TestTime = 0;
-	DISOPAMP_SetVoltage(0);
+
 	TIM_Stop(TIM6);
 
 	LOGIC_SetSubState(SS_None);
@@ -240,23 +222,33 @@ void LOGIC_ChangeVoltageAmplitude()
 		if((VoltageTarget + dV) <= VoltageSetpoint)
 		{
 			VoltageTarget += dV;
-			LOGIC_SetSubState(SS_PulseStart);
+			LOGIC_SetSubState(SS_Pulse);
+			LL_SetStateExtPowerLed(false);
+			LL_SetStateExtMsrLed(true);
 		}
 		else
 		{
+			LL_SetStateExtPowerLed(true);
+			LL_SetStateExtMsrLed(false);
 			VoltageTarget = VoltageSetpoint;
 
 			if(!LOGIC_TestTime)
 			{
 				LOGIC_TestTime = CONTROL_TimeCounter + DataTable[REG_TEST_TIME];
-				LOGIC_SetSubState(SS_PulseStart);
+				LOGIC_SetSubState(SS_Pulse);
 			}
 
 			if(CONTROL_TimeCounter >= LOGIC_TestTime)
+			{
+				LL_SetStateExtMsrLed(true);
 				LOGIC_SetSubState(SS_Finished);
+				return;
+			}
 			else
-				LOGIC_SetSubState(SS_PulseStart);
+				LOGIC_SetSubState(SS_Pulse);
 		}
+
+		TIM_Start(TIM6);
 	}
 }
 //-----------------------------
@@ -270,5 +262,14 @@ void LOGIC_SetCurrentCutOff(float Current)
 void LOGIC_SetSubState(SubState NewSubState)
 {
 	LOGIC_SubState = NewSubState;
+}
+//-----------------------------
+
+bool LOGIC_CheckExcessCurrentCutOff(float Current)
+{
+	if(Current >= CurrentCutOff)
+		return true;
+	else
+		return false;
 }
 //-----------------------------

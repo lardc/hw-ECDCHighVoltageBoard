@@ -21,7 +21,7 @@ void INITCFG_ConfigIO()
 	// Выходы
 	GPIO_InitPushPullOutput(GPIO_LDAC);
 	GPIO_InitPushPullOutput(GPIO_EXT_LED1);
-	GPIO_InitOpenDrainOutput(GPIO_EXT_LED2, NoPull);
+	GPIO_InitPushPullOutput(GPIO_EXT_LED2);
 	GPIO_InitPushPullOutput(GPIO_R0_M);
 	GPIO_InitPushPullOutput(GPIO_R1_M);
 	GPIO_InitPushPullOutput(GPIO_R2_M);
