@@ -50,6 +50,7 @@ void INITCFG_ConfigIO()
 	GPIO_SetState(GPIO_CS_SYNC6, true);
 	GPIO_SetState(GPIO_CS_SYNC7, true);
 	GPIO_SetState(GPIO_CS_SYNC8, true);
+	GPIO_SetState(GPIO_LDAC, true);
 	GPIO_SetState(GPIO_R0_M, true);
 	GPIO_SetState(GPIO_R1_M, true);
 	GPIO_SetState(GPIO_R2_M, true);

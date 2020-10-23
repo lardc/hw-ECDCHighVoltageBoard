@@ -9,7 +9,6 @@
 
 
 // Function
-void CELLCAL_SetVoltageCell(Int16U CellNumber, Int16U Voltage);
-
+void CELLCAL_SetVoltageCell(Int16U Voltage, Int16U CellNumber);
 
 #endif /* CELLCALIBRATION_H_ */

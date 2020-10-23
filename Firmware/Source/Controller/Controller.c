@@ -126,10 +126,14 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			{
 				if (CONTROL_State == DS_Ready)
 				{
-					CELLCAL_SetVoltageCell(DataTable[REG_DBG_CELL_NUM], DataTable[REG_VOLTAGE_SETPOINT]);
+					LOGIC_StartPrepare();
+
+					CELLCAL_SetVoltageCell((float)DataTable[REG_VOLTAGE_SETPOINT] / 10, DataTable[REG_DBG_CELL_NUM]);
 					CONTROL_DelayMs(CELLCAL_PULSE_WIDTH);
-					CELLCAL_SetVoltageCell(DataTable[REG_DBG_CELL_NUM], 0);
+					CELLCAL_SetVoltageCell(0, DataTable[REG_DBG_CELL_NUM]);
 				}
+				else
+					*pUserError = ERR_OPERATION_BLOCKED;
 			}
 			break;
 
