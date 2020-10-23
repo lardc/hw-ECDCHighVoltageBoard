@@ -3,6 +3,7 @@
 #include "LowLevel.h"
 #include "ConvertUtils.h"
 #include "Global.h"
+#include "DataTable.h"
 
 // Variables
 Int16U CurrentCutOffRange = 0;
@@ -60,7 +61,7 @@ void DISOPAMP_SetVoltage(float Voltage)
 	if(CellCounter)
 	{
 		for(int i = DISOPAMP_POSITION_CELL1; i <= CellCounter; i++)
-			LL_WriteDACx(CU_VtoDAC(DISOPAMP_CELL_VOLATGE_MAX, i) | DAC_CHANNEL_B, DISOPAMP_POSITION_CELL1, 1, false);
+			LL_WriteDACx(CU_VtoDAC(DISOPAMP_CELL_VOLATGE_MAX, i) | DAC_CHANNEL_B, i, 1, false);
 	}
 
 	if(DISOPAMP_TOTAL_CELL - CellCounter - 1)

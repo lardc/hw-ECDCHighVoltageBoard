@@ -108,12 +108,12 @@ bool DBGACT_ReadStatePowerSupplies()
 
 void DBGACT_SetCurrentCutoff(uint16_t Data)
 {
-	LL_WriteDACx((Data | DAC_CHANNEL_B), DISOPAMP_POSITION_CELL0, DISOPAMP_TOTAL_CELL, true);
+	LL_WriteDACx((Data & ~DAC_CHANNEL_B), DISOPAMP_POSITION_CELL0, DISOPAMP_TOTAL_CELL, true);
 }
 //-----------------------------
 
 void DBGACT_SetVoltageCell(uint16_t CellNumber, uint16_t Data)
 {
-	LL_WriteDACx((Data & ~DAC_CHANNEL_B), CellNumber, 1, true);
+	LL_WriteDACx((Data | DAC_CHANNEL_B), CellNumber, 1, true);
 }
 //-----------------------------

@@ -65,7 +65,7 @@
 								<option id="com.atollic.truestudio.gcc.optimization.prep_data.246995150" name="Prepare dead data removal" superClass="com.atollic.truestudio.gcc.optimization.prep_data" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="com.atollic.truestudio.common_options.target.interwork.416527186" name="Mix ARM/Thumb" superClass="com.atollic.truestudio.common_options.target.interwork" useByScannerDiscovery="false"/>
 								<option id="com.atollic.truestudio.exe.release.toolchain.gcc.debug.info.2133453295" name="Debug Level" superClass="com.atollic.truestudio.exe.release.toolchain.gcc.debug.info" useByScannerDiscovery="false" value="com.atollic.truestudio.gcc.debug.info.2" valueType="enumerated"/>
-								<option id="com.atollic.truestudio.exe.release.toolchain.gcc.optimization.level.2074623325" name="Optimization Level" superClass="com.atollic.truestudio.exe.release.toolchain.gcc.optimization.level" useByScannerDiscovery="false" value="com.atollic.truestudio.gcc.optimization.level.0fast" valueType="enumerated"/>
+								<option id="com.atollic.truestudio.exe.release.toolchain.gcc.optimization.level.2074623325" name="Optimization Level" superClass="com.atollic.truestudio.exe.release.toolchain.gcc.optimization.level" useByScannerDiscovery="false" value="com.atollic.truestudio.gcc.optimization.level.00" valueType="enumerated"/>
 								<inputType id="com.atollic.truestudio.gcc.input.2100776927" superClass="com.atollic.truestudio.gcc.input"/>
 							</tool>
 							<tool id="com.atollic.truestudio.exe.release.toolchain.ld.709919241" name="C Linker" superClass="com.atollic.truestudio.exe.release.toolchain.ld">
@@ -77,7 +77,7 @@
 								<option id="com.atollic.truestudio.ld.general.scriptfile.819399016" name="Linker script" superClass="com.atollic.truestudio.ld.general.scriptfile" useByScannerDiscovery="false" value="../stm32f30_flash.ld" valueType="string"/>
 								<option id="com.atollic.truestudio.ld.optimization.do_garbage.1770602405" name="Dead code removal " superClass="com.atollic.truestudio.ld.optimization.do_garbage" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<option id="com.atollic.truestudio.common_options.target.interwork.1350292859" name="Mix ARM/Thumb" superClass="com.atollic.truestudio.common_options.target.interwork" useByScannerDiscovery="false"/>
-								<option id="com.atollic.truestudio.ld.optimization.malloc_page_size.1964833090" superClass="com.atollic.truestudio.ld.optimization.malloc_page_size" useByScannerDiscovery="false" value="com.atollic.truestudio.ld.optimization.malloc_page_size.128" valueType="enumerated"/>
+								<option id="com.atollic.truestudio.ld.optimization.malloc_page_size.1964833090" name="Page size allocation for malloc() " superClass="com.atollic.truestudio.ld.optimization.malloc_page_size" useByScannerDiscovery="false" value="com.atollic.truestudio.ld.optimization.malloc_page_size.128" valueType="enumerated"/>
 								<inputType id="com.atollic.truestudio.ld.input.1875299018" name="Input" superClass="com.atollic.truestudio.ld.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>

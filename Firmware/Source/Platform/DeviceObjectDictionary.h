@@ -2,8 +2,6 @@
 #define __DEV_OBJ_DIC_H
 
 // Команды
-#define ACT_ENABLE_POWER				1	// Переход в состояние ожидания
-#define ACT_DISABLE_POWER				2	// Отключение блока
 #define ACT_CLR_FAULT					3	// Очистка всех fault
 #define ACT_CLR_WARNING					4	// Очистка всех warning
 
@@ -20,6 +18,8 @@
 #define ACT_START_PROCESS				100	// Старт измерения
 #define ACT_STOP_PROCESS				101	// Стоп измерения
 
+#define ACT_START_CELL_CAL				150	// Качибровка ячеек DisOpAmp
+
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
 #define ACT_RESET_TO_DEFAULT			202	// Сброс DataTable в состояние по умолчанию
@@ -30,13 +30,11 @@
 // Регистры
 // Сохраняемые регистры
 #define REG_POWER_ON_TIMEOUT			0	// Таймаут ожидания готовности блоков питания
-#define REG_PULSE_WIDTH					1	// Длительность импульса (мкс)
-#define REG_BETWEEN_PULSES_DELAY		2	// Длительность паузы между импульсами (мс)
-#define REG_VOLATGE_RATE				3	// Скорость нарастания напряжения (х10 В/мс)
-#define REG_TEST_TIME					4	// Время прикладывания напряжения после выхода на уставку (мс)
-#define REG_REGULATOR_ALOWED_ERR		5	// Допустимая ошибка регулирования (% * 10)
-#define REG_MUTE_FOLLOWING_ERR			6	// Выключить слежение за ошибкой DF_FOLOWING_ERROR
-#define REG_FOLLOWING_ERR_CNT_NUM		7	// Значение счетчика FollowingError, при котором выставляется ошибка DF_FOLLOWING_ERR
+#define REG_PULSE_WIDTH					1	// Длительность импульса (мс)
+#define REG_VOLATGE_RATE				2	// Скорость нарастания напряжения (х10 В/мс)
+#define REG_REGULATOR_ALOWED_ERR		3	// Допустимая ошибка регулирования (% * 10)
+#define REG_MUTE_FOLLOWING_ERR			4	// Выключить слежение за ошибкой DF_FOLOWING_ERROR
+#define REG_FOLLOWING_ERR_CNT_NUM		5	// Значение счетчика FollowingError, при котором выставляется ошибка DF_FOLLOWING_ERR
 // 8 - 19
 #define REG_DAC_V_CELL0_P2				20	// Ячейка 0 - Коэффициент точной подстройки Р2 x1e6
 #define REG_DAC_V_CELL0_P1				21	// Ячейка 0 - Коэффициент точной подстройки Р1 x1000

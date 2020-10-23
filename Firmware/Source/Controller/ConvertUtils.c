@@ -109,7 +109,7 @@ void CU_LoadConvertParams()
 	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].P2 = (float)(Int16S)DataTable[REG_DAC_V_CELL0_P2] / 1e6;
 	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].P1 = (float)DataTable[REG_DAC_V_CELL0_P1] / 1000;
 	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].P0 = (Int16S)DataTable[REG_DAC_V_CELL0_P0];
-	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].K = DataTable[REG_DAC_V_CELL0_K];
+	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].K = (float)DataTable[REG_DAC_V_CELL0_K]/1000;
 	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].B = (Int16S)DataTable[REG_DAC_V_CELL0_B];
 
 	MeasureVParams.P2 = (float)(Int16S)DataTable[REG_ADC_VOLTAGE_P2] / 1e6;
@@ -123,7 +123,7 @@ void CU_LoadConvertParams()
 		DisOpAmpVParams[i].P2 = 0;
 		DisOpAmpVParams[i].P1 = 1;
 		DisOpAmpVParams[i].P0 = 0;
-		DisOpAmpVParams[i].K = DataTable[REG_DAC_V_CELL1_K + i - 1];
+		DisOpAmpVParams[i].K = (float)DataTable[REG_DAC_V_CELL1_K + i - 1] / 1000;
 		DisOpAmpVParams[i].B = 0;
 	}
 
@@ -133,7 +133,7 @@ void CU_LoadConvertParams()
 		DisOpAmpIParams[i].P2 = (float)(Int16S)DataTable[REG_DAC_I_RANGE0_P2 + i * 5] / 1e6;
 		DisOpAmpIParams[i].P1 = (float)DataTable[REG_DAC_I_RANGE0_P1 + i * 5] / 1000;
 		DisOpAmpIParams[i].P0 = (Int16S)DataTable[REG_DAC_I_RANGE0_P0 + i * 5];
-		DisOpAmpIParams[i].K = DataTable[REG_DAC_I_RANGE0_K + i * 5];
+		DisOpAmpIParams[i].K = (float)DataTable[REG_DAC_I_RANGE0_K + i * 5] / 1000;
 		DisOpAmpIParams[i].B = (Int16S)DataTable[REG_DAC_I_RANGE0_B + i * 5];
 
 		MeasureIParams[i].P2 = (float)(Int16S)DataTable[REG_ADC_I_RANGE0_P2 + i * 5] / 1e6;

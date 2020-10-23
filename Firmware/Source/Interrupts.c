@@ -35,7 +35,9 @@ void TIM6_DAC_IRQHandler()
 {
 	if(TIM_StatusCheck(TIM6))
 	{
+		LL_SetStateExtPowerLed(false);
 		CONTROL_HighPriorityFastProcess();
+		LL_SetStateExtPowerLed(true);
 
 		TIM_StatusClear(TIM6);
 	}
@@ -48,8 +50,6 @@ void TIM7_IRQHandler()
 
 	if(TIM_StatusCheck(TIM7))
 	{
-		CONTROL_HighPrioritySlowProcess();
-
 		CONTROL_TimeCounter++;
 		if(++LED_BlinkTimeCounter > TIME_LED_BLINK)
 		{

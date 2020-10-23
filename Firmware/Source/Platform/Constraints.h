@@ -34,21 +34,13 @@
 #define REGULATOR_KI_MAX			INT16U_MAX
 #define REGULATOR_KI_DEF			0
 //
-#define PULSE_WIDTH_MIN				1000		// (мкс)
-#define PULSE_WIDTH_MAX				20000		// (мкс)
-#define PULSE_WIDTH_DEF				10000		// (мкс)
+#define PULSE_WIDTH_MIN				1			// (мс)
+#define PULSE_WIDTH_MAX				200			// (мс)
+#define PULSE_WIDTH_DEF				100			// (мс)
 //
-#define BETWEN_PULSES_DELAY_MIN		10			// (мс)
-#define BETWEN_PULSES_DELAY_MAX		100			// (мс)
-#define BETWEN_PULSES_DELAY_DEF		10			// (мс)
-//
-#define VOLTAGE_RATE_MIN			4			// (х10 В/мс)
+#define VOLTAGE_RATE_MIN			100			// (х10 В/мс)
 #define VOLTAGE_RATE_MAX			8000		// (х10 В/мс)
-#define VOLTAGE_RATE_DEF			40			// (х10 В/мс)
-//
-#define TEST_TIME_MIN				1			// (мс)
-#define TEST_TIME_MAX				1000		// (мс)
-#define TEST_TIME_DEF				10			// (мс)
+#define VOLTAGE_RATE_DEF			1500		// (х10 В/мс)
 //
 #define ALOWED_ERROR_MIN			0			// (% * 10)
 #define ALOWED_ERROR_MAX			1000		// (% * 10)

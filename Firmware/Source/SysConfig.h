@@ -20,7 +20,7 @@
 
 // Timers
 #define TIMER7_uS						1000		// в мкс
-#define TIMER6_uS						75			// в мкс
+#define TIMER6_uS						150			// в мкс
 // ----------------------------------------------
 
 // CAN
@@ -29,7 +29,7 @@
 
 // SPI
 #define SPI1_BAUDRATE_BITS				0x1			// Биты задания битрейта SPI
-#define SPI1_LSB_FIRST					true		// Передача младшим битов вперед
+#define SPI1_LSB_FIRST					false		// Передача младшим битов вперед
 // ----------------------------------------------
 
 // ADC
