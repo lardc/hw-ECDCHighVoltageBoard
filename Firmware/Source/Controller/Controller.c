@@ -100,6 +100,31 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 	
 	switch (ActionID)
 	{
+		case ACT_ENABLE_POWER:
+			{
+				if(CONTROL_State == DS_None)
+				{
+					CONTROL_SetDeviceState(DS_InProcess, SS_PowerOn);
+				}
+				else
+				{
+					if(CONTROL_State == DS_InProcess)
+						*pUserError = ERR_DEVICE_NOT_READY;
+				}
+				break;
+			}
+
+		case ACT_DISABLE_POWER:
+			if(CONTROL_State == DS_Ready)
+			{
+				LOGIC_StopProcess();
+				CONTROL_SetDeviceState(DS_None, SS_None);
+			}
+			else
+				if(CONTROL_State != DS_None)
+					*pUserError = ERR_OPERATION_BLOCKED;
+			break;
+
 		case ACT_START_PROCESS:
 			if (CONTROL_State == DS_Ready)
 			{
