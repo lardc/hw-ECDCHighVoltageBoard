@@ -101,18 +101,14 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 	switch (ActionID)
 	{
 		case ACT_ENABLE_POWER:
+			if(CONTROL_State == DS_None)
+				CONTROL_SetDeviceState(DS_InProcess, SS_PowerOn);
+			else
 			{
-				if(CONTROL_State == DS_None)
-				{
-					CONTROL_SetDeviceState(DS_InProcess, SS_PowerOn);
-				}
-				else
-				{
-					if(CONTROL_State == DS_InProcess)
-						*pUserError = ERR_DEVICE_NOT_READY;
-				}
-				break;
+				if(CONTROL_State == DS_InProcess)
+					*pUserError = ERR_DEVICE_NOT_READY;
 			}
+			break;
 
 		case ACT_DISABLE_POWER:
 			if(CONTROL_State == DS_Ready)
@@ -127,10 +123,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 		case ACT_START_PROCESS:
 			if (CONTROL_State == DS_Ready)
-			{
-				CONTROL_SetDeviceState(DS_InProcess);
-				CONTROL_StartProcess();
-			}
+				CONTROL_SetDeviceState(DS_InProcess, SS_PowerPrepare);
 			else
 				if (CONTROL_State == DS_InProcess)
 					*pUserError = ERR_OPERATION_BLOCKED;
@@ -142,7 +135,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			if (CONTROL_State == DS_InProcess)
 			{
 				LOGIC_StopProcess();
-				CONTROL_SetDeviceState(DS_Ready);
+				CONTROL_SetDeviceState(DS_Ready, SS_None);
 			}
 			else
 				*pUserError = ERR_OPERATION_BLOCKED;
@@ -166,7 +159,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 		case ACT_CLR_FAULT:
 			if (CONTROL_State == DS_Fault)
 			{
-				CONTROL_SetDeviceState(DS_None);
+				CONTROL_SetDeviceState(DS_None, SS_None);
 				DataTable[REG_FAULT_REASON] = DF_NONE;
 			}
 			break;
@@ -199,6 +192,7 @@ void CONTROL_PowerPrepareProcess()
 
 			case SS_PowerPrepare:
 				CONTROL_SetDeviceState(DS_InProcess, SS_Pulse);
+				CONTROL_StartProcess();
 				break;
 
 			default:
@@ -248,13 +242,13 @@ void CONTROL_StopProcess(bool ExcessCurrent, Int16U Fault)
 	{
 		DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
 		DataTable[REG_PROBLEM] = PROBLEM_SHORT_CICUIT;
-		CONTROL_SetDeviceState(DS_Ready);
+		CONTROL_SetDeviceState(DS_Ready, SS_None);
 	}
 	else if(ExcessCurrent)
 	{
 		DataTable[REG_OP_RESULT] = OPRESULT_OK;
 		DataTable[REG_PROBLEM] = PROBLEM_CURRENT_CUTOFF;
-		CONTROL_SetDeviceState(DS_Ready);
+		CONTROL_SetDeviceState(DS_Ready, SS_None);
 	}
 	else if(Fault == DF_FOLOWING_ERROR)
 	{
@@ -264,7 +258,7 @@ void CONTROL_StopProcess(bool ExcessCurrent, Int16U Fault)
 	else
 	{
 		DataTable[REG_OP_RESULT] = OPRESULT_OK;
-		CONTROL_SetDeviceState(DS_Ready);
+		CONTROL_SetDeviceState(DS_Ready, SS_None);
 	}
 }
 //-----------------------------------------------
