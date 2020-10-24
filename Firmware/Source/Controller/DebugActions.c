@@ -100,9 +100,9 @@ void DBGACT_SetCurrentRange(uint16_t Range)
 }
 //-----------------------------
 
-bool DBGACT_ReadStatePowerSupplies()
+void DBGACT_PowerSupplyEnable(bool State)
 {
-	return LL_ArePowerSuppliesReady();
+	LL_PowerSupplyEnable(State);
 }
 //-----------------------------
 

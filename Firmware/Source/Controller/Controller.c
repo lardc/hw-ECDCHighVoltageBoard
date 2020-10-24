@@ -21,6 +21,7 @@ typedef void (*FUNC_AsyncDelegate)();
 // Variables
 //
 volatile DeviceState CONTROL_State = DS_None;
+volatile DeviceSubState CONTROL_SubState = SS_None;
 static Boolean CycleActive = false;
 //
 volatile Int64U CONTROL_TimeCounter = 0;
@@ -33,12 +34,12 @@ volatile MeasureSample SampleParams;
 /// Forward functions
 //
 static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError);
-void CONTROL_SetDeviceState(DeviceState NewState);
+void CONTROL_SetDeviceState(DeviceState NewState, DeviceSubState NewSubState);
 void CONTROL_SwitchToFault(Int16U Reason);
 void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
-void CONTROL_PowerMonitor();
+void CONTROL_PowerPrepareProcess();
 void CONTROL_StopProcess(bool ExcessCurrent, Int16U Fault);
 void CONTROL_StartProcess();
 
@@ -79,14 +80,14 @@ void CONTROL_ResetToDefaultState()
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
 	
-	CONTROL_SetDeviceState(DS_None);
+	CONTROL_SetDeviceState(DS_None, SS_None);
 }
 
 //------------------------------------------
 
 void CONTROL_Idle()
 {
-	CONTROL_PowerMonitor();
+	CONTROL_PowerPrepareProcess();
 
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();
@@ -157,20 +158,28 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 }
 //-----------------------------------------------
 
-void CONTROL_PowerMonitor()
+void CONTROL_PowerPrepareProcess()
 {
-	Int16U PowerState;
-
-	PowerState = LOGIC_PowerMonitor();
-
-	if(PowerState)
+	if((CONTROL_SubState == SS_PowerOn) || (CONTROL_SubState == SS_PowerPrepare))
 	{
-		LOGIC_StopProcess();
-		CONTROL_SwitchToFault(PowerState);
+		LL_PowerSupplyEnable(true);
+		CONTROL_DelayMs(DataTable[REG_PS_ACTIVITY_TIME]);
+		LL_PowerSupplyEnable(true);
+
+		switch(CONTROL_SubState)
+		{
+			case SS_PowerOn:
+				CONTROL_SetDeviceState(DS_Ready, SS_None);
+				break;
+
+			case SS_PowerPrepare:
+				CONTROL_SetDeviceState(DS_InProcess, SS_Pulse);
+				break;
+
+			default:
+				break;
+		}
 	}
-	else
-		if(CONTROL_State == DS_None)
-			CONTROL_SetDeviceState(DS_Ready);
 }
 //-----------------------------------------------
 
@@ -242,9 +251,10 @@ void CONTROL_SwitchToFault(Int16U Reason)
 }
 //------------------------------------------
 
-void CONTROL_SetDeviceState(DeviceState NewState)
+void CONTROL_SetDeviceState(DeviceState NewState, DeviceSubState NewSubState)
 {
 	CONTROL_State = NewState;
+	CONTROL_SubState = NewSubState;
 	DataTable[REG_DEV_STATE] = NewState;
 }
 //------------------------------------------

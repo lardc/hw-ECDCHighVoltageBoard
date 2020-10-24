@@ -154,25 +154,6 @@ void LOGIC_StopProcess()
 }
 //-----------------------------
 
-Int16U LOGIC_PowerMonitor()
-{
-	if(LOGIC_PowerOnCounter == 0)
-		LOGIC_PowerOnCounter = CONTROL_TimeCounter + DataTable[REG_POWER_ON_TIMEOUT];
-	else
-	{
-		if(CONTROL_TimeCounter >= LOGIC_PowerOnCounter)
-		{
-			if(!LL_ArePowerSuppliesReady())
-				return DF_POWER_SUPPLY;
-			else
-				LOGIC_PowerOnCounter = 0;
-		}
-	}
-
-	return DF_NONE;
-}
-//-----------------------------
-
 void LOGIC_SetCurrentCutOff(float Current)
 {
 	DISOPAMP_SetCurrentCutOff(Current);

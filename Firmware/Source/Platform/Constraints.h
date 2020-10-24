@@ -10,9 +10,9 @@
 #define NO		0
 #define YES		1
 
-#define POWER_ON_TIMEOUT_MIN		0			// мс
-#define POWER_ON_TIMEOUT_MAX		10000		// мс
-#define POWER_ON_TIMEOUT_DEF		5000		// мс
+#define PS_ACTIVITY_TIME_MIN		100			// мс
+#define PS_ACTIVITY_TIME_MAX		10000		// мс
+#define PS_ACTIVITY_TIME_DEF		1500		// мс
 //
 #define COEF_P2_MIN					0
 #define COEF_P2_MAX					INT16U_MAX

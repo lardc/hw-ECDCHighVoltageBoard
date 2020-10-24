@@ -19,6 +19,7 @@ void INITCFG_ConfigIO()
 	RCC_GPIO_Clk_EN(PORTB);
 	
 	// Выходы
+	GPIO_InitPushPullOutput(GPIO_PS_EN);
 	GPIO_InitPushPullOutput(GPIO_LDAC);
 	GPIO_InitPushPullOutput(GPIO_EXT_LED1);
 	GPIO_InitPushPullOutput(GPIO_EXT_LED2);

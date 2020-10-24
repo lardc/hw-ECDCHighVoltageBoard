@@ -62,9 +62,9 @@ bool LL_GetStateLineSync2()
 }
 //-----------------------------
 
-bool LL_ArePowerSuppliesReady()
+void LL_PowerSupplyEnable(bool State)
 {
-	return !GPIO_GetState(GPIO_PS_STATES);
+	GPIO_SetState(GPIO_PS_EN, State);
 }
 //-----------------------------
 

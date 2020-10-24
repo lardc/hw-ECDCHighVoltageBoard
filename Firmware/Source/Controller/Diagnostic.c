@@ -48,9 +48,9 @@ bool DIAG_HandleDiagnosticAction(uint16_t ActionID, uint16_t *pUserError)
 			}
 			break;
 
-		case ACT_DBG_ARE_PS_STATE:
+		case ACT_DBG_POWER_SUPPLY_EN:
 			{
-				DataTable[REG_DBG] = DBGACT_ReadStatePowerSupplies();
+				DBGACT_PowerSupplyEnable(DataTable[REG_DBG]);
 			}
 			break;
 

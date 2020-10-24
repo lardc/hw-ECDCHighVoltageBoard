@@ -14,7 +14,7 @@ typedef struct __DisOpAmpConvertParams
 	float P2;
 	float P1;
 	Int16S P0;
-	Int16U K;
+	float K;
 	Int16S B;
 }DisOpAmpConvertParams;
 
@@ -23,7 +23,7 @@ typedef struct __MeasurementConvertParams
 	float P2;
 	float P1;
 	Int16S P0;
-	Int16U K;
+	float K;
 	Int16S B;
 }MeasurementConvertParams;
 
@@ -109,7 +109,7 @@ void CU_LoadConvertParams()
 	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].P2 = (float)(Int16S)DataTable[REG_DAC_V_CELL0_P2] / 1e6;
 	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].P1 = (float)DataTable[REG_DAC_V_CELL0_P1] / 1000;
 	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].P0 = (Int16S)DataTable[REG_DAC_V_CELL0_P0];
-	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].K = (float)DataTable[REG_DAC_V_CELL0_K]/1000;
+	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].K = (float)DataTable[REG_DAC_V_CELL0_K] / 1000;
 	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].B = (Int16S)DataTable[REG_DAC_V_CELL0_B];
 
 	MeasureVParams.P2 = (float)(Int16S)DataTable[REG_ADC_VOLTAGE_P2] / 1e6;

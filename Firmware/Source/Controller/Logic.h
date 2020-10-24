@@ -10,7 +10,6 @@ extern float CurrentCutOff;
 
 // Functions
 bool LOGIC_RegulatorCycle(float Voltage, Int16U *Fault);
-Int16U LOGIC_PowerMonitor();
 void LOGIC_StopProcess();
 void LOGIC_StartPrepare();
 bool LOGIC_CheckExcessCurrentCutOff(float Current);

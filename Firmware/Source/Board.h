@@ -34,11 +34,11 @@ GPIO_PortPinSettingMacro GPIO_CS_SYNC5			= {GPIOB, Pin_10};
 GPIO_PortPinSettingMacro GPIO_CS_SYNC6			= {GPIOA, Pin_1};
 GPIO_PortPinSettingMacro GPIO_CS_SYNC7			= {GPIOA, Pin_2};
 GPIO_PortPinSettingMacro GPIO_CS_SYNC8			= {GPIOA, Pin_3};
+GPIO_PortPinSettingMacro GPIO_PS_EN				= {GPIOB, Pin_7};
 
 // Определения для входных портов
 GPIO_PortPinSettingMacro GPIO_SYNC1_IN			= {GPIOB, Pin_4};
 GPIO_PortPinSettingMacro GPIO_SYNC2_IN			= {GPIOB, Pin_5};
-GPIO_PortPinSettingMacro GPIO_PS_STATES			= {GPIOB, Pin_7};
 
 // Определения для портов альтернативных функций
 GPIO_PortPinSettingMacro GPIO_ALT_CAN_RX		= {GPIOA, Pin_11};

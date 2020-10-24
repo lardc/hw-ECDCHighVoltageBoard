@@ -11,7 +11,7 @@
 #define ACT_DBG_IS_STATE_SYNC_2			53	// Состояние линии SYNC_2
 #define ACT_DBG_PULSE_EXT_LEDS			54	// Однократное зажигание внешних светодиодов
 #define ACT_DBG_SET_CURRENT_RANGE		55	// Установка диапазона по току (0, 1, 2)
-#define ACT_DBG_ARE_PS_STATE			56	// Проверка активности источников питания на 500В
+#define ACT_DBG_POWER_SUPPLY_EN			56	// Проверка активности источников питания на 500В
 #define ACT_DBG_SET_CURRENT_CUTOFF		57	// Установка отсечки по току на всех ячейках DiscreteOpAmp
 #define ACT_DBG_SET_VOLTAGE_CELL		58	// Установка напряжения на заданной ячейке
 
@@ -29,7 +29,7 @@
 
 // Регистры
 // Сохраняемые регистры
-#define REG_POWER_ON_TIMEOUT			0	// Таймаут ожидания готовности блоков питания
+#define REG_PS_ACTIVITY_TIME			0	// Время работы блоков питания для заряда конденсаторов (мс)
 #define REG_PULSE_WIDTH					1	// Длительность импульса (мс)
 #define REG_VOLATGE_RATE				2	// Скорость нарастания напряжения (х10 В/мс)
 #define REG_REGULATOR_ALOWED_ERR		3	// Допустимая ошибка регулирования (% * 10)
