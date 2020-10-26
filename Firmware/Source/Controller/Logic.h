@@ -15,5 +15,6 @@ void LOGIC_StartPrepare();
 bool LOGIC_CheckExcessCurrentCutOff(float Current);
 void LOGIC_LoggingProcess(volatile MeasureSample* Sample);
 void LOGIC_SaveMeasuredData(volatile MeasureSample* Sample);
+void LOGIC_CalibrationPrepare();
 
 #endif /* LOGIC_H_ */

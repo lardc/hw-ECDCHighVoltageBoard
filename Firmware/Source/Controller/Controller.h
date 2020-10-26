@@ -22,7 +22,7 @@ typedef enum __DeviceSubState
 	SS_None = 0,
 	SS_PowerOn = 1,
 	SS_PowerPrepare = 2,
-	SS_Pulse = 3,
+	SS_Pulse = 3
 } DeviceSubState;
 
 // Variables

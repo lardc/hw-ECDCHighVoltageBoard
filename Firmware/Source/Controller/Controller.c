@@ -123,7 +123,10 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 		case ACT_START_PROCESS:
 			if (CONTROL_State == DS_Ready)
+			{
+				LOGIC_StartPrepare();
 				CONTROL_SetDeviceState(DS_InProcess, SS_PowerPrepare);
+			}
 			else
 				if (CONTROL_State == DS_InProcess)
 					*pUserError = ERR_OPERATION_BLOCKED;
@@ -145,11 +148,8 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			{
 				if (CONTROL_State == DS_Ready)
 				{
-					LOGIC_StartPrepare();
-
-					CELLCAL_SetVoltageCell((float)DataTable[REG_VOLTAGE_SETPOINT] / 10, DataTable[REG_DBG_CELL_NUM]);
-					CONTROL_DelayMs(CELLCAL_PULSE_WIDTH);
-					CELLCAL_SetVoltageCell(0, DataTable[REG_DBG_CELL_NUM]);
+					LOGIC_CalibrationPrepare();
+					CONTROL_SetDeviceState(DS_InProcess, SS_PowerPrepare);
 				}
 				else
 					*pUserError = ERR_OPERATION_BLOCKED;
@@ -182,7 +182,9 @@ void CONTROL_PowerPrepareProcess()
 	{
 		LL_PowerSupplyEnable(true);
 		CONTROL_DelayMs(DataTable[REG_PS_ACTIVITY_TIME]);
-		LL_PowerSupplyEnable(true);
+		LL_PowerSupplyEnable(false);
+
+		CONTROL_DelayMs(50);
 
 		switch(CONTROL_SubState)
 		{
@@ -205,9 +207,9 @@ void CONTROL_PowerPrepareProcess()
 void CONTROL_HighPriorityFastProcess()
 {
 	Int16U Fault;
-	bool ExcessCurrent;
+	bool ExcessCurrent = false;
 
-	if(CONTROL_State == DS_InProcess)
+	if(CONTROL_SubState == SS_Pulse)
 	{
 		MEASURE_SampleParams(&SampleParams);
 
@@ -228,7 +230,6 @@ void CONTROL_StartProcess()
 {
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
-	LOGIC_StartPrepare();
 
 	TIM_Start(TIM6);
 }
@@ -265,7 +266,7 @@ void CONTROL_StopProcess(bool ExcessCurrent, Int16U Fault)
 
 void CONTROL_SwitchToFault(Int16U Reason)
 {
-	CONTROL_SetDeviceState(DS_Fault);
+	CONTROL_SetDeviceState(DS_Fault, SS_None);
 	DataTable[REG_FAULT_REASON] = Reason;
 }
 //------------------------------------------

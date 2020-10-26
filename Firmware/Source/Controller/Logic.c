@@ -29,6 +29,15 @@ void LOGIC_StartPrepare()
 }
 //-----------------------------
 
+void LOGIC_CalibrationPrepare()
+{
+	LOGIC_StartPrepare();
+	LOGIC_SetCurrentCutOff(DISOPAMP_CURRENT_THRESHOLD_RANGE_3);
+	RegulatorPcoef = 0;
+	RegulatorIcoef = 0;
+}
+//-----------------------------
+
 void LOGIC_CacheVariables()
 {
 	VoltageSetpoint = (float)DataTable[REG_VOLTAGE_SETPOINT] / 10;
