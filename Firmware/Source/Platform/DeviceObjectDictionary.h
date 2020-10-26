@@ -37,6 +37,7 @@
 #define REG_REGULATOR_ALOWED_ERR		3	// Допустимая ошибка регулирования (% * 10)
 #define REG_MUTE_FOLLOWING_ERR			4	// Выключить слежение за ошибкой DF_FOLOWING_ERROR
 #define REG_FOLLOWING_ERR_CNT_NUM		5	// Значение счетчика FollowingError, при котором выставляется ошибка DF_FOLLOWING_ERR
+#define REG_SCOPE_STEP					6	// Сохранение измеренных данных с заданным шагом
 // 8 - 19
 #define REG_DAC_V_CELL0_P2				20	// Ячейка 0 - Коэффициент точной подстройки Р2 x1e6
 #define REG_DAC_V_CELL0_P1				21	// Ячейка 0 - Коэффициент точной подстройки Р1 x1000
@@ -116,7 +117,6 @@
 // Несохраняемы регистры чтения-записи
 #define REG_DBG							150	// Регистр режима Отладки 1
 #define REG_DBG_CELL_NUM				151	// Регистр режима Отладки 2
-#define REG_SCOPE_STEP					152	// Сохранение измеренных данных с заданным шагом
 
 // Регистры только чтение
 #define REG_DEV_STATE					192	// Регистр состояния

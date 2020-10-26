@@ -70,33 +70,33 @@ void LL_PowerSupplyEnable(bool State)
 
 void LL_SetCurrentRange0()
 {
-	GPIO_SetState(GPIO_R0_M, true);
-	GPIO_SetState(GPIO_R1_M, true);
-	GPIO_SetState(GPIO_R2_M, true);
+	GPIO_SetState(GPIO_R0_M, false);
+	GPIO_SetState(GPIO_R1_M, false);
+	GPIO_SetState(GPIO_R2_M, false);
 }
 //-----------------------------
 
 void LL_SetCurrentRange1()
 {
-	GPIO_SetState(GPIO_R0_M, false);
-	GPIO_SetState(GPIO_R1_M, true);
-	GPIO_SetState(GPIO_R2_M, true);
+	GPIO_SetState(GPIO_R0_M, true);
+	GPIO_SetState(GPIO_R1_M, false);
+	GPIO_SetState(GPIO_R2_M, false);
 }
 //-----------------------------
 
 void LL_SetCurrentRange2()
 {
-	GPIO_SetState(GPIO_R0_M, true);
-	GPIO_SetState(GPIO_R1_M, false);
-	GPIO_SetState(GPIO_R2_M, true);
+	GPIO_SetState(GPIO_R0_M, false);
+	GPIO_SetState(GPIO_R1_M, true);
+	GPIO_SetState(GPIO_R2_M, false);
 }
 //-----------------------------
 
 void LL_SetCurrentRange3()
 {
-	GPIO_SetState(GPIO_R0_M, true);
-	GPIO_SetState(GPIO_R1_M, true);
-	GPIO_SetState(GPIO_R2_M, false);
+	GPIO_SetState(GPIO_R0_M, false);
+	GPIO_SetState(GPIO_R1_M, false);
+	GPIO_SetState(GPIO_R2_M, true);
 }
 //-----------------------------
 

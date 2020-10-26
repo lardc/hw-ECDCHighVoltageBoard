@@ -14,7 +14,7 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 		{ALOWED_ERROR_MIN, ALOWED_ERROR_MAX, ALOWED_ERROR_DEF},						// 3
 		{NO, YES, NO},																// 4
 		{0, INT16U_MAX, 0},															// 5
-		{0, 0, 0},																	// 6
+		{0, INT16U_MAX, 0},															// 6
 		{0, 0, 0},																	// 7
 		{0, 0, 0},																	// 8
 		{0, 0, 0},																	// 9
