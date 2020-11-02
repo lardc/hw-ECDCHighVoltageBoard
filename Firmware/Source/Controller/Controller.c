@@ -217,8 +217,8 @@ void CONTROL_HighPriorityFastProcess()
 
 		if(LOGIC_RegulatorCycle(SampleParams.Voltage, &Fault) || ExcessCurrent)
 		{
-			LOGIC_SaveMeasuredData(&SampleParams);
 			CONTROL_StopProcess(ExcessCurrent, Fault);
+			LOGIC_SaveMeasuredData(&SampleParams);
 		}
 
 		LOGIC_LoggingProcess(&SampleParams);

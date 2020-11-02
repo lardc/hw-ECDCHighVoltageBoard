@@ -105,7 +105,7 @@ void LOGIC_SaveMeasuredData(volatile MeasureSample* Sample)
 	Int32U Current;
 
 	DataTable[REG_RESULT_VOLTAGE] = (Int16U)(Sample->Voltage * 10);
-	Current = (Int16U)(Sample->Current * 10);
+	Current = (Int32U)(Sample->Current * 10);
 	DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
 	DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
 }
@@ -171,7 +171,7 @@ void LOGIC_SetCurrentCutOff(float Current)
 
 bool LOGIC_CheckExcessCurrentCutOff(float Current)
 {
-	if(Current >= CurrentCutOff)
+	if(Current >= CurrentCutOff * 0.9)
 		return true;
 	else
 		return false;
