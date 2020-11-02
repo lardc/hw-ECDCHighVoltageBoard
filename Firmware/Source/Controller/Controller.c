@@ -13,6 +13,7 @@
 #include "Logic.h"
 #include "BCCIxParams.h"
 #include "CellCalibration.h"
+#include "DiscreteOpAmp.h"
 
 // Types
 //
@@ -63,9 +64,9 @@ void CONTROL_Init()
 	DEVPROFILE_InitEPService(EPIndexes, EPSized, EPCounters, EPDatas);
 	// —брос значений
 	DEVPROFILE_ResetControlSection();
-	CONTROL_ResetToDefaultState();
 
-	LL_SetStateExtPowerLed(true);
+
+	CONTROL_ResetToDefaultState();
 }
 //------------------------------------------
 
@@ -80,6 +81,12 @@ void CONTROL_ResetToDefaultState()
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
 	
+	LL_SetStateExtPowerLed(true);
+	LL_SetStateExtMsrLed(false);
+	LL_PowerSupplyEnable(false);
+
+	DISOPAMP_SetVoltage(0);
+
 	CONTROL_SetDeviceState(DS_None, SS_None);
 }
 
