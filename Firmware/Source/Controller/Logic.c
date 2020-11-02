@@ -6,6 +6,9 @@
 #include "DiscreteOpAmp.h"
 #include "LowLevel.h"
 
+// Definitions
+#define CURRENT_CUTOFF_LEVEL_SHIFT		1.1
+
 // Variables
 float VoltageTarget, VoltageSetpoint, CurrentCutOff, RegulatorPcoef, RegulatorIcoef, RegulatorAlowedError, dV;
 float  Qi;
@@ -165,13 +168,14 @@ void LOGIC_StopProcess()
 
 void LOGIC_SetCurrentCutOff(float Current)
 {
-	DISOPAMP_SetCurrentCutOff(Current);
+	// Аппаратное ограничение тока выставляется выше заданного
+	DISOPAMP_SetCurrentCutOff(Current * CURRENT_CUTOFF_LEVEL_SHIFT);
 }
 //-----------------------------
 
 bool LOGIC_CheckExcessCurrentCutOff(float Current)
 {
-	if(Current >= CurrentCutOff * 0.9)
+	if(Current >= CurrentCutOff)
 		return true;
 	else
 		return false;

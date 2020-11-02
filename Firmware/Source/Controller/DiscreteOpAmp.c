@@ -50,18 +50,18 @@ void DISOPAMP_SetVoltage(float Voltage)
 {
 	Int16U CellCounter = 0;
 
-	while(Voltage > DISOPAMP_CELL_VOLATGE_MAX)
+	while(Voltage >= DISOPAMP_CELL_VOLATGE_MAX)
 	{
 		Voltage -= DISOPAMP_CELL_VOLATGE_MAX;
 		CellCounter++;
 	}
 
-	LL_WriteDACx(CU_VtoDAC(Voltage, DISOPAMP_POSITION_CELL0) | DAC_CHANNEL_B, DISOPAMP_POSITION_CELL0, 1, false);
-
-	if(CellCounter)
+	if(!CellCounter)
+		LL_WriteDACx(CU_VtoDAC(Voltage, DISOPAMP_POSITION_CELL0) | DAC_CHANNEL_B, DISOPAMP_POSITION_CELL0, 1, false);
+	else
 	{
-		for(int i = DISOPAMP_POSITION_CELL1; i <= CellCounter; i++)
-			LL_WriteDACx(CU_VtoDAC(DISOPAMP_CELL_VOLATGE_MAX, i) | DAC_CHANNEL_B, i, 1, false);
+		LL_WriteDACx(CU_VtoDAC(DISOPAMP_CELL_VOLATGE_MAX, DISOPAMP_POSITION_CELL0) | DAC_CHANNEL_B, DISOPAMP_POSITION_CELL0, CellCounter, false);
+		LL_WriteDACx(CU_VtoDAC(Voltage, DISOPAMP_POSITION_CELL0) | DAC_CHANNEL_B, DISOPAMP_POSITION_CELL0 + CellCounter, 1, false);
 	}
 
 	if(DISOPAMP_TOTAL_CELL - CellCounter - 1)
