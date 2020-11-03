@@ -9,7 +9,7 @@
 // Definitions
 #define CURRENT_CUTOFF_LEVEL_SHIFT		1.1
 //
-#define MAF_BUFFER_LENGTH				32
+#define MAF_BUFFER_LENGTH				8
 #define MAF_BUFFER_INDEX_MASK			MAF_BUFFER_LENGTH - 1
 
 // Variables
@@ -44,7 +44,7 @@ void LOGIC_StartPrepare()
 void LOGIC_CalibrationPrepare()
 {
 	LOGIC_StartPrepare();
-	LOGIC_SetCurrentCutOff(DISOPAMP_CURRENT_THRESHOLD_RANGE_3);
+	LOGIC_SetCurrentCutOff(DISOPAMP_CELL_CURRENT_MAX);
 	RegulatorPcoef = 0;
 	RegulatorIcoef = 0;
 }
@@ -112,12 +112,23 @@ bool LOGIC_RegulatorCycle(float Voltage, Int16U *Fault)
 }
 //-----------------------------
 
-void LOGIC_SaveMeasuredData()
+void LOGIC_SaveAveragedTestResult()
 {
 	Int32U Current;
 
 	DataTable[REG_RESULT_VOLTAGE] = (Int16U)(LOGIC_ExtractAveragedDatas(&RingBuffer_Voltage[0], MAF_BUFFER_LENGTH) * 10);
 	Current = LOGIC_ExtractAveragedDatas(&RingBuffer_Current[0], MAF_BUFFER_LENGTH) * 10;
+	DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
+	DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
+}
+//-----------------------------
+
+void LOGIC_SaveLastSampledTestResult(volatile MeasureSample* Sample)
+{
+	Int32U Current;
+
+	DataTable[REG_RESULT_VOLTAGE] = (Int16U)(Sample->Voltage * 10);
+	Current = (Int32U) (Sample->Current * 10);
 	DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
 	DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
 }

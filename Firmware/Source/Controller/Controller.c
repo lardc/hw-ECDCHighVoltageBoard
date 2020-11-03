@@ -225,7 +225,11 @@ void CONTROL_HighPriorityFastProcess()
 		if(LOGIC_RegulatorCycle(SampleParams.Voltage, &Fault) || ExcessCurrent)
 		{
 			CONTROL_StopProcess(ExcessCurrent, Fault);
-			LOGIC_SaveMeasuredData();
+
+			if(ExcessCurrent)
+				LOGIC_SaveLastSampledTestResult(&SampleParams);
+			else
+				LOGIC_SaveAveragedTestResult();
 		}
 
 		LOGIC_LoggingProcess(&SampleParams);
@@ -238,6 +242,8 @@ void CONTROL_StartProcess()
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
 
+	LL_SetStateLineSync2(true);
+
 	TIM_Start(TIM6);
 }
 //-----------------------------------------------
@@ -245,6 +251,8 @@ void CONTROL_StartProcess()
 void CONTROL_StopProcess(bool ExcessCurrent, Int16U Fault)
 {
 	LOGIC_StopProcess();
+
+	LL_SetStateLineSync2(false);
 
 	if(ExcessCurrent && (Fault == DF_FOLOWING_ERROR))
 	{
