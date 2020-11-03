@@ -214,7 +214,7 @@ void CONTROL_PowerPrepareProcess()
 void CONTROL_HighPriorityFastProcess()
 {
 	Int16U Fault;
-	bool ExcessCurrent = false;
+	bool ExcessCurrent, RegulatorWasFinishedProcess;
 
 	if(CONTROL_SubState == SS_Pulse)
 	{
@@ -222,7 +222,10 @@ void CONTROL_HighPriorityFastProcess()
 
 		ExcessCurrent = LOGIC_CheckExcessCurrentCutOff(SampleParams.Current);
 
-		if(LOGIC_RegulatorCycle(SampleParams.Voltage, &Fault) || ExcessCurrent)
+		if(!ExcessCurrent)
+			RegulatorWasFinishedProcess = LOGIC_RegulatorCycle(SampleParams.Voltage, &Fault);
+
+		if(RegulatorWasFinishedProcess || ExcessCurrent)
 		{
 			CONTROL_StopProcess(ExcessCurrent, Fault);
 
