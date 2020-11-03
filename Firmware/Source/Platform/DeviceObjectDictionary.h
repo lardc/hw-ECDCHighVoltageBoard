@@ -35,10 +35,13 @@
 #define REG_PULSE_WIDTH					1	// Длительность импульса (мс)
 #define REG_VOLATGE_RATE				2	// Скорость нарастания напряжения (х10 В/мс)
 #define REG_REGULATOR_ALOWED_ERR		3	// Допустимая ошибка регулирования (% * 10)
-#define REG_MUTE_FOLLOWING_ERR			4	// Выключить слежение за ошибкой DF_FOLOWING_ERROR
+// 4
 #define REG_FOLLOWING_ERR_CNT_NUM		5	// Значение счетчика FollowingError, при котором выставляется ошибка DF_FOLLOWING_ERR
 #define REG_SCOPE_STEP					6	// Сохранение измеренных данных с заданным шагом
-// 8 - 19
+// 7 - 9
+#define REG_MUTE_FOLLOWING_ERR			10	// Выключить слежение за ошибкой DF_FOLOWING_ERROR
+#define REG_MUTE_EXCESS_CURRENT			11	// Выключение слежение за отсечкой по току
+// 12 - 19
 #define REG_DAC_V_CELL0_P2				20	// Ячейка 0 - Коэффициент точной подстройки Р2 x1e6
 #define REG_DAC_V_CELL0_P1				21	// Ячейка 0 - Коэффициент точной подстройки Р1 x1000
 #define REG_DAC_V_CELL0_P0				22	// Ячейка 0 - Смещение точной подстройки Р0

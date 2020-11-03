@@ -220,7 +220,7 @@ void LOGIC_SetCurrentCutOff(float Current)
 
 bool LOGIC_CheckExcessCurrentCutOff(float Current)
 {
-	if(Current >= CurrentCutOff)
+	if(!DataTable[REG_MUTE_EXCESS_CURRENT] && (Current >= CurrentCutOff))
 		return true;
 	else
 		return false;
