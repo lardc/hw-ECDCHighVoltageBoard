@@ -22,4 +22,6 @@ extern Int16U MEASURE_ADC_CurrentRaw[ADC_DMA_BUFF_SIZE];
 float MEASURE_SampleVoltage();
 float MEASURE_SampleCurrent();
 void MEASURE_SampleParams(volatile MeasureSample* Sample);
+void MEASURE_DMABuffersClear();
+
 #endif /* MEASUREMENT_H_ */

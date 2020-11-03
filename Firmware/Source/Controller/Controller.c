@@ -241,6 +241,7 @@ void CONTROL_StartProcess()
 {
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
+	MEASURE_DMABuffersClear();
 
 	LL_SetStateLineSync2(true);
 

@@ -60,6 +60,16 @@ Int16U MEASURE_DMAExtractCurrent()
 }
 //-----------------------------------------------
 
+void MEASURE_DMABuffersClear()
+{
+	for(int i = 0; i < ADC_DMA_BUFF_SIZE; i++)
+	{
+		MEASURE_ADC_VoltageRaw[i] = 0;
+		MEASURE_ADC_CurrentRaw[i] = 0;
+	}
+}
+//-----------------------------------------------
+
 void MEASURE_StartNewSampling()
 {
 	DMA_TransferCompleteReset(DMA1, DMA_TRANSFER_COMPLETE);
