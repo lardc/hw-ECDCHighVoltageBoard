@@ -116,8 +116,8 @@ void LOGIC_SaveAveragedTestResult()
 {
 	Int32U Current;
 
-	DataTable[REG_RESULT_VOLTAGE] = (Int16U)(LOGIC_ExtractAveragedDatas(&RingBuffer_Voltage[0], MAF_BUFFER_LENGTH) * 10);
-	Current = LOGIC_ExtractAveragedDatas(&RingBuffer_Current[0], MAF_BUFFER_LENGTH) * 10;
+	DataTable[REG_RESULT_VOLTAGE] = (Int16U)LOGIC_ExtractAveragedDatas(&RingBuffer_Voltage[0], MAF_BUFFER_LENGTH);
+	Current = LOGIC_ExtractAveragedDatas(&RingBuffer_Current[0], MAF_BUFFER_LENGTH);
 	DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
 	DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
 }
@@ -149,8 +149,8 @@ void LOGIC_SaveToRingBuffer(volatile MeasureSample* Sample)
 {
 	static Int16U BufferIndex = 0;
 
-	RingBuffer_Current[BufferIndex] = (Int32U)(Sample->Current);
-	RingBuffer_Voltage[BufferIndex] = (Int32U)(Sample->Voltage);
+	RingBuffer_Current[BufferIndex] = (Int32U)(Sample->Current * 10);
+	RingBuffer_Voltage[BufferIndex] = (Int32U)(Sample->Voltage * 10);
 
 	BufferIndex++;
 	BufferIndex &= MAF_BUFFER_INDEX_MASK;
