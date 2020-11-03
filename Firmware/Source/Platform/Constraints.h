@@ -46,6 +46,10 @@
 #define ALOWED_ERROR_MAX			1000		// (% * 10)
 #define ALOWED_ERROR_DEF			30			// (% * 10)
 //
+#define HW_I_CUTOFF_K_MIN			0			// (%)
+#define HW_I_CUTOFF_K_MAX			30			// (%)
+#define HW_I_CUTOFF_K_DEF			10			// (%)
+//
 #define VOLTAGE_SETPOINT_MAX		40000		// (Â * 10)
 
 // Types

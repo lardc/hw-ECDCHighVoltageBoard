@@ -7,8 +7,6 @@
 #include "LowLevel.h"
 
 // Definitions
-#define CURRENT_CUTOFF_LEVEL_SHIFT		1.1
-//
 #define MAF_BUFFER_LENGTH				8
 #define MAF_BUFFER_INDEX_MASK			MAF_BUFFER_LENGTH - 1
 
@@ -214,7 +212,8 @@ void LOGIC_StopProcess()
 void LOGIC_SetCurrentCutOff(float Current)
 {
 	// Аппаратное ограничение тока выставляется выше заданного
-	DISOPAMP_SetCurrentCutOff(Current * CURRENT_CUTOFF_LEVEL_SHIFT);
+	Current = Current + Current * (float)DataTable[REG_I_CUTOFF_HW_LEVEL_K] / 100;
+	DISOPAMP_SetCurrentCutOff(Current);
 }
 //-----------------------------
 
