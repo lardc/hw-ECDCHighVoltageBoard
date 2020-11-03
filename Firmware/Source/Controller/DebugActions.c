@@ -29,27 +29,27 @@
 //
 void DBGACT_BlinkExtLeds()
 {
-	LL_SetStateExtPowerLed(TRUE);
-	LL_SetStateExtMsrLed(TRUE);
+	LL_SetStateExtPowerLed(true);
+	LL_SetStateExtMsrLed(true);
 	CONTROL_DelayMs(1000);
-	LL_SetStateExtPowerLed(FALSE);
-	LL_SetStateExtMsrLed(FALSE);
+	LL_SetStateExtPowerLed(false);
+	LL_SetStateExtMsrLed(false);
 }
 //-----------------------------
 
 void DBGACT_GenerateImpulseToLineSync1()
 {
-	LL_SetStateLineSync1(TRUE);
+	LL_SetStateLineSync1(true);
 	CONTROL_DelayMs(100);
-	LL_SetStateLineSync1(FALSE);
+	LL_SetStateLineSync1(false);
 }
 //-----------------------------
 
 void DBGACT_GenerateImpulseToLineSync2()
 {
-	LL_SetStateLineSync2(TRUE);
+	LL_SetStateLineSync2(true);
 	CONTROL_DelayMs(100);
-	LL_SetStateLineSync2(FALSE);
+	LL_SetStateLineSync2(false);
 }
 //-----------------------------
 
