@@ -40,7 +40,7 @@
 //
 #define VOLTAGE_RATE_MIN			100			// (х10 В/мс)
 #define VOLTAGE_RATE_MAX			8000		// (х10 В/мс)
-#define VOLTAGE_RATE_DEF			1500		// (х10 В/мс)
+#define VOLTAGE_RATE_DEF			400			// (х10 В/мс)
 //
 #define ALOWED_ERROR_MIN			0			// (% * 10)
 #define ALOWED_ERROR_MAX			1000		// (% * 10)

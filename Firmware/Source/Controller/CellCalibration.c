@@ -11,6 +11,6 @@
 // Functions
 void CELLCAL_SetVoltageCell(Int16U Voltage, Int16U CellNumber)
 {
-	LL_WriteDACx(CU_VtoDAC(Voltage, CellNumber) | DAC_CHANNEL_B, CellNumber, 1, true);
+	LL_WriteDACx(CU_VtoDAC(Voltage) | DAC_CHANNEL_B, CellNumber, 1, true);
 }
 

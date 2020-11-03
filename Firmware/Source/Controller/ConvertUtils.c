@@ -28,7 +28,7 @@ typedef struct __MeasurementConvertParams
 }MeasurementConvertParams;
 
 // Variables
-DisOpAmpConvertParams DisOpAmpVParams[DISOPAMP_TOTAL_CELL];
+DisOpAmpConvertParams DisOpAmpVParams;
 DisOpAmpConvertParams DisOpAmpIParams[DISOPAMP_CURRENT_RANGE_NUM];
 MeasurementConvertParams MeasureVParams;
 MeasurementConvertParams MeasureIParams[DISOPAMP_CURRENT_RANGE_NUM];
@@ -42,23 +42,20 @@ float CU_ADCtoX(Int16U Data, MeasurementConvertParams Coefficients);
 //
 Int16U CU_XtoDAC(float Value, DisOpAmpConvertParams Coefficients)
 {
-	float Temp;
+	Value = (Value + Coefficients.B) * Coefficients.K;
 
-	Temp = Value * Value * Coefficients.P2 + Value * Coefficients.P1 + Coefficients.P0;
-	Temp = (Temp + Coefficients.B) * Coefficients.K;
+	if(Value < 0)
+		Value = 0;
 
-	if(Temp < 0)
-		Temp = 0;
-
-	return (Int16U)Temp;
+	return (Int16U)Value;
 }
 //-----------------------------
 
-Int16U CU_VtoDAC(float Voltage, Int16U CellNumber)
+Int16U CU_VtoDAC(float Voltage)
 {
 	Int16U Temp;
 
-	Temp = CU_XtoDAC(Voltage, DisOpAmpVParams[CellNumber]);
+	Temp = CU_XtoDAC(Voltage, DisOpAmpVParams);
 
 	if (Temp > DAC_MAX_VAL)
 		return DAC_MAX_VAL;
@@ -106,26 +103,14 @@ float CU_ADCtoV(Int16U Data)
 void CU_LoadConvertParams()
 {
 	// Параметры преобразования напряжения
-	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].P2 = (float)(Int16S)DataTable[REG_DAC_V_CELL0_P2] / 1e6;
-	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].P1 = (float)DataTable[REG_DAC_V_CELL0_P1] / 1000;
-	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].P0 = (Int16S)DataTable[REG_DAC_V_CELL0_P0];
-	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].K = (float)DataTable[REG_DAC_V_CELL0_K] / 1000;
-	DisOpAmpVParams[DISOPAMP_POSITION_CELL0].B = (Int16S)DataTable[REG_DAC_V_CELL0_B];
+	DisOpAmpVParams.K = (float)DataTable[REG_DAC_V_CELL_K] / 1000;
+	DisOpAmpVParams.B = (Int16S)DataTable[REG_DAC_V_CELL_B];
 
 	MeasureVParams.P2 = (float)(Int16S)DataTable[REG_ADC_VOLTAGE_P2] / 1e6;
 	MeasureVParams.P1 = (float)DataTable[REG_ADC_VOLTAGE_P1] / 1000;
 	MeasureVParams.P0 = (Int16S)DataTable[REG_ADC_VOLTAGE_P0];
 	MeasureVParams.K = (float)DataTable[REG_ADC_VOLTAGE_K] / 1000;
 	MeasureVParams.B = (Int16S)DataTable[REG_ADC_VOLTAGE_B];
-
-	for(int i = DISOPAMP_POSITION_CELL1; i < DISOPAMP_TOTAL_CELL; i++)
-	{
-		DisOpAmpVParams[i].P2 = 0;
-		DisOpAmpVParams[i].P1 = 1;
-		DisOpAmpVParams[i].P0 = 0;
-		DisOpAmpVParams[i].K = (float)DataTable[REG_DAC_V_CELL1_K + i - 1] / 1000;
-		DisOpAmpVParams[i].B = 0;
-	}
 
 	// Параметры преобразования тока
 	for(int i = 0; i < DISOPAMP_CURRENT_RANGE_NUM; i++)
