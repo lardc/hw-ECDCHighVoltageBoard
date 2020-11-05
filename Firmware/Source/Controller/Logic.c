@@ -211,8 +211,6 @@ void LOGIC_StopProcess()
 
 void LOGIC_SetCurrentCutOff(float Current)
 {
-	// Аппаратное ограничение тока выставляется выше заданного
-	Current = Current + Current * (float)DataTable[REG_I_CUTOFF_HW_LEVEL_K] / 100;
 	DISOPAMP_SetCurrentCutOff(Current);
 }
 //-----------------------------

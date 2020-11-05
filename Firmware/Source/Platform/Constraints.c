@@ -12,7 +12,7 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 		{PULSE_WIDTH_MIN, PULSE_WIDTH_MAX, PULSE_WIDTH_DEF},						// 1
 		{VOLTAGE_RATE_MIN, VOLTAGE_RATE_MAX, VOLTAGE_RATE_DEF},						// 2
 		{ALOWED_ERROR_MIN, ALOWED_ERROR_MAX, ALOWED_ERROR_DEF},						// 3
-		{HW_I_CUTOFF_K_MIN, HW_I_CUTOFF_K_MAX, HW_I_CUTOFF_K_DEF},					// 4
+		{0, 0, 0},																	// 4
 		{0, INT16U_MAX, 0},															// 5
 		{0, INT16U_MAX, 0},															// 6
 		{0, 0, 0},																	// 7

@@ -35,7 +35,7 @@
 #define REG_PULSE_WIDTH					1	// Длительность импульса (мс)
 #define REG_VOLATGE_RATE				2	// Скорость нарастания напряжения (х10 В/мс)
 #define REG_REGULATOR_ALOWED_ERR		3	// Допустимая ошибка регулирования (% * 10)
-#define REG_I_CUTOFF_HW_LEVEL_K			4	// Коэффициент сдвига уровня аппаратного ограничения тока (%)
+// 4
 #define REG_FOLLOWING_ERR_CNT_NUM		5	// Значение счетчика FollowingError, при котором выставляется ошибка DF_FOLLOWING_ERR
 #define REG_SCOPE_STEP					6	// Сохранение измеренных данных с заданным шагом
 // 7 - 9
