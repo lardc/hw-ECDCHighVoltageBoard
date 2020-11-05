@@ -43,6 +43,7 @@ void CONTROL_ResetToDefaultState();
 void CONTROL_PowerPrepareProcess();
 void CONTROL_StopProcess(bool ExcessCurrent, Int16U Fault);
 void CONTROL_StartProcess();
+void CONTROL_ResetOutputRegisters();
 
 // Functions
 //
@@ -64,13 +65,11 @@ void CONTROL_Init()
 	DEVPROFILE_InitEPService(EPIndexes, EPSized, EPCounters, EPDatas);
 	// —брос значений
 	DEVPROFILE_ResetControlSection();
-
-
 	CONTROL_ResetToDefaultState();
 }
 //------------------------------------------
 
-void CONTROL_ResetToDefaultState()
+void CONTROL_ResetOutputRegisters()
 {
 	DataTable[REG_FAULT_REASON] = DF_NONE;
 	DataTable[REG_DISABLE_REASON] = DF_NONE;
@@ -78,8 +77,18 @@ void CONTROL_ResetToDefaultState()
 	DataTable[REG_PROBLEM] = PROBLEM_NONE;
 	DataTable[REG_OP_RESULT] = OPRESULT_NONE;
 	
+	DataTable[REG_RESULT_VOLTAGE] = 0;
+	DataTable[REG_RESULT_CURRENT_H] = 0;
+	DataTable[REG_RESULT_CURRENT_L] = 0;
+
 	DEVPROFILE_ResetScopes(0);
 	DEVPROFILE_ResetEPReadState();
+}
+//------------------------------------------
+
+void CONTROL_ResetToDefaultState()
+{
+	CONTROL_ResetOutputRegisters();
 	
 	LL_SetStateExtPowerLed(true);
 	LL_SetStateExtMsrLed(false);
@@ -89,7 +98,6 @@ void CONTROL_ResetToDefaultState()
 
 	CONTROL_SetDeviceState(DS_None, SS_None);
 }
-
 //------------------------------------------
 
 void CONTROL_Idle()
@@ -131,6 +139,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 		case ACT_START_PROCESS:
 			if (CONTROL_State == DS_Ready)
 			{
+				CONTROL_ResetOutputRegisters();
 				LOGIC_StartPrepare();
 				CONTROL_SetDeviceState(DS_InProcess, SS_PowerPrepare);
 			}
@@ -242,12 +251,8 @@ void CONTROL_HighPriorityFastProcess()
 
 void CONTROL_StartProcess()
 {
-	DEVPROFILE_ResetScopes(0);
-	DEVPROFILE_ResetEPReadState();
 	MEASURE_DMABuffersClear();
-
 	LL_SetStateLineSync2(true);
-
 	TIM_Start(TIM6);
 }
 //-----------------------------------------------
