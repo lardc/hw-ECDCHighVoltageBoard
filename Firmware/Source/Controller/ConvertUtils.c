@@ -115,17 +115,17 @@ void CU_LoadConvertParams()
 	// Параметры преобразования тока
 	for(int i = 0; i < DISOPAMP_CURRENT_RANGE_NUM; i++)
 	{
-		DisOpAmpIParams[i].P2 = (float)(Int16S)DataTable[REG_DAC_I_RANGE0_P2 + i * 5] / 1e6;
-		DisOpAmpIParams[i].P1 = (float)DataTable[REG_DAC_I_RANGE0_P1 + i * 5] / 1000;
-		DisOpAmpIParams[i].P0 = (Int16S)DataTable[REG_DAC_I_RANGE0_P0 + i * 5];
-		DisOpAmpIParams[i].K = (float)DataTable[REG_DAC_I_RANGE0_K + i * 5] / 1000;
-		DisOpAmpIParams[i].B = (Int16S)DataTable[REG_DAC_I_RANGE0_B + i * 5];
+		DisOpAmpIParams[i].P2 = (float)(Int16S)DataTable[REG_DAC_I_RANGE0_P2 + i * 6] / 1e6;
+		DisOpAmpIParams[i].P1 = (float)DataTable[REG_DAC_I_RANGE0_P1 + i * 6] / 1000;
+		DisOpAmpIParams[i].P0 = (Int16S)DataTable[REG_DAC_I_RANGE0_P0 + i * 6];
+		DisOpAmpIParams[i].K = (float)DataTable[REG_DAC_I_RANGE0_N + i * 6] / DataTable[REG_DAC_I_RANGE0_D + i * 6];
+		DisOpAmpIParams[i].B = (Int16S)DataTable[REG_DAC_I_RANGE0_B + i * 6];
 
-		MeasureIParams[i].P2 = (float)(Int16S)DataTable[REG_ADC_I_RANGE0_P2 + i * 5] / 1e6;
-		MeasureIParams[i].P1 = (float)DataTable[REG_ADC_I_RANGE0_P1 + i * 5] / 1000;
-		MeasureIParams[i].P0 = (Int16S)DataTable[REG_ADC_I_RANGE0_P0 + i * 5];
-		MeasureIParams[i].K = (float)DataTable[REG_ADC_I_RANGE0_K + i * 5] / 1000;
-		MeasureIParams[i].B = (Int16S)DataTable[REG_ADC_I_RANGE0_B + i * 5];
+		MeasureIParams[i].P2 = (float)(Int16S)DataTable[REG_ADC_I_RANGE0_P2 + i * 6] / 1e6;
+		MeasureIParams[i].P1 = (float)DataTable[REG_ADC_I_RANGE0_P1 + i * 6] / 1000;
+		MeasureIParams[i].P0 = (Int16S)DataTable[REG_ADC_I_RANGE0_P0 + i * 6];
+		MeasureIParams[i].K = (float)DataTable[REG_ADC_I_RANGE0_N + i * 6] / DataTable[REG_ADC_I_RANGE0_D + i * 6];
+		MeasureIParams[i].B = (Int16S)DataTable[REG_ADC_I_RANGE0_B + i * 6];
 	}
 }
 //-----------------------------

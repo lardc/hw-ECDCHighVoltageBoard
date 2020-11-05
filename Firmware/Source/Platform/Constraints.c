@@ -28,66 +28,66 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 		{0, 0, 0},																	// 17
 		{0, 0, 0},																	// 18
 		{0, 0, 0},																	// 19
-		{0, 0, 0},																	// 20
-		{0, 0, 0},																	// 21
-		{0, 0, 0},																	// 22
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 20
+		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 21
+		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 22
 		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 23
 		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 24
-		{0, 0, 0},																	// 25
-		{0, 0, 0},																	// 26
-		{0, 0, 0},																	// 27
-		{0, 0, 0},																	// 28
-		{0, 0, 0},																	// 29
-		{0, 0, 0},																	// 30
-		{0, 0, 0},																	// 31
-		{0, 0, 0},																	// 32
-		{0, 0, 0},																	// 33
-		{0, 0, 0},																	// 34
-		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 35
-		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 36
-		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 37
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 25
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 26
+		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 27
+		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 28
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 29
+		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 30
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 31
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 32
+		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 33
+		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 34
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 35
+		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 36
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 37
 		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 38
 		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 39
 		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 40
 		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 41
 		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 42
 		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 43
-		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 44
-		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 45
-		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 46
-		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 47
-		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 48
-		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 49
-		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 50
-		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 51
-		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 52
-		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 53
-		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 54
-		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 55
-		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 56
-		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 57
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 44
+		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 45
+		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 46
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 47
+		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 48
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 49
+		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 50
+		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 51
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 52
+		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 53
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 54
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 55
+		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 56
+		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 57
 		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 58
 		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 59
-		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 60
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 60
 		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 61
 		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 62
-		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 63
-		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 64
-		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 65
+		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 63
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 64
+		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 65
 		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 66
-		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 67
-		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 68
-		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 69
-		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 70
-		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 71
-		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 72
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 67
+		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 68
+		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 69
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 70
+		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 71
+		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 72
 		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 73
 		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 74
-		{COEF_P2_MIN, COEF_P2_MAX, COEF_P2_DEF},									// 75
-		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 76
-		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 77
-		{COEF_K_MIN, COEF_K_MAX, COEF_K_DEF},										// 78
-		{OFFSET_MIN, OFFSET_MAX, OFFSET_DEF},										// 79
+		{0, 0, 0},																	// 75
+		{0, 0, 0},																	// 76
+		{0, 0, 0},																	// 77
+		{0, 0, 0},																	// 78
+		{0, 0, 0},																	// 79
 		{REGULATOR_KP_MIN, REGULATOR_KP_MAX, REGULATOR_KP_DEF},						// 80
 		{REGULATOR_KI_MIN, REGULATOR_KI_MAX, REGULATOR_KI_DEF},						// 81
 		{0, 0, 0},																	// 82
