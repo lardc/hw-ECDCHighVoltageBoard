@@ -118,11 +118,8 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 		case ACT_ENABLE_POWER:
 			if(CONTROL_State == DS_None)
 				CONTROL_SetDeviceState(DS_InProcess, SS_PowerOn);
-			else
-			{
-				if(CONTROL_State == DS_InProcess)
-					*pUserError = ERR_DEVICE_NOT_READY;
-			}
+			else if(CONTROL_State != DS_Ready)
+				*pUserError = ERR_OPERATION_BLOCKED;
 			break;
 
 		case ACT_DISABLE_POWER:
