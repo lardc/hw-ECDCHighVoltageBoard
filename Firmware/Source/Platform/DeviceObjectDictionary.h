@@ -125,9 +125,11 @@
 #define REG_WARNING						195	// Регистр Warning
 #define REG_PROBLEM						196	// Регистр Problem
 #define REG_OP_RESULT					197	// Регистр результата операции
-#define REG_RESULT_VOLTAGE				198	// Достигнутое напряжение во время теста (В * 10)
-#define REG_RESULT_CURRENT_H			199	// Измеренный ток (старшая часть), при заданном напряжении (мкА * 10)
-#define REG_RESULT_CURRENT_L			200	// Измеренный ток (младшая часть), при заданном напряжении (мкА * 10)
+#define REG_SUB_STATE					198	// Регистр вспомогательного состояния
+
+#define REG_RESULT_VOLTAGE				200	// Достигнутое напряжение во время теста (В * 10)
+#define REG_RESULT_CURRENT_H			201	// Измеренный ток (старшая часть), при заданном напряжении (мкА * 10)
+#define REG_RESULT_CURRENT_L			202	// Измеренный ток (младшая часть), при заданном напряжении (мкА * 10)
 // -----------------------------
 #define REG_FWINFO_SLAVE_NID			256	// Device CAN slave node ID
 #define REG_FWINFO_MASTER_NID			257	// Device CAN master node ID (if presented)
