@@ -156,7 +156,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 				LOGIC_StopProcess();
 				CONTROL_SetDeviceState(DS_Ready, SS_None);
 			}
-			else
+			else if(CONTROL_State != DS_None)
 				*pUserError = ERR_OPERATION_BLOCKED;
 			break;
 
