@@ -27,8 +27,10 @@ static Boolean CycleActive = false;
 //
 volatile Int64U CONTROL_TimeCounter = 0;
 volatile Int16U CONTROL_Values_Counter = 0;
+volatile Int16U CONTROL_RegulatorErr_Counter = 0;
 volatile Int16U CONTROL_ValuesVoltage[VALUES_x_SIZE];
 volatile Int16U CONTROL_ValuesCurrent[VALUES_x_SIZE];
+volatile Int16U CONTROL_RegulatorErr[VALUES_x_SIZE];
 //
 volatile MeasureSample SampleParams;
 
@@ -50,10 +52,10 @@ void CONTROL_ResetOutputRegisters();
 void CONTROL_Init()
 {
 	// Переменные для конфигурации EndPoint
-	Int16U EPIndexes[EP_COUNT] = {EP_VOLTAGE, EP_CURRENT};
-	Int16U EPSized[EP_COUNT] = {VALUES_x_SIZE, VALUES_x_SIZE};
-	pInt16U EPCounters[EP_COUNT] = {(pInt16U)&CONTROL_Values_Counter, (pInt16U)&CONTROL_Values_Counter};
-	pInt16U EPDatas[EP_COUNT] = {(pInt16U)CONTROL_ValuesVoltage, (pInt16U)CONTROL_ValuesCurrent};
+	Int16U EPIndexes[EP_COUNT] = {EP_VOLTAGE, EP_CURRENT, EP_REGULATOR_ERR};
+	Int16U EPSized[EP_COUNT] = {VALUES_x_SIZE, VALUES_x_SIZE, VALUES_x_SIZE};
+	pInt16U EPCounters[EP_COUNT] = {(pInt16U)&CONTROL_Values_Counter, (pInt16U)&CONTROL_Values_Counter, (pInt16U)&CONTROL_RegulatorErr_Counter};
+	pInt16U EPDatas[EP_COUNT] = {(pInt16U)CONTROL_ValuesVoltage, (pInt16U)CONTROL_ValuesCurrent, (pInt16U)CONTROL_RegulatorErr};
 
 	// Конфигурация сервиса работы Data-table и EPROM
 	EPROMServiceConfig EPROMService = {(FUNC_EPROM_WriteValues)&NFLASH_WriteDT, (FUNC_EPROM_ReadValues)&NFLASH_ReadDT};

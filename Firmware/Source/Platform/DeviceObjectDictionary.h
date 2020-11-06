@@ -111,8 +111,8 @@
 #define REG_REGULATOR_Ki				81	// Интегральный коэффициент регулятора
 
 #define REG_VOLTAGE_SETPOINT			128	// Уставка по напряжению, В х 10
-#define REG_CURRENT_CUTOFF_H			129	// Ограничение по току (старшая часть), мкА х 10
-#define REG_CURRENT_CUTOFF_L			130	// Ограничение по току (младшая часть), мкА х 10
+#define REG_CURRENT_CUTOFF_L			129	// Ограничение по току (старшая часть), мкА х 10
+#define REG_CURRENT_CUTOFF_H			130	// Ограничение по току (младшая часть), мкА х 10
 
 // Несохраняемы регистры чтения-записи
 #define REG_DBG							150	// Регистр режима Отладки 1
@@ -128,8 +128,8 @@
 #define REG_SUB_STATE					198	// Регистр вспомогательного состояния
 
 #define REG_RESULT_VOLTAGE				200	// Достигнутое напряжение во время теста (В * 10)
-#define REG_RESULT_CURRENT_H			201	// Измеренный ток (старшая часть), при заданном напряжении (мкА * 10)
-#define REG_RESULT_CURRENT_L			202	// Измеренный ток (младшая часть), при заданном напряжении (мкА * 10)
+#define REG_RESULT_CURRENT_L			201	// Измеренный ток (старшая часть), при заданном напряжении (мкА * 10)
+#define REG_RESULT_CURRENT_H			202	// Измеренный ток (младшая часть), при заданном напряжении (мкА * 10)
 // -----------------------------
 #define REG_FWINFO_SLAVE_NID			256	// Device CAN slave node ID
 #define REG_FWINFO_MASTER_NID			257	// Device CAN master node ID (if presented)
@@ -167,5 +167,6 @@
 // Endpoints
 #define EP_VOLTAGE						1
 #define EP_CURRENT						2
+#define EP_REGULATOR_ERR				3
 
 #endif //  __DEV_OBJ_DIC_H

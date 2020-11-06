@@ -28,6 +28,7 @@ void LOGIC_SetCurrentCutOff(float Current);
 void LOGIC_CacheVariables();
 void LOGIC_SaveToRingBuffer(volatile MeasureSample* Sample);
 Int32U LOGIC_ExtractAveragedDatas(Int32U* Buffer, Int16U BufferLength);
+void LOGIC_SaveRegulatorErr(float Error);
 
 // Functions
 //
@@ -101,6 +102,8 @@ bool LOGIC_RegulatorCycle(float Voltage, Int16U *Fault)
 
 	DISOPAMP_SetVoltage(RegulatorOut);
 
+	LOGIC_SaveRegulatorErr(RegulatorError);
+
 	RegulatorPulseCounter++;
 
 	if(RegulatorPulseCounter >= PulsePointsQuantity)
@@ -109,6 +112,33 @@ bool LOGIC_RegulatorCycle(float Voltage, Int16U *Fault)
 		return false;
 }
 //-----------------------------
+
+void LOGIC_SaveRegulatorErr(float Error)
+{
+	static Int16U ScopeLogStep = 0, LocalCounter = 0;
+
+	// —брос локального счетчика в начале логгировани€
+	if (CONTROL_RegulatorErr_Counter == 0)
+		LocalCounter = 0;
+
+	if (ScopeLogStep++ >= DataTable[REG_SCOPE_STEP])
+	{
+		ScopeLogStep = 0;
+
+		CONTROL_RegulatorErr[LocalCounter] = (Int16S)(Error * 10);
+		CONTROL_RegulatorErr_Counter = LocalCounter;
+
+		++LocalCounter;
+	}
+
+	// ”словие обновлени€ глобального счетчика данных
+	if (CONTROL_RegulatorErr_Counter < VALUES_x_SIZE)
+		CONTROL_RegulatorErr_Counter = LocalCounter;
+
+	// —брос локального счетчика
+	if (LocalCounter >= VALUES_x_SIZE)
+		LocalCounter = 0;
+}
 
 void LOGIC_SaveAveragedTestResult()
 {
