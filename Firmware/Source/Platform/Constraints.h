@@ -50,6 +50,10 @@
 #define HW_I_CUTOFF_K_MAX			30			// (%)
 #define HW_I_CUTOFF_K_DEF			10			// (%)
 //
+#define START_DELAY_MIN				0			// (мс)
+#define START_DELAY_MAX				100			// (мс)
+#define START_DELAY_DEF				50			// (мс)
+//
 #define VOLTAGE_SETPOINT_MAX		40000		// (В * 10)
 
 // Types

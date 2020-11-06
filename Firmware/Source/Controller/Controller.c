@@ -193,28 +193,48 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 void CONTROL_PowerPrepareProcess()
 {
-	if((CONTROL_SubState == SS_PowerOn) || (CONTROL_SubState == SS_PowerPrepare))
+	static Int64U PowerPrepareTimer = 0;
+
+	switch(CONTROL_SubState)
 	{
-		LL_PowerSupplyEnable(true);
-		CONTROL_DelayMs(DataTable[REG_PS_ACTIVITY_TIME]);
-		LL_PowerSupplyEnable(false);
+		case SS_PowerOn:
+			CONTROL_SetDeviceState(DS_Ready, SS_None);
+			break;
 
-		CONTROL_DelayMs(50);
+		case SS_PowerPrepare:
+			{
+				if(!PowerPrepareTimer)
+				{
+					LL_PowerSupplyEnable(true);
+					PowerPrepareTimer = CONTROL_TimeCounter + DataTable[REG_PS_ACTIVITY_TIME];
+				}
 
-		switch(CONTROL_SubState)
-		{
-			case SS_PowerOn:
-				CONTROL_SetDeviceState(DS_Ready, SS_None);
-				break;
+				if(CONTROL_TimeCounter > PowerPrepareTimer)
+				{
+					PowerPrepareTimer = 0;
+					LL_PowerSupplyEnable(false);
 
-			case SS_PowerPrepare:
-				CONTROL_SetDeviceState(DS_InProcess, SS_Pulse);
-				CONTROL_StartProcess();
-				break;
+					CONTROL_SetDeviceState(DS_InProcess, SS_Pause);
+				}
+			}
+			break;
 
-			default:
-				break;
-		}
+		case SS_Pause:
+			{
+				if(!PowerPrepareTimer)
+					PowerPrepareTimer = CONTROL_TimeCounter + DataTable[REG_START_DELAY];
+
+				if(CONTROL_TimeCounter > PowerPrepareTimer)
+				{
+					PowerPrepareTimer = 0;
+					CONTROL_SetDeviceState(DS_InProcess, SS_Pulse);
+					CONTROL_StartProcess();
+				}
+			}
+			break;
+
+		default:
+			break;
 	}
 }
 //-----------------------------------------------
