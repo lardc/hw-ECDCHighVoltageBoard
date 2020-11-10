@@ -43,8 +43,6 @@ void DISOPAMP_SetCurrentRange(float Current)
 		LL_SetCurrentRange0();
 		CurrentCutOffRange = CURRENT_RANGE0;
 	}
-
-	DataTable[150] = CurrentCutOffRange;
 }
 //-----------------------------
 

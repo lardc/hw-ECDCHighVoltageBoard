@@ -54,6 +54,10 @@
 #define START_DELAY_MAX				100			// (мс)
 #define START_DELAY_DEF				50			// (мс)
 //
+#define AFTER_PULSE_PAUSE_MIN		1000		// (мс)
+#define AFTER_PULSE_PAUSE_MAX		5000		// (мс)
+#define AFTER_PULSE_PAUSE_DEF		2000		// (мс)
+//
 #define VOLTAGE_SETPOINT_MAX		40000		// (В * 10)
 
 // Types

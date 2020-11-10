@@ -38,7 +38,9 @@
 #define REG_START_DELAY					4	// Задержка начала измерения после выключения заряда конденсаторов
 #define REG_FOLLOWING_ERR_CNT_NUM		5	// Значение счетчика FollowingError, при котором выставляется ошибка DF_FOLLOWING_ERR
 #define REG_SCOPE_STEP					6	// Сохранение измеренных данных с заданным шагом
-// 7 - 9
+#define REG_AFTER_PULSE_PAUSE			7	// Время выдержки перед началом следующего измерения (мс)
+#define REG_REGULATOR_QI_MAX			8	// Максимально допустимое значение Qi регулятора
+// 9
 #define REG_MUTE_FOLLOWING_ERR			10	// Выключить слежение за ошибкой DF_FOLOWING_ERROR
 #define REG_MUTE_EXCESS_CURRENT			11	// Выключение слежение за отсечкой по току
 // 12 - 22

@@ -26,6 +26,7 @@ volatile DeviceSubState CONTROL_SubState = SS_None;
 static Boolean CycleActive = false;
 //
 volatile Int64U CONTROL_TimeCounter = 0;
+volatile Int64U	CONTROL_AfterPulsePause = 0;
 volatile Int16U CONTROL_Values_Counter = 0;
 volatile Int16U CONTROL_RegulatorErr_Counter = 0;
 volatile Int16U CONTROL_ValuesVoltage[VALUES_x_SIZE];
@@ -42,7 +43,7 @@ void CONTROL_SwitchToFault(Int16U Reason);
 void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
-void CONTROL_PowerPrepareProcess();
+void CONTROL_LogicProcess();
 void CONTROL_StopProcess(bool ExcessCurrent, Int16U Fault);
 void CONTROL_StartProcess();
 void CONTROL_ResetOutputRegisters();
@@ -104,7 +105,7 @@ void CONTROL_ResetToDefaultState()
 
 void CONTROL_Idle()
 {
-	CONTROL_PowerPrepareProcess();
+	CONTROL_LogicProcess();
 
 	DEVPROFILE_ProcessRequests();
 	CONTROL_UpdateWatchDog();
@@ -191,7 +192,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 }
 //-----------------------------------------------
 
-void CONTROL_PowerPrepareProcess()
+void CONTROL_LogicProcess()
 {
 	static Int64U PowerPrepareTimer = 0;
 
@@ -203,23 +204,26 @@ void CONTROL_PowerPrepareProcess()
 
 		case SS_PowerPrepare:
 			{
-				if(!PowerPrepareTimer)
+				if(CONTROL_TimeCounter > CONTROL_AfterPulsePause)
 				{
-					LL_PowerSupplyEnable(true);
-					PowerPrepareTimer = CONTROL_TimeCounter + DataTable[REG_PS_ACTIVITY_TIME];
-				}
+					if(!PowerPrepareTimer)
+					{
+						LL_PowerSupplyEnable(true);
+						PowerPrepareTimer = CONTROL_TimeCounter + DataTable[REG_PS_ACTIVITY_TIME];
+					}
 
-				if(CONTROL_TimeCounter > PowerPrepareTimer)
-				{
-					PowerPrepareTimer = 0;
-					LL_PowerSupplyEnable(false);
+					if(CONTROL_TimeCounter > PowerPrepareTimer)
+					{
+						PowerPrepareTimer = 0;
+						LL_PowerSupplyEnable(false);
 
-					CONTROL_SetDeviceState(DS_InProcess, SS_Pause);
+						CONTROL_SetDeviceState(DS_InProcess, SS_PowerPrepareDelay);
+					}
 				}
 			}
 			break;
 
-		case SS_Pause:
+		case SS_PowerPrepareDelay:
 			{
 				if(!PowerPrepareTimer)
 					PowerPrepareTimer = CONTROL_TimeCounter + DataTable[REG_START_DELAY];
@@ -304,6 +308,8 @@ void CONTROL_StopProcess(bool ExcessCurrent, Int16U Fault)
 		DataTable[REG_OP_RESULT] = OPRESULT_OK;
 		CONTROL_SetDeviceState(DS_Ready, SS_None);
 	}
+
+	CONTROL_AfterPulsePause = CONTROL_TimeCounter + DataTable[REG_AFTER_PULSE_PAUSE];
 }
 //-----------------------------------------------
 

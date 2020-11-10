@@ -10,7 +10,6 @@
 #define MAF_BUFFER_LENGTH				8
 #define MAF_BUFFER_INDEX_MASK			MAF_BUFFER_LENGTH - 1
 //
-#define REGULATOR_QI_MAX				50
 
 // Variables
 float VoltageTarget, VoltageSetpoint, CurrentCutOff, RegulatorPcoef, RegulatorIcoef, RegulatorAlowedError, dV;
@@ -80,8 +79,14 @@ bool LOGIC_RegulatorCycle(float Voltage, Int16U *Fault)
 	{
 		FollowingErrorCounter = 0;
 
-		if((Qi < REGULATOR_QI_MAX) && (Qi > (-REGULATOR_QI_MAX)))
-			Qi += RegulatorError * RegulatorIcoef;
+		Qi += RegulatorError * RegulatorIcoef;
+
+		if(Qi > DataTable[REG_REGULATOR_QI_MAX])
+			Qi = DataTable[REG_REGULATOR_QI_MAX];
+
+		if(Qi < (-1) * DataTable[REG_REGULATOR_QI_MAX])
+			Qi = (-1) * DataTable[REG_REGULATOR_QI_MAX];
+
 	}
 	else
 	{
