@@ -38,9 +38,9 @@
 #define PULSE_WIDTH_MAX				200			// (мс)
 #define PULSE_WIDTH_DEF				100			// (мс)
 //
-#define VOLTAGE_RATE_MIN			100			// (х10 В/мс)
-#define VOLTAGE_RATE_MAX			8000		// (х10 В/мс)
-#define VOLTAGE_RATE_DEF			400			// (х10 В/мс)
+#define FRONT_WIDTH_MIN				1			// (мс)
+#define FRONT_WIDTH_MAX				200			// (мс)
+#define FRONT_WIDTH_DEF				30			// (мс)
 //
 #define ALOWED_ERROR_MIN			0			// (% * 10)
 #define ALOWED_ERROR_MAX			1000		// (% * 10)
