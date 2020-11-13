@@ -110,7 +110,7 @@ void CU_LoadConvertParams()
 	MeasureVParams.P1 = (float)DataTable[REG_ADC_VOLTAGE_P1] / 1000;
 	MeasureVParams.P0 = (Int16S)DataTable[REG_ADC_VOLTAGE_P0];
 	MeasureVParams.K = (float)DataTable[REG_ADC_VOLTAGE_K] / 1000;
-	MeasureVParams.B = (Int16S)DataTable[REG_ADC_VOLTAGE_B];
+	MeasureVParams.B = (Int16S)DataTable[REG_ADC_VOLTAGE_B] / 10;
 
 	// Параметры преобразования тока
 	for(int i = 0; i < DISOPAMP_CURRENT_RANGE_NUM; i++)

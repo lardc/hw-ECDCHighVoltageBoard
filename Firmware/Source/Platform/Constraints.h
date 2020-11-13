@@ -58,6 +58,7 @@
 #define AFTER_PULSE_PAUSE_MAX		5000		// (мс)
 #define AFTER_PULSE_PAUSE_DEF		2000		// (мс)
 //
+#define VOLTAGE_SETPOINT_MIN		0			// (В * 10)
 #define VOLTAGE_SETPOINT_MAX		40000		// (В * 10)
 
 // Types

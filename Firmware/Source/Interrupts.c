@@ -35,9 +35,7 @@ void TIM6_DAC_IRQHandler()
 {
 	if(TIM_StatusCheck(TIM6))
 	{
-		LL_SetStateExtPowerLed(false);
 		CONTROL_HighPriorityFastProcess();
-		LL_SetStateExtPowerLed(true);
 
 		TIM_StatusClear(TIM6);
 	}
