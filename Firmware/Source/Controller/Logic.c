@@ -21,14 +21,14 @@ volatile Int64U LOGIC_BetweenPulsesDelay = 0;
 volatile Int64U LOGIC_TestTime = 0;
 
 // Arrays
-Int32U RingBuffer_Current[MAF_BUFFER_LENGTH];
-Int32U RingBuffer_Voltage[MAF_BUFFER_LENGTH];
+float RingBuffer_Current[MAF_BUFFER_LENGTH];
+float RingBuffer_Voltage[MAF_BUFFER_LENGTH];
 
 // Functions prototypes
 void LOGIC_SetCurrentCutOff(float Current);
 void LOGIC_CacheVariables();
 void LOGIC_SaveToRingBuffer(volatile MeasureSample* Sample);
-Int32U LOGIC_ExtractAveragedDatas(Int32U* Buffer, Int16U BufferLength);
+Int32U LOGIC_ExtractAveragedDatas(float* Buffer, Int16U BufferLength);
 void LOGIC_SaveRegulatorErr(float Error);
 
 // Functions
@@ -53,7 +53,7 @@ void LOGIC_CalibrationPrepare()
 void LOGIC_CacheVariables()
 {
 	VoltageSetpoint = (float)DataTable[REG_VOLTAGE_SETPOINT] / 10;
-	CurrentCutOff = (float)((Int32U)((DataTable[REG_CURRENT_CUTOFF_H] << 16) | DataTable[REG_CURRENT_CUTOFF_L])) / 10;
+	CurrentCutOff = (float)((Int32U)((DataTable[REG_CURRENT_CUTOFF_H] << 16) | DataTable[REG_CURRENT_CUTOFF_L])) / 100;
 	PulsePointsQuantity = DataTable[REG_PULSE_WIDTH] * 1000 / TIMER6_uS;
 	RegulatorPcoef = (float)DataTable[REG_REGULATOR_Kp] / 1000;
 	RegulatorIcoef = (float)DataTable[REG_REGULATOR_Ki] / 1000;
@@ -153,7 +153,7 @@ void LOGIC_SaveAveragedTestResult()
 {
 	Int32U Current;
 
-	DataTable[REG_RESULT_VOLTAGE] = (Int16U)LOGIC_ExtractAveragedDatas(&RingBuffer_Voltage[0], MAF_BUFFER_LENGTH);
+	DataTable[REG_RESULT_VOLTAGE] = (Int16U)(LOGIC_ExtractAveragedDatas(&RingBuffer_Voltage[0], MAF_BUFFER_LENGTH) / 10);
 	Current = LOGIC_ExtractAveragedDatas(&RingBuffer_Current[0], MAF_BUFFER_LENGTH);
 	DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
 	DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
@@ -165,20 +165,20 @@ void LOGIC_SaveLastSampledTestResult(volatile MeasureSample* Sample)
 	Int32U Current;
 
 	DataTable[REG_RESULT_VOLTAGE] = (Int16U)(Sample->Voltage * 10);
-	Current = (Int32U) (Sample->Current * 10);
+	Current = (Int32U) (Sample->Current * 100);
 	DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
 	DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
 }
 //-----------------------------
 
-Int32U LOGIC_ExtractAveragedDatas(Int32U* Buffer, Int16U BufferLength)
+Int32U LOGIC_ExtractAveragedDatas(float* Buffer, Int16U BufferLength)
 {
 	float Temp = 0;
 
 	for(int i = 0; i < BufferLength; i++)
 		Temp += *(Buffer + i);
 
-	return (Int32U) (Temp / BufferLength);
+	return (Int32U) (Temp / BufferLength * 100);
 }
 //-----------------------------
 
@@ -186,8 +186,8 @@ void LOGIC_SaveToRingBuffer(volatile MeasureSample* Sample)
 {
 	static Int16U BufferIndex = 0;
 
-	RingBuffer_Current[BufferIndex] = (Int32U)(Sample->Current * 10);
-	RingBuffer_Voltage[BufferIndex] = (Int32U)(Sample->Voltage * 10);
+	RingBuffer_Current[BufferIndex] = Sample->Current;
+	RingBuffer_Voltage[BufferIndex] = Sample->Voltage;
 
 	BufferIndex++;
 	BufferIndex &= MAF_BUFFER_INDEX_MASK;

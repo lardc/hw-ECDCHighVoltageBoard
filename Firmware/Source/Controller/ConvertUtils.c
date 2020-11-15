@@ -19,9 +19,9 @@ typedef struct __MeasurementConvertParams
 {
 	float P2;
 	float P1;
-	Int16S P0;
+	float P0;
 	float K;
-	Int16S B;
+	float B;
 }MeasurementConvertParams;
 
 // Variables
@@ -117,9 +117,9 @@ void CU_LoadConvertParams()
 
 		MeasureIParams[i].P2 = (float)(Int16S)DataTable[REG_ADC_I_RANGE0_P2 + i * 6] / 1e6;
 		MeasureIParams[i].P1 = (float)DataTable[REG_ADC_I_RANGE0_P1 + i * 6] / 1000;
-		MeasureIParams[i].P0 = (Int16S)DataTable[REG_ADC_I_RANGE0_P0 + i * 6];
+		MeasureIParams[i].P0 = (float)((Int16S)DataTable[REG_ADC_I_RANGE0_P0 + i * 6]) / 100;
 		MeasureIParams[i].K = (float)DataTable[REG_ADC_I_RANGE0_N + i * 6] / DataTable[REG_ADC_I_RANGE0_D + i * 6];
-		MeasureIParams[i].B = (Int16S)DataTable[REG_ADC_I_RANGE0_B + i * 6];
+		MeasureIParams[i].B = (float)((Int16S)DataTable[REG_ADC_I_RANGE0_B + i * 6]) / 100;
 	}
 }
 //-----------------------------

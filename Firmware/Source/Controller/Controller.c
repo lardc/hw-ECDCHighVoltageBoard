@@ -12,7 +12,6 @@
 #include "Diagnostic.h"
 #include "Logic.h"
 #include "BCCIxParams.h"
-#include "CellCalibration.h"
 #include "DiscreteOpAmp.h"
 
 // Types
