@@ -40,7 +40,7 @@
 #define REG_SCOPE_STEP					6	// Сохранение измеренных данных с заданным шагом
 #define REG_AFTER_PULSE_PAUSE			7	// Время выдержки перед началом следующего измерения (мс)
 #define REG_REGULATOR_QI_MAX			8	// Максимально допустимое значение Qi регулятора
-// 9
+#define REG_MEASURE_ALLOWED_ERR			9	// Допустимая ошибка при измерении (% * 10)
 #define REG_MUTE_FOLLOWING_ERR			10	// Выключить слежение за ошибкой DF_FOLOWING_ERROR
 #define REG_MUTE_EXCESS_CURRENT			11	// Выключение слежение за отсечкой по току
 // 12 - 19
@@ -120,6 +120,8 @@
 #define REG_RESULT_VOLTAGE				200	// Достигнутое напряжение во время теста (В * 10)
 #define REG_RESULT_CURRENT_L			201	// Измеренный ток (старшая часть), при заданном напряжении (мкА * 10)
 #define REG_RESULT_CURRENT_H			202	// Измеренный ток (младшая часть), при заданном напряжении (мкА * 10)
+//
+#define REG_MEASURE_ERR_FLAG			205	// Флаг, выставляемый при достижении ошибки регулирования заданного значения
 // -----------------------------
 #define REG_FWINFO_SLAVE_NID			256	// Device CAN slave node ID
 #define REG_FWINFO_MASTER_NID			257	// Device CAN master node ID (if presented)

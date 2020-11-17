@@ -12,7 +12,8 @@
 //
 
 // Variables
-float VoltageTarget, VoltageSetpoint, CurrentCutOff, RegulatorPcoef, RegulatorIcoef, RegulatorAlowedError, dV;
+float VoltageTarget, VoltageSetpoint, CurrentCutOff, RegulatorPcoef, RegulatorIcoef;
+float RegulatorAlowedError, MeasureAlowedError, dV;
 float  Qi;
 Int16U RegulatorPulseCounter = 0;
 Int16U PulsePointsQuantity = 0;
@@ -30,6 +31,7 @@ void LOGIC_CacheVariables();
 void LOGIC_SaveToRingBuffer(volatile MeasureSample* Sample);
 Int32U LOGIC_ExtractAveragedDatas(float* Buffer, Int16U BufferLength);
 void LOGIC_SaveRegulatorErr(float Error);
+void LOGIC_ClearVariables();
 
 // Functions
 //
@@ -59,6 +61,9 @@ void LOGIC_CacheVariables()
 	RegulatorIcoef = (float)DataTable[REG_REGULATOR_Ki] / 1000;
 	dV = VoltageSetpoint / DataTable[REG_PULSE_FRONT_WIDTH] * TIMER6_uS / 1000;
 	RegulatorAlowedError = (float)DataTable[REG_REGULATOR_ALOWED_ERR] / 10;
+	MeasureAlowedError = (float)DataTable[REG_MEASURE_ALLOWED_ERR] / 10;
+
+	LOGIC_ClearVariables();
 }
 //-----------------------------
 
@@ -82,14 +87,10 @@ bool LOGIC_RegulatorCycle(float Voltage, Int16U *Fault)
 	{
 		FollowingErrorCounter = 0;
 
-		Qi += RegulatorError * RegulatorIcoef;
-
-		if(Qi > DataTable[REG_REGULATOR_QI_MAX])
-			Qi = DataTable[REG_REGULATOR_QI_MAX];
-
-		if(Qi < (-1) * DataTable[REG_REGULATOR_QI_MAX])
-			Qi = (-1) * DataTable[REG_REGULATOR_QI_MAX];
-
+		if(ErrorX <= MeasureAlowedError)
+			DataTable[REG_MEASURE_ERR_FLAG] = true;
+		else
+			DataTable[REG_MEASURE_ERR_FLAG] = false;
 	}
 	else
 	{
@@ -105,6 +106,14 @@ bool LOGIC_RegulatorCycle(float Voltage, Int16U *Fault)
 			}
 		}
 	}
+
+	Qi += RegulatorError * RegulatorIcoef;
+
+	if(Qi > DataTable[REG_REGULATOR_QI_MAX])
+		Qi = DataTable[REG_REGULATOR_QI_MAX];
+
+	if(Qi < (-1) * DataTable[REG_REGULATOR_QI_MAX])
+		Qi = (-1) * DataTable[REG_REGULATOR_QI_MAX];
 
 	Qp = RegulatorError * RegulatorPcoef;
 	RegulatorOut = VoltageTarget + Qp +Qi;
@@ -243,6 +252,16 @@ void LOGIC_StopProcess()
 {
 	TIM_Stop(TIM6);
 	DISOPAMP_SetVoltage(0);
+}
+//-----------------------------
+
+void LOGIC_ClearVariables()
+{
+	for(int i = 0; i < MAF_BUFFER_LENGTH; i++)
+	{
+		RingBuffer_Current[i] = 0;
+		RingBuffer_Voltage[i] = 0;
+	}
 
 	Qi = 0;
 	RegulatorPulseCounter = 0;
