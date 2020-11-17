@@ -58,7 +58,7 @@ void LOGIC_CacheVariables()
 	RegulatorPcoef = (float)DataTable[REG_REGULATOR_Kp] / 1000;
 	RegulatorIcoef = (float)DataTable[REG_REGULATOR_Ki] / 1000;
 	dV = VoltageSetpoint / DataTable[REG_PULSE_FRONT_WIDTH] * TIMER6_uS / 1000;
-	RegulatorAlowedError = (float)DataTable[REG_REGULATOR_ALOWED_ERR] / 1000;
+	RegulatorAlowedError = (float)DataTable[REG_REGULATOR_ALOWED_ERR] / 10;
 }
 //-----------------------------
 
@@ -73,7 +73,10 @@ bool LOGIC_RegulatorCycle(float Voltage, Int16U *Fault)
 		VoltageTarget = VoltageSetpoint;
 
 	RegulatorError = (RegulatorPulseCounter == 0) ? 0 : (VoltageTarget - Voltage);
-	ErrorX = RegulatorError / VoltageSetpoint;
+
+	ErrorX = RegulatorError / VoltageSetpoint * 100;
+	if(ErrorX < 0)
+		ErrorX = ErrorX * (-1);
 
 	if(ErrorX <= RegulatorAlowedError)
 	{
@@ -111,7 +114,7 @@ bool LOGIC_RegulatorCycle(float Voltage, Int16U *Fault)
 
 	DISOPAMP_SetVoltage(RegulatorOut);
 
-	LOGIC_SaveRegulatorErr(RegulatorOut);
+	LOGIC_SaveRegulatorErr(RegulatorError);
 
 	RegulatorPulseCounter++;
 
