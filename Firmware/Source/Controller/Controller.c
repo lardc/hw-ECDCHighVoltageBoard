@@ -205,6 +205,7 @@ void CONTROL_LogicProcess()
 				{
 					if(!PowerPrepareTimer)
 					{
+						LL_SetStateExtMsrLed(true);
 						LL_PowerSupplyEnable(true);
 						PowerPrepareTimer = CONTROL_TimeCounter + DataTable[REG_PS_ACTIVITY_TIME];
 					}
@@ -282,6 +283,7 @@ void CONTROL_StopProcess(bool ExcessCurrent, Int16U Fault)
 	LOGIC_StopProcess();
 
 	LL_SetStateLineSync2(false);
+	LL_SetStateExtMsrLed(false);
 
 	if(ExcessCurrent && (Fault == DF_FOLOWING_ERROR))
 	{
