@@ -105,7 +105,7 @@ void CU_LoadConvertParams()
 
 	MeasureVParams.P2 = (float)(Int16S)DataTable[REG_ADC_VOLTAGE_P2] / 1e6;
 	MeasureVParams.P1 = (float)DataTable[REG_ADC_VOLTAGE_P1] / 1000;
-	MeasureVParams.P0 = (Int16S)DataTable[REG_ADC_VOLTAGE_P0];
+	MeasureVParams.P0 = (float)((Int16S)DataTable[REG_ADC_VOLTAGE_P0]) / 10;
 	MeasureVParams.K = (float)DataTable[REG_ADC_VOLTAGE_K] / 1000;
 	MeasureVParams.B = (Int16S)DataTable[REG_ADC_VOLTAGE_B] / 10;
 
