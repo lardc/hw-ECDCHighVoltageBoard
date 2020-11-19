@@ -18,7 +18,7 @@
 
 // Определения для выходных портов
 GPIO_PortPinSettingMacro GPIO_LDAC				= {GPIOA, Pin_4};
-GPIO_PortPinSettingMacro GPIO_EXT_LED1			= {GPIOA, Pin_8};
+GPIO_PortPinSettingMacro GPIO_VOLTAGE_RANGE		= {GPIOA, Pin_8};
 GPIO_PortPinSettingMacro GPIO_EXT_LED2			= {GPIOB, Pin_15};
 GPIO_PortPinSettingMacro GPIO_R0_M				= {GPIOB, Pin_2};
 GPIO_PortPinSettingMacro GPIO_R1_M				= {GPIOB, Pin_0};

@@ -12,7 +12,12 @@ typedef struct __MeasureSample
 }MeasureSample;
 
 // Definitions
-#define PULSE_ARR_MAX_LENGTH			300				// Количество точек оцифровки
+#define PULSE_ARR_MAX_LENGTH					300				// Количество точек оцифровки
+//
+#define MEASURE_VOLTAGE_RANGE_THRESHOLD			100
+#define MEASURE_VOLTAGE_RANGE_QUANTITY			2
+#define MEASURE_VOLTAGE_RANGE_0					0
+#define MEASURE_VOLTAGE_RANGE_1					1
 
 // Variables
 extern Int16U MEASURE_ADC_VoltageRaw[ADC_DMA_BUFF_SIZE];
@@ -23,5 +28,6 @@ float MEASURE_SampleVoltage();
 float MEASURE_SampleCurrent();
 void MEASURE_SampleParams(volatile MeasureSample* Sample);
 void MEASURE_DMABuffersClear();
+void MEASURE_SetVoltageRange(float Voltage);
 
 #endif /* MEASUREMENT_H_ */

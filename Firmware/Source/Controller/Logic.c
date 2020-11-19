@@ -40,6 +40,7 @@ void LOGIC_StartPrepare()
 	LOGIC_CacheVariables();
 	CU_LoadConvertParams();
 	LOGIC_SetCurrentCutOff(CurrentCutOff);
+	MEASURE_SetVoltageRange(VoltageSetpoint);
 }
 //-----------------------------
 

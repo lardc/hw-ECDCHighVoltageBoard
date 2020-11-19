@@ -35,7 +35,7 @@ void TIM6_DAC_IRQHandler()
 {
 	if(TIM_StatusCheck(TIM6))
 	{
-		CONTROL_HighPriorityFastProcess();
+		CONTROL_HighPriorityProcess();
 
 		TIM_StatusClear(TIM6);
 	}

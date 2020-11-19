@@ -92,7 +92,6 @@ void CONTROL_ResetToDefaultState()
 {
 	CONTROL_ResetOutputRegisters();
 	
-	LL_SetStateExtPowerLed(true);
 	LL_SetStateExtMsrLed(false);
 	LL_PowerSupplyEnable(false);
 
@@ -241,7 +240,7 @@ void CONTROL_LogicProcess()
 }
 //-----------------------------------------------
 
-void CONTROL_HighPriorityFastProcess()
+void CONTROL_HighPriorityProcess()
 {
 	Int16U Fault;
 	bool ExcessCurrent, RegulatorWasFinishedProcess;

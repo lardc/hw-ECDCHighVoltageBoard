@@ -26,9 +26,9 @@ void LL_ToggleBoardLED()
 }
 //-----------------------------
 
-void LL_SetStateExtPowerLed(bool State)
+void LL_SetVoltageRange(bool State)
 {
-	GPIO_SetState(GPIO_EXT_LED1, !State);
+	GPIO_SetState(GPIO_VOLTAGE_RANGE, !State);
 }
 //-----------------------------
 

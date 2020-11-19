@@ -10,7 +10,7 @@
 #define ENABLE_LOCKING							FALSE	// Защита NV регистров паролем
 
 // Параметры DiscreteOpAmp
-#define DISOPAMP_CURRENT_RANGE_NUM				4
+#define DISOPAMP_CURRENT_RANGE_QUANTITY			4
 #define DISOPAMP_CURRENT_THRESHOLD_RANGE_3		2000	// uA
 #define DISOPAMP_CURRENT_THRESHOLD_RANGE_2		250		// uA
 #define DISOPAMP_CURRENT_THRESHOLD_RANGE_1		25		// uA

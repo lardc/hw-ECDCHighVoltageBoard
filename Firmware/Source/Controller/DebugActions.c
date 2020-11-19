@@ -29,10 +29,8 @@
 //
 void DBGACT_BlinkExtLeds()
 {
-	LL_SetStateExtPowerLed(true);
 	LL_SetStateExtMsrLed(true);
 	CONTROL_DelayMs(1000);
-	LL_SetStateExtPowerLed(false);
 	LL_SetStateExtMsrLed(false);
 }
 //-----------------------------

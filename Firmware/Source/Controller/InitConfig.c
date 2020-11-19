@@ -21,7 +21,7 @@ void INITCFG_ConfigIO()
 	// Выходы
 	GPIO_InitPushPullOutput(GPIO_PS_EN);
 	GPIO_InitPushPullOutput(GPIO_LDAC);
-	GPIO_InitPushPullOutput(GPIO_EXT_LED1);
+	GPIO_InitPushPullOutput(GPIO_VOLTAGE_RANGE);
 	GPIO_InitPushPullOutput(GPIO_EXT_LED2);
 	GPIO_InitPushPullOutput(GPIO_R0_M);
 	GPIO_InitPushPullOutput(GPIO_R1_M);
@@ -39,7 +39,6 @@ void INITCFG_ConfigIO()
 	GPIO_InitPushPullOutput(GPIO_CS_SYNC8);
 
 	// Начальная установка состояний выводов
-	GPIO_SetState(GPIO_EXT_LED1, true);
 	GPIO_SetState(GPIO_EXT_LED2, true);
 	GPIO_SetState(GPIO_SYNC1_OUT, true);
 	GPIO_SetState(GPIO_SYNC2_OUT, true);

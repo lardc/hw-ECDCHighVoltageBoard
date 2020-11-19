@@ -4,6 +4,7 @@
 #include "Global.h"
 #include "LowLevel.h"
 #include "DataTable.h"
+#include "Measurement.h"
 
 // Definitions
 #define DAC_MAX_VAL		0x0FFF
@@ -26,13 +27,14 @@ typedef struct __MeasurementConvertParams
 
 // Variables
 DisOpAmpConvertParams DisOpAmpVParams;
-DisOpAmpConvertParams DisOpAmpIParams[DISOPAMP_CURRENT_RANGE_NUM];
-MeasurementConvertParams MeasureVParams;
-MeasurementConvertParams MeasureIParams[DISOPAMP_CURRENT_RANGE_NUM];
+DisOpAmpConvertParams DisOpAmpIParams[DISOPAMP_CURRENT_RANGE_QUANTITY];
+MeasurementConvertParams MeasureVParams[MEASURE_VOLTAGE_RANGE_QUANTITY];
+MeasurementConvertParams MeasureIParams[DISOPAMP_CURRENT_RANGE_QUANTITY];
+//
 
 // Functions prototypes
 Int16U CU_XtoDAC(float Value, DisOpAmpConvertParams Coefficients);
-float CU_ADCtoX(Int16U Data, MeasurementConvertParams Coefficients);
+float CU_ADCtoX(Int16U Data, MeasurementConvertParams* Coefficients);
 
 
 // Functions
@@ -74,12 +76,12 @@ Int16U CU_ItoDAC(float Current, Int16U CurrentRange)
 }
 //-----------------------------
 
-float CU_ADCtoX(Int16U Data, MeasurementConvertParams Coefficients)
+float CU_ADCtoX(Int16U Data, MeasurementConvertParams* Coefficients)
 {
 	float Temp;
 
-	Temp = Data * Coefficients.K + Coefficients.B;
-	Temp = Temp * Temp * Coefficients.P2 + Temp * Coefficients.P1 + Coefficients.P0;
+	Temp = Data * Coefficients->K + Coefficients->B;
+	Temp = Temp * Temp * Coefficients->P2 + Temp * Coefficients->P1 + Coefficients->P0;
 
 	return Temp;
 }
@@ -87,13 +89,13 @@ float CU_ADCtoX(Int16U Data, MeasurementConvertParams Coefficients)
 
 float CU_ADCtoI(Int16U Data, Int16U CurrentRange)
 {
-	return CU_ADCtoX(Data, MeasureIParams[CurrentRange]);
+	return CU_ADCtoX(Data, &MeasureIParams[CurrentRange]);
 }
 //-----------------------------
 
-float CU_ADCtoV(Int16U Data)
+float CU_ADCtoV(Int16U Data, Int16U VoltageRange)
 {
-	return CU_ADCtoX(Data, MeasureVParams);
+	return CU_ADCtoX(Data, &MeasureVParams[VoltageRange]);
 }
 //-----------------------------
 
@@ -103,17 +105,23 @@ void CU_LoadConvertParams()
 	DisOpAmpVParams.K = (float)DataTable[REG_DAC_V_CELL_K] / 1000;
 	DisOpAmpVParams.B = (Int16S)DataTable[REG_DAC_V_CELL_B];
 
-	MeasureVParams.P2 = (float)(Int16S)DataTable[REG_ADC_VOLTAGE_P2] / 1e6;
-	MeasureVParams.P1 = (float)DataTable[REG_ADC_VOLTAGE_P1] / 1000;
-	MeasureVParams.P0 = (float)((Int16S)DataTable[REG_ADC_VOLTAGE_P0]) / 10;
-	MeasureVParams.K = (float)DataTable[REG_ADC_VOLTAGE_K] / 1000;
-	MeasureVParams.B = (Int16S)DataTable[REG_ADC_VOLTAGE_B] / 10;
+	MeasureVParams[MEASURE_VOLTAGE_RANGE_0].P2 = (float)(Int16S)DataTable[REG_ADC_V_RANGE0_P2] / 1e6;
+	MeasureVParams[MEASURE_VOLTAGE_RANGE_0].P1 = (float)DataTable[REG_ADC_V_RANGE0_P1] / 1000;
+	MeasureVParams[MEASURE_VOLTAGE_RANGE_0].P0 = (float)((Int16S)DataTable[REG_ADC_V_RANGE0_P0]) / 10;
+	MeasureVParams[MEASURE_VOLTAGE_RANGE_0].K = (float)DataTable[REG_ADC_V_RANGE0_K] / 1000;
+	MeasureVParams[MEASURE_VOLTAGE_RANGE_0].B = (Int16S)DataTable[REG_ADC_V_RANGE0_B] / 10;
+
+	MeasureVParams[MEASURE_VOLTAGE_RANGE_1].P2 = (float)(Int16S)DataTable[REG_ADC_V_RANGE1_P2] / 1e6;
+	MeasureVParams[MEASURE_VOLTAGE_RANGE_1].P1 = (float)DataTable[REG_ADC_V_RANGE1_P1] / 1000;
+	MeasureVParams[MEASURE_VOLTAGE_RANGE_1].P0 = (float)((Int16S)DataTable[REG_ADC_V_RANGE1_P0]) / 10;
+	MeasureVParams[MEASURE_VOLTAGE_RANGE_1].K = (float)DataTable[REG_ADC_V_RANGE1_K] / 1000;
+	MeasureVParams[MEASURE_VOLTAGE_RANGE_1].B = (Int16S)DataTable[REG_ADC_V_RANGE1_B] / 10;
 
 	// Параметры преобразования тока
-	for(int i = 0; i < DISOPAMP_CURRENT_RANGE_NUM; i++)
+	for(int i = 0; i < DISOPAMP_CURRENT_RANGE_QUANTITY; i++)
 	{
-		DisOpAmpIParams[i].K = (float)DataTable[REG_DAC_I_RANGE0_N + i * 6] / DataTable[REG_DAC_I_RANGE0_D + i * 6];
-		DisOpAmpIParams[i].B = (Int16S)DataTable[REG_DAC_I_RANGE0_B + i * 6];
+		DisOpAmpIParams[i].K = (float)DataTable[REG_DAC_I_RANGE0_N + i * 3] / DataTable[REG_DAC_I_RANGE0_D + i * 6];
+		DisOpAmpIParams[i].B = (Int16S)DataTable[REG_DAC_I_RANGE0_B + i * 3];
 
 		MeasureIParams[i].P2 = (float)(Int16S)DataTable[REG_ADC_I_RANGE0_P2 + i * 6] / 1e6;
 		MeasureIParams[i].P1 = (float)DataTable[REG_ADC_I_RANGE0_P1 + i * 6] / 1000;

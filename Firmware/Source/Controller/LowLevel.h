@@ -11,7 +11,7 @@
 // Functions
 //
 void LL_ToggleBoardLED();
-void LL_SetStateExtPowerLed(bool State);
+void LL_SetVoltageRange(bool State);
 void LL_SetStateExtMsrLed(bool State);
 void LL_SetStateLineSync1(bool State);
 void LL_SetStateLineSync2(bool State);

@@ -42,6 +42,6 @@ extern volatile Int16U CONTROL_RegulatorErr[VALUES_x_SIZE];
 void CONTROL_Init();
 void CONTROL_Idle();
 void CONTROL_DelayMs(uint32_t Delay);
-void CONTROL_HighPriorityFastProcess();
+void CONTROL_HighPriorityProcess();
 
 #endif // __CONTROLLER_H
