@@ -20,8 +20,6 @@
 #define ACT_START_PROCESS				100	// Старт измерения
 #define ACT_STOP_PROCESS				101	// Стоп измерения
 
-#define ACT_START_CELL_CAL				150	// Качибровка ячеек DisOpAmp
-
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
 #define ACT_RESET_TO_DEFAULT			202	// Сброс DataTable в состояние по умолчанию

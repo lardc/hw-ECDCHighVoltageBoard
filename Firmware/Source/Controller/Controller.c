@@ -156,18 +156,6 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 			}
 			break;
 
-		case ACT_START_CELL_CAL:
-			{
-				if (CONTROL_State == DS_Ready)
-				{
-					LOGIC_CalibrationPrepare();
-					CONTROL_SetDeviceState(DS_InProcess, SS_PowerPrepare);
-				}
-				else
-					*pUserError = ERR_OPERATION_BLOCKED;
-			}
-			break;
-
 		case ACT_CLR_FAULT:
 			if (CONTROL_State == DS_Fault)
 			{
