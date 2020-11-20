@@ -43,7 +43,7 @@ void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
 void CONTROL_LogicProcess();
-void CONTROL_StopProcess(bool ExcessCurrent, Int16U Fault);
+void CONTROL_StopProcess(bool ExcessCurrent, Int16U Problem);
 void CONTROL_StartProcess();
 void CONTROL_ResetOutputRegisters();
 
@@ -242,7 +242,7 @@ void CONTROL_LogicProcess()
 
 void CONTROL_HighPriorityProcess()
 {
-	Int16U Fault;
+	Int16U Problem;
 	bool ExcessCurrent, RegulatorWasFinishedProcess;
 
 	if(CONTROL_SubState == SS_Pulse)
@@ -252,11 +252,11 @@ void CONTROL_HighPriorityProcess()
 		ExcessCurrent = LOGIC_CheckExcessCurrentCutOff(SampleParams.Current);
 
 		if(!ExcessCurrent)
-			RegulatorWasFinishedProcess = LOGIC_RegulatorCycle(SampleParams.Voltage, &Fault);
+			RegulatorWasFinishedProcess = LOGIC_RegulatorCycle(SampleParams.Voltage, &Problem);
 
 		if(RegulatorWasFinishedProcess || ExcessCurrent)
 		{
-			CONTROL_StopProcess(ExcessCurrent, Fault);
+			CONTROL_StopProcess(ExcessCurrent, Problem);
 
 			if(ExcessCurrent)
 				LOGIC_SaveLastSampledTestResult(&SampleParams);
@@ -277,37 +277,34 @@ void CONTROL_StartProcess()
 }
 //-----------------------------------------------
 
-void CONTROL_StopProcess(bool ExcessCurrent, Int16U Fault)
+void CONTROL_StopProcess(bool ExcessCurrent, Int16U Problem)
 {
 	LOGIC_StopProcess();
 
 	LL_SetStateLineSync2(false);
 	LL_SetStateExtMsrLed(false);
 
-	if(ExcessCurrent && (Fault == DF_FOLOWING_ERROR))
+	if(ExcessCurrent && (Problem == PROBLEM_FOLOWING_ERROR))
 	{
 		DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
 		DataTable[REG_PROBLEM] = PROBLEM_SHORT_CICUIT;
-		CONTROL_SetDeviceState(DS_Ready, SS_None);
 	}
 	else if(ExcessCurrent)
 	{
 		DataTable[REG_OP_RESULT] = OPRESULT_OK;
 		DataTable[REG_PROBLEM] = PROBLEM_CURRENT_CUTOFF;
-		CONTROL_SetDeviceState(DS_Ready, SS_None);
 	}
-	else if(Fault == DF_FOLOWING_ERROR)
+	else if(Problem == PROBLEM_FOLOWING_ERROR)
 	{
 		DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
-		CONTROL_SwitchToFault(DF_FOLOWING_ERROR);
+		DataTable[REG_PROBLEM] = PROBLEM_FOLOWING_ERROR;
 	}
 	else
-	{
 		DataTable[REG_OP_RESULT] = OPRESULT_OK;
-		CONTROL_SetDeviceState(DS_Ready, SS_None);
-	}
 
 	CONTROL_AfterPulsePause = CONTROL_TimeCounter + DataTable[REG_AFTER_PULSE_PAUSE];
+
+	CONTROL_SetDeviceState(DS_Ready, SS_None);
 }
 //-----------------------------------------------
 

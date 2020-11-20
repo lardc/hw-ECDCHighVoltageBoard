@@ -143,13 +143,12 @@
 
 //  Fault and disable codes
 #define DF_NONE							0
-#define DF_POWER_SUPPLY					1
-#define DF_FOLOWING_ERROR				2
 
 // Problem
 #define PROBLEM_NONE					0
 #define PROBLEM_SHORT_CICUIT			1
 #define PROBLEM_CURRENT_CUTOFF			2
+#define PROBLEM_FOLOWING_ERROR			3
 
 //  Warning
 #define WARNING_NONE					0

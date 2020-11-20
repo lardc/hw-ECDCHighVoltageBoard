@@ -68,7 +68,7 @@ void LOGIC_CacheVariables()
 }
 //-----------------------------
 
-bool LOGIC_RegulatorCycle(float Voltage, Int16U *Fault)
+bool LOGIC_RegulatorCycle(float Voltage, Int16U *Problem)
 {
 	static Int16U FollowingErrorCounter = 0;
 	float RegulatorError, Qp, RegulatorOut, ErrorX;
@@ -102,7 +102,7 @@ bool LOGIC_RegulatorCycle(float Voltage, Int16U *Fault)
 			if(FollowingErrorCounter >= DataTable[REG_FOLLOWING_ERR_CNT_NUM])
 			{
 				FollowingErrorCounter = 0;
-				*Fault = DF_FOLOWING_ERROR;
+				*Problem = PROBLEM_FOLOWING_ERROR;
 				return true;
 			}
 		}
@@ -251,6 +251,7 @@ void LOGIC_LoggingProcess(volatile MeasureSample* Sample)
 
 void LOGIC_StopProcess()
 {
+	LL_PowerSupplyEnable(false);
 	TIM_Stop(TIM6);
 	DISOPAMP_SetVoltage(0);
 }

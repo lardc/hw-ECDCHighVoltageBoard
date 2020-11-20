@@ -9,7 +9,7 @@ extern float VoltageTarget;
 extern float CurrentCutOff;
 
 // Functions
-bool LOGIC_RegulatorCycle(float Voltage, Int16U *Fault);
+bool LOGIC_RegulatorCycle(float Voltage, Int16U *Problem);
 void LOGIC_StopProcess();
 void LOGIC_StartPrepare();
 bool LOGIC_CheckExcessCurrentCutOff(float Current);
