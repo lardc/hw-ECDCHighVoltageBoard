@@ -108,7 +108,7 @@ void CU_LoadConvertParams()
 	MeasureVParams[MEASURE_VOLTAGE_RANGE_0].P2 = (float)(Int16S)DataTable[REG_ADC_V_RANGE0_P2] / 1e6;
 	MeasureVParams[MEASURE_VOLTAGE_RANGE_0].P1 = (float)DataTable[REG_ADC_V_RANGE0_P1] / 1000;
 	MeasureVParams[MEASURE_VOLTAGE_RANGE_0].P0 = (float)((Int16S)DataTable[REG_ADC_V_RANGE0_P0]) / 10;
-	MeasureVParams[MEASURE_VOLTAGE_RANGE_0].K = (float)DataTable[REG_ADC_V_RANGE0_K] / 1000;
+	MeasureVParams[MEASURE_VOLTAGE_RANGE_0].K = (float)DataTable[REG_ADC_V_RANGE0_K] / 10000;
 	MeasureVParams[MEASURE_VOLTAGE_RANGE_0].B = (Int16S)DataTable[REG_ADC_V_RANGE0_B] / 10;
 
 	MeasureVParams[MEASURE_VOLTAGE_RANGE_1].P2 = (float)(Int16S)DataTable[REG_ADC_V_RANGE1_P2] / 1e6;

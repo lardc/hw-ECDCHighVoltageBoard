@@ -8,41 +8,39 @@
 // Variables
 Int16U CurrentCutOffRange = 0;
 
-// Functions prototypes
-void DISOPAMP_SetCurrentRange(float Current);
-
 
 // Functions
 //
 void DISOPAMP_SetCurrentCutOff(float Current)
 {
-	DISOPAMP_SetCurrentRange(Current);
-	LL_WriteDACx(CU_ItoDAC(Current, CurrentCutOffRange) & ~DAC_CHANNEL_B, DISOPAMP_POSITION_CELL0, DISOPAMP_TOTAL_CELL, true);
-}
-//-----------------------------
+	float HardwareCurrentCutoff;
 
-void DISOPAMP_SetCurrentRange(float Current)
-{
-	if(Current >= DISOPAMP_CURRENT_THRESHOLD_RANGE_3)
-	{
-		LL_SetCurrentRange3();
-		CurrentCutOffRange = CURRENT_RANGE3;
-	}
-	else if(Current >= DISOPAMP_CURRENT_THRESHOLD_RANGE_2)
-	{
-		LL_SetCurrentRange2();
-		CurrentCutOffRange = CURRENT_RANGE2;
-	}
-	else if(Current >= DISOPAMP_CURRENT_THRESHOLD_RANGE_1)
-	{
-			LL_SetCurrentRange1();
-			CurrentCutOffRange = CURRENT_RANGE1;
-	}
-	else
+	if(Current <= DISOPAMP_CURRENT_THRESHOLD_RANGE_0)
 	{
 		LL_SetCurrentRange0();
 		CurrentCutOffRange = CURRENT_RANGE0;
+		HardwareCurrentCutoff = DISOPAMP_CURRENT_THRESHOLD_RANGE_0;
 	}
+	else if(Current <= DISOPAMP_CURRENT_THRESHOLD_RANGE_1)
+	{
+		LL_SetCurrentRange1();
+		CurrentCutOffRange = CURRENT_RANGE1;
+		HardwareCurrentCutoff = DISOPAMP_CURRENT_THRESHOLD_RANGE_1;
+	}
+	else if(Current <= DISOPAMP_CURRENT_THRESHOLD_RANGE_2)
+	{
+		LL_SetCurrentRange2();
+		CurrentCutOffRange = CURRENT_RANGE2;
+		HardwareCurrentCutoff = DISOPAMP_CURRENT_THRESHOLD_RANGE_2;
+	}
+	else
+	{
+		LL_SetCurrentRange3();
+		CurrentCutOffRange = CURRENT_RANGE3;
+		HardwareCurrentCutoff = DISOPAMP_CURRENT_THRESHOLD_RANGE_3;
+	}
+
+	LL_WriteDACx(CU_ItoDAC(HardwareCurrentCutoff, CurrentCutOffRange) & ~DAC_CHANNEL_B, DISOPAMP_POSITION_CELL0, DISOPAMP_TOTAL_CELL, true);
 }
 //-----------------------------
 
