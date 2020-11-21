@@ -60,6 +60,10 @@
 //
 #define VOLTAGE_SETPOINT_MIN		250			// (В * 10)
 #define VOLTAGE_SETPOINT_MAX		20000		// (В * 10)
+//
+#define POST_CHARGE_WAIT_MIN		200			// (мс)
+#define POST_CHARGE_WAIT_MAX		5000		// (мс)
+#define POST_CHARGE_WAIT_DEF		1000		// (мс)
 
 // Types
 typedef struct __TableItemConstraint

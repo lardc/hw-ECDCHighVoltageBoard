@@ -118,7 +118,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 	{
 		case ACT_ENABLE_POWER:
 			if(CONTROL_State == DS_None)
-				CONTROL_SetDeviceState(DS_InProcess, SS_PowerOn);
+				CONTROL_SetDeviceState(DS_Ready, SS_None);
 			else if(CONTROL_State != DS_Ready)
 				*pUserError = ERR_OPERATION_BLOCKED;
 			break;
@@ -129,8 +129,7 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 				LOGIC_StopProcess();
 				CONTROL_SetDeviceState(DS_None, SS_None);
 			}
-			else
-				if(CONTROL_State != DS_None)
+			else if(CONTROL_State != DS_None)
 					*pUserError = ERR_OPERATION_BLOCKED;
 			break;
 
@@ -142,18 +141,25 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 				CONTROL_SetDeviceState(DS_InProcess, SS_PowerPrepare);
 			}
 			else
-				if (CONTROL_State == DS_InProcess)
+				if (CONTROL_State == DS_InProcess || CONTROL_State == DS_InProcessExt)
 					*pUserError = ERR_OPERATION_BLOCKED;
 				else
 					*pUserError = ERR_DEVICE_NOT_READY;
 			break;
 
 		case ACT_STOP_PROCESS:
-			if (CONTROL_State == DS_InProcess)
+			if (CONTROL_State == DS_InProcess || CONTROL_State == DS_InProcessExt)
 			{
 				LOGIC_StopProcess();
 				CONTROL_SetDeviceState(DS_Ready, SS_None);
 			}
+			break;
+
+		case ACT_SECOND_START_PROCESS:
+			if (CONTROL_State == DS_InProcessExt)
+				CONTROL_SetDeviceState(DS_InProcess, SS_ExecutePulse);
+			else
+				*pUserError = ERR_OPERATION_BLOCKED;
 			break;
 
 		case ACT_CLR_FAULT:
@@ -178,52 +184,56 @@ static Boolean CONTROL_DispatchAction(Int16U ActionID, pInt16U pUserError)
 
 void CONTROL_LogicProcess()
 {
-	static Int64U PowerPrepareTimer = 0;
+	static Int64U DelayCounter = 0;
 
-	switch(CONTROL_SubState)
+	if(CONTROL_State == DS_InProcess || CONTROL_State == DS_InProcessExt)
 	{
-		case SS_PowerOn:
-			CONTROL_SetDeviceState(DS_Ready, SS_None);
-			break;
+		switch(CONTROL_SubState)
+		{
+			case SS_PowerPrepare:
+				LL_SetStateExtMsrLed(true);
+				CONTROL_SetDeviceState(DS_InProcess, SS_WaitAfterPulse);
+				break;
 
-		case SS_PowerPrepare:
-			{
+			case SS_WaitAfterPulse:
 				if(CONTROL_TimeCounter > CONTROL_AfterPulsePause)
 				{
-					if(!PowerPrepareTimer)
-					{
-						LL_SetStateExtMsrLed(true);
-						LL_PowerSupplyEnable(true);
-						PowerPrepareTimer = CONTROL_TimeCounter + DataTable[REG_PS_ACTIVITY_TIME];
-					}
-
-					if(CONTROL_TimeCounter > PowerPrepareTimer)
-					{
-						PowerPrepareTimer = 0;
-						LL_PowerSupplyEnable(false);
-
-						CONTROL_SetDeviceState(DS_InProcess, SS_PowerPrepareDelay);
-					}
+					LL_PowerSupplyEnable(true);
+					DelayCounter = CONTROL_TimeCounter + DataTable[REG_PS_ACTIVITY_TIME];
+					CONTROL_SetDeviceState(DS_InProcess, SS_ChargeHVPowerSupply);
 				}
-			}
-			break;
+				break;
 
-		case SS_PowerPrepareDelay:
-			{
-				if(!PowerPrepareTimer)
-					PowerPrepareTimer = CONTROL_TimeCounter + DataTable[REG_START_DELAY];
-
-				if(CONTROL_TimeCounter > PowerPrepareTimer)
+			case SS_ChargeHVPowerSupply:
+				if(CONTROL_TimeCounter > DelayCounter)
 				{
-					PowerPrepareTimer = 0;
-					CONTROL_SetDeviceState(DS_InProcess, SS_Pulse);
-					CONTROL_StartProcess();
+					LL_PowerSupplyEnable(false);
+					DelayCounter = CONTROL_TimeCounter + DataTable[REG_START_DELAY];
+					CONTROL_SetDeviceState(DS_InProcess, SS_PrePulseDelay);
 				}
-			}
-			break;
+				break;
 
-		default:
-			break;
+			case SS_PrePulseDelay:
+				if(CONTROL_TimeCounter > DelayCounter)
+				{
+					DelayCounter = CONTROL_TimeCounter + DataTable[REG_POST_CHARGE_WAIT_TIME];
+					CONTROL_SetDeviceState(DS_InProcessExt, SS_WaitSecondStart);
+				}
+				break;
+
+			case SS_WaitSecondStart:
+				if(CONTROL_TimeCounter > DelayCounter)
+					CONTROL_SetDeviceState(DS_Ready, SS_None);
+				break;
+
+			case SS_ExecutePulse:
+				CONTROL_SetDeviceState(DS_InProcess, SS_Pulse);
+				CONTROL_StartProcess();
+				break;
+
+			default:
+				break;
+		}
 	}
 }
 //-----------------------------------------------

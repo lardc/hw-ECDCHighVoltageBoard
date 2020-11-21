@@ -19,6 +19,7 @@
 
 #define ACT_START_PROCESS				100	// Старт измерения
 #define ACT_STOP_PROCESS				101	// Стоп измерения
+#define ACT_SECOND_START_PROCESS		102	// Команда запуска второго этапа формирования импульса
 
 #define ACT_SAVE_TO_ROM					200	// Сохранение пользовательских данных во FLASH процессора
 #define ACT_RESTORE_FROM_ROM			201	// Восстановление данных из FLASH
@@ -41,7 +42,8 @@
 #define REG_MEASURE_ALLOWED_ERR			9	// Допустимая ошибка при измерении (% * 10)
 #define REG_MUTE_FOLLOWING_ERR			10	// Выключить слежение за ошибкой DF_FOLOWING_ERROR
 #define REG_MUTE_EXCESS_CURRENT			11	// Выключение слежение за отсечкой по току
-// 12 - 19
+#define REG_POST_CHARGE_WAIT_TIME		12	// Время ожидания импульса запуска после окончания заряда (мс)
+// 13 - 19
 #define REG_DAC_V_CELL_K				20	// Коэффициент грубой подстройки К
 #define REG_DAC_V_CELL_B				21	// Смещение грубой подстройки B
 //

@@ -20,7 +20,7 @@ const TableItemConstraint NVConstraint[DATA_TABLE_NV_SIZE] = {
 		{ALOWED_ERROR_MIN, ALOWED_ERROR_MAX, ALOWED_ERROR_DEF},						// 9
 		{NO, YES, NO},																// 10
 		{NO, YES, NO},																// 11
-		{0, 0, 0},																	// 12
+		{POST_CHARGE_WAIT_MIN, POST_CHARGE_WAIT_MAX, POST_CHARGE_WAIT_DEF},			// 12
 		{0, 0, 0},																	// 13
 		{0, 0, 0},																	// 14
 		{0, 0, 0},																	// 15
