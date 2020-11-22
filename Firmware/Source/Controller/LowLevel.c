@@ -40,13 +40,13 @@ void LL_SetStateExtMsrLed(bool State)
 
 void LL_SetStateLineSync1(bool State)
 {
-	GPIO_SetState(GPIO_SYNC1_OUT, !State);
+	GPIO_SetState(GPIO_SYNC1_OUT, State);
 }
 //-----------------------------
 
 void LL_SetStateLineSync2(bool State)
 {
-	GPIO_SetState(GPIO_SYNC2_OUT, !State);
+	GPIO_SetState(GPIO_SYNC2_OUT, State);
 }
 //-----------------------------
 
