@@ -162,6 +162,6 @@ void INITCFG_ConfigDMA()
 void INITCFG_ConfigSPI()
 {
 	SPI_Init(SPI1, SPI1_BAUDRATE_BITS, SPI1_LSB_FIRST);
-	SPI_SetSyncPolarity(SPI1, RISE_Edge);
+	SPI_InvertClockPolarity(SPI1, true);
 }
 //------------------------------------------------
