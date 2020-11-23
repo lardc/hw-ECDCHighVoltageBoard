@@ -152,26 +152,17 @@ void LOGIC_SaveRegulatorErr(float Error)
 	if (LocalCounter >= VALUES_x_SIZE)
 		LocalCounter = 0;
 }
+//-----------------------------
 
-void LOGIC_SaveAveragedTestResult()
+Int16U LOGIC_GetVoltageTestResult()
 {
-	Int32U Current;
-
-	DataTable[REG_RESULT_VOLTAGE] = (Int16U)(LOGIC_ExtractAveragedDatas(&RingBuffer_Voltage[0], MAF_BUFFER_LENGTH) / 10);
-	Current = LOGIC_ExtractAveragedDatas(&RingBuffer_Current[0], MAF_BUFFER_LENGTH);
-	DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
-	DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
+	return (Int16U)(LOGIC_ExtractAveragedDatas(&RingBuffer_Voltage[0], MAF_BUFFER_LENGTH) / 10);
 }
 //-----------------------------
 
-void LOGIC_SaveLastSampledTestResult(volatile MeasureSample* Sample)
+Int32U LOGIC_GetCurrentTestResult()
 {
-	Int32U Current;
-
-	DataTable[REG_RESULT_VOLTAGE] = (Int16U)(Sample->Voltage * 10);
-	Current = (Int32U) (Sample->Current * 100);
-	DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
-	DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
+	return LOGIC_ExtractAveragedDatas(&RingBuffer_Current[0], MAF_BUFFER_LENGTH);
 }
 //-----------------------------
 

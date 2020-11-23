@@ -43,9 +43,11 @@ void CONTROL_DelayMs(uint32_t Delay);
 void CONTROL_UpdateWatchDog();
 void CONTROL_ResetToDefaultState();
 void CONTROL_LogicProcess();
-void CONTROL_StopProcess(bool ExcessCurrent, Int16U Problem);
+void CONTROL_StopProcess();
 void CONTROL_StartProcess();
 void CONTROL_ResetOutputRegisters();
+void CONTROL_SaveTestResult(bool ExcessCurrent, Int16U Problem);
+void CONTROL_ClearTestResult();
 
 // Functions
 //
@@ -254,12 +256,8 @@ void CONTROL_HighPriorityProcess()
 
 		if(RegulatorWasFinishedProcess || ExcessCurrent)
 		{
-			CONTROL_StopProcess(ExcessCurrent, Problem);
-
-			if(ExcessCurrent)
-				LOGIC_SaveLastSampledTestResult(&SampleParams);
-			else
-				LOGIC_SaveAveragedTestResult();
+			CONTROL_StopProcess();
+			CONTROL_SaveTestResult(ExcessCurrent, Problem);
 		}
 
 		LOGIC_LoggingProcess(&SampleParams);
@@ -275,34 +273,59 @@ void CONTROL_StartProcess()
 }
 //-----------------------------------------------
 
-void CONTROL_StopProcess(bool ExcessCurrent, Int16U Problem)
+void CONTROL_StopProcess()
 {
 	LOGIC_StopProcess();
 
 	LL_SetStateLineSync2(false);
 	LL_SetStateExtMsrLed(false);
 
+	CONTROL_AfterPulsePause = CONTROL_TimeCounter + DataTable[REG_AFTER_PULSE_PAUSE];
+
+	CONTROL_SetDeviceState(DS_Ready, SS_None);
+}
+//-----------------------------------------------
+
+void CONTROL_SaveTestResult(bool ExcessCurrent, Int16U Problem)
+{
+	Int32U Current;
+
 	if(ExcessCurrent && (Problem == PROBLEM_FOLOWING_ERROR))
 	{
 		DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
 		DataTable[REG_PROBLEM] = PROBLEM_SHORT_CICUIT;
+		CONTROL_ClearTestResult();
 	}
 	else if(ExcessCurrent)
 	{
 		DataTable[REG_OP_RESULT] = OPRESULT_OK;
 		DataTable[REG_PROBLEM] = PROBLEM_CURRENT_CUTOFF;
+		CONTROL_ClearTestResult();
 	}
 	else if(Problem == PROBLEM_FOLOWING_ERROR)
 	{
 		DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
 		DataTable[REG_PROBLEM] = PROBLEM_FOLOWING_ERROR;
+		CONTROL_ClearTestResult();
 	}
 	else
+	{
 		DataTable[REG_OP_RESULT] = OPRESULT_OK;
 
-	CONTROL_AfterPulsePause = CONTROL_TimeCounter + DataTable[REG_AFTER_PULSE_PAUSE];
+		DataTable[REG_RESULT_VOLTAGE] = LOGIC_GetVoltageTestResult();
 
-	CONTROL_SetDeviceState(DS_Ready, SS_None);
+		Current = LOGIC_GetCurrentTestResult();
+		DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
+		DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
+	}
+}
+//-----------------------------------------------
+
+void CONTROL_ClearTestResult()
+{
+	DataTable[REG_RESULT_VOLTAGE] = 0;
+	DataTable[REG_RESULT_CURRENT_H] = 0;
+	DataTable[REG_RESULT_CURRENT_L] = 0;
 }
 //-----------------------------------------------
 

@@ -14,7 +14,7 @@ void LOGIC_StopProcess();
 void LOGIC_StartPrepare();
 bool LOGIC_CheckExcessCurrentCutOff(float Current);
 void LOGIC_LoggingProcess(volatile MeasureSample* Sample);
-void LOGIC_SaveAveragedTestResult();
-void LOGIC_SaveLastSampledTestResult(volatile MeasureSample* Sample);
+Int16U LOGIC_GetVoltageTestResult();
+Int32U LOGIC_GetCurrentTestResult();
 
 #endif /* LOGIC_H_ */
