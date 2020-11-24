@@ -299,14 +299,23 @@ void CONTROL_SaveTestResult(bool ExcessCurrent, Int16U Problem)
 	else
 	{
 		DataTable[REG_OP_RESULT] = OPRESULT_OK;
+
 		if(ExcessCurrent)
-			DataTable[REG_WARNING] = REG_WARNING;
+		{
+			DataTable[REG_WARNING] = WARNING_CURRENT_CUTOFF;
 
-		DataTable[REG_RESULT_VOLTAGE] = LOGIC_GetVoltageTestResult();
-
-		Current = LOGIC_GetCurrentTestResult();
-		DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
-		DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
+			Current = (Int32U)LOGIC_GetLastSampledCurrent();
+			DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
+			DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
+			DataTable[REG_RESULT_VOLTAGE] = (Int16U)(LOGIC_GetLastSampledVoltage() * 10);
+		}
+		else
+		{
+			Current = (Int32U)LOGIC_GetAverageCurrent();
+			DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
+			DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
+			DataTable[REG_RESULT_VOLTAGE] = (Int16U)(LOGIC_GetAverageVoltage() * 10);
+		}
 	}
 }
 //-----------------------------------------------

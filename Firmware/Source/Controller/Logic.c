@@ -20,6 +20,7 @@ Int16U PulsePointsQuantity = 0;
 volatile Int64U LOGIC_PowerOnCounter = 0;
 volatile Int64U LOGIC_BetweenPulsesDelay = 0;
 volatile Int64U LOGIC_TestTime = 0;
+volatile Int16U RingBufferIndex = 0;
 
 // Arrays
 float RingBuffer_Current[MAF_BUFFER_LENGTH];
@@ -154,15 +155,27 @@ void LOGIC_SaveRegulatorErr(float Error)
 }
 //-----------------------------
 
-Int16U LOGIC_GetVoltageTestResult()
+float LOGIC_GetAverageVoltage()
 {
-	return (Int16U)(LOGIC_ExtractAveragedDatas(&RingBuffer_Voltage[0], MAF_BUFFER_LENGTH) / 10);
+	return LOGIC_ExtractAveragedDatas(&RingBuffer_Voltage[0], MAF_BUFFER_LENGTH);
 }
 //-----------------------------
 
-Int32U LOGIC_GetCurrentTestResult()
+float LOGIC_GetAverageCurrent()
 {
 	return LOGIC_ExtractAveragedDatas(&RingBuffer_Current[0], MAF_BUFFER_LENGTH);
+}
+//-----------------------------
+
+float LOGIC_GetLastSampledVoltage()
+{
+	return RingBuffer_Voltage[RingBufferIndex];
+}
+//-----------------------------
+
+float LOGIC_GetLastSampledCurrent()
+{
+	return RingBuffer_Current[RingBufferIndex];
 }
 //-----------------------------
 
@@ -179,13 +192,11 @@ Int32U LOGIC_ExtractAveragedDatas(float* Buffer, Int16U BufferLength)
 
 void LOGIC_SaveToRingBuffer(volatile MeasureSample* Sample)
 {
-	static Int16U BufferIndex = 0;
+	RingBuffer_Current[RingBufferIndex] = Sample->Current;
+	RingBuffer_Voltage[RingBufferIndex] = Sample->Voltage;
 
-	RingBuffer_Current[BufferIndex] = Sample->Current;
-	RingBuffer_Voltage[BufferIndex] = Sample->Voltage;
-
-	BufferIndex++;
-	BufferIndex &= MAF_BUFFER_INDEX_MASK;
+	RingBufferIndex++;
+	RingBufferIndex &= MAF_BUFFER_INDEX_MASK;
 }
 //-----------------------------
 
