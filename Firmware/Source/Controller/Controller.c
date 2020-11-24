@@ -290,13 +290,7 @@ void CONTROL_SaveTestResult(bool ExcessCurrent, Int16U Problem)
 {
 	Int32U Current;
 
-	if(ExcessCurrent && (Problem == PROBLEM_FOLOWING_ERROR))
-	{
-		DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
-		DataTable[REG_PROBLEM] = PROBLEM_SHORT_CICUIT;
-		CONTROL_ClearTestResult();
-	}
-	else if(Problem == PROBLEM_FOLOWING_ERROR)
+	if(Problem == PROBLEM_FOLOWING_ERROR)
 	{
 		DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
 		DataTable[REG_PROBLEM] = PROBLEM_FOLOWING_ERROR;
