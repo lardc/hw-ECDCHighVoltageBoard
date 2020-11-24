@@ -296,12 +296,6 @@ void CONTROL_SaveTestResult(bool ExcessCurrent, Int16U Problem)
 		DataTable[REG_PROBLEM] = PROBLEM_SHORT_CICUIT;
 		CONTROL_ClearTestResult();
 	}
-	else if(ExcessCurrent)
-	{
-		DataTable[REG_OP_RESULT] = OPRESULT_OK;
-		DataTable[REG_PROBLEM] = PROBLEM_CURRENT_CUTOFF;
-		CONTROL_ClearTestResult();
-	}
 	else if(Problem == PROBLEM_FOLOWING_ERROR)
 	{
 		DataTable[REG_OP_RESULT] = OPRESULT_FAIL;
@@ -311,6 +305,8 @@ void CONTROL_SaveTestResult(bool ExcessCurrent, Int16U Problem)
 	else
 	{
 		DataTable[REG_OP_RESULT] = OPRESULT_OK;
+		if(ExcessCurrent)
+			DataTable[REG_WARNING] = REG_WARNING;
 
 		DataTable[REG_RESULT_VOLTAGE] = LOGIC_GetVoltageTestResult();
 
