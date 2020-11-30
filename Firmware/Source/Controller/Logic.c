@@ -30,7 +30,7 @@ float RingBuffer_Voltage[MAF_BUFFER_LENGTH];
 void LOGIC_SetCurrentCutOff(float Current);
 void LOGIC_CacheVariables();
 void LOGIC_SaveToRingBuffer(volatile MeasureSample* Sample);
-Int32U LOGIC_ExtractAveragedDatas(float* Buffer, Int16U BufferLength);
+float LOGIC_ExtractAveragedDatas(float* Buffer, Int16U BufferLength);
 void LOGIC_SaveRegulatorErr(float Error);
 void LOGIC_ClearVariables();
 
@@ -179,14 +179,14 @@ float LOGIC_GetLastSampledCurrent()
 }
 //-----------------------------
 
-Int32U LOGIC_ExtractAveragedDatas(float* Buffer, Int16U BufferLength)
+float LOGIC_ExtractAveragedDatas(float* Buffer, Int16U BufferLength)
 {
 	float Temp = 0;
 
 	for(int i = 0; i < BufferLength; i++)
 		Temp += *(Buffer + i);
 
-	return (Int32U) (Temp / BufferLength * 100);
+	return (Temp / BufferLength);
 }
 //-----------------------------
 

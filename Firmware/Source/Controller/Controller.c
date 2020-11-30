@@ -311,7 +311,7 @@ void CONTROL_SaveTestResult(bool ExcessCurrent, Int16U Problem)
 		}
 		else
 		{
-			Current = (Int32U)LOGIC_GetAverageCurrent();
+			Current = (Int32U)(LOGIC_GetAverageCurrent() * 100);
 			DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
 			DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
 			DataTable[REG_RESULT_VOLTAGE] = (Int16U)(LOGIC_GetAverageVoltage() * 10);
