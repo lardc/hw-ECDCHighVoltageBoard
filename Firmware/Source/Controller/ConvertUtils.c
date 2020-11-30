@@ -63,19 +63,6 @@ Int16U CU_VtoDAC(float Voltage)
 }
 //-----------------------------
 
-Int16U CU_ItoDAC(float Current, Int16U CurrentRange)
-{
-	Int16U Temp;
-
-	Temp = CU_XtoDAC(Current, DisOpAmpIParams[CurrentRange]);
-
-	if (Temp > DAC_MAX_VAL)
-		return DAC_MAX_VAL;
-	else
-		return Temp;
-}
-//-----------------------------
-
 float CU_ADCtoX(Int16U Data, MeasurementConvertParams* Coefficients)
 {
 	float Temp;
@@ -120,9 +107,6 @@ void CU_LoadConvertParams()
 	// Параметры преобразования тока
 	for(int i = 0; i < DISOPAMP_CURRENT_RANGE_QUANTITY; i++)
 	{
-		DisOpAmpIParams[i].K = (float)DataTable[REG_DAC_I_RANGE0_N + i * 3] / DataTable[REG_DAC_I_RANGE0_D + i * 6];
-		DisOpAmpIParams[i].B = (Int16S)DataTable[REG_DAC_I_RANGE0_B + i * 3];
-
 		MeasureIParams[i].P2 = (float)(Int16S)DataTable[REG_ADC_I_RANGE0_P2 + i * 6] / 1e6;
 		MeasureIParams[i].P1 = (float)DataTable[REG_ADC_I_RANGE0_P1 + i * 6] / 1000;
 		MeasureIParams[i].P0 = (float)((Int16S)DataTable[REG_ADC_I_RANGE0_P0 + i * 6]) / 100;
