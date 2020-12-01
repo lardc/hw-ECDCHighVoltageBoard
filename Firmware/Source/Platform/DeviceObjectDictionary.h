@@ -112,6 +112,7 @@
 #define REG_RESULT_CURRENT_H			202	// Измеренный ток (младшая часть), при заданном напряжении (мкА * 10)
 //
 #define REG_MEASURE_ERR_FLAG			205	// Флаг, выставляемый при достижении ошибки регулирования заданного значения
+#define REG_TARGET_VOLTAGE_FLAG			206	// Флаг выхода напряжения на уставку
 // -----------------------------
 #define REG_FWINFO_SLAVE_NID			256	// Device CAN slave node ID
 #define REG_FWINFO_MASTER_NID			257	// Device CAN master node ID (if presented)

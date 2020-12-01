@@ -27,12 +27,12 @@ float RingBuffer_Current[MAF_BUFFER_LENGTH];
 float RingBuffer_Voltage[MAF_BUFFER_LENGTH];
 
 // Functions prototypes
-void LOGIC_SetCurrentCutOff(float Current);
 void LOGIC_CacheVariables();
 void LOGIC_SaveToRingBuffer(volatile MeasureSample* Sample);
 float LOGIC_ExtractAveragedDatas(float* Buffer, Int16U BufferLength);
 void LOGIC_SaveRegulatorErr(float Error);
 void LOGIC_ClearVariables();
+float LOGIC_GetLastSampledData(float* InputBuffer);
 
 // Functions
 //
@@ -40,7 +40,7 @@ void LOGIC_StartPrepare()
 {
 	LOGIC_CacheVariables();
 	CU_LoadConvertParams();
-	LOGIC_SetCurrentCutOff(CurrentCutOff);
+	LOGIC_SetCurrentRange();
 	MEASURE_SetVoltageRange(VoltageSetpoint);
 }
 //-----------------------------
@@ -66,9 +66,15 @@ bool LOGIC_RegulatorCycle(float Voltage, Int16U *Problem)
 	float RegulatorError, Qp, RegulatorOut, ErrorX;
 
 	// Формирование линейно нарастающего фронта импульса напряжения
-	VoltageTarget += dV;
+	if(VoltageTarget < VoltageSetpoint)
+		VoltageTarget += dV;
+
 	if(VoltageTarget > VoltageSetpoint)
+	{
 		VoltageTarget = VoltageSetpoint;
+		DataTable[REG_TARGET_VOLTAGE_FLAG] = true;
+		LOGIC_SetCurrentRange();
+	}
 
 	RegulatorError = (RegulatorPulseCounter == 0) ? 0 : (VoltageTarget - Voltage);
 
@@ -169,13 +175,24 @@ float LOGIC_GetAverageCurrent()
 
 float LOGIC_GetLastSampledVoltage()
 {
-	return RingBuffer_Voltage[RingBufferIndex];
+	return LOGIC_GetLastSampledData(&RingBuffer_Voltage[0]);
 }
 //-----------------------------
 
 float LOGIC_GetLastSampledCurrent()
 {
-	return RingBuffer_Current[RingBufferIndex];
+	return LOGIC_GetLastSampledData(&RingBuffer_Current[0]);
+}
+//-----------------------------
+
+float LOGIC_GetLastSampledData(float* InputBuffer)
+{
+	Int16U Index;
+
+	Index = RingBufferIndex - 1;
+	Index &= MAF_BUFFER_INDEX_MASK;
+
+	return *(InputBuffer + Index);
 }
 //-----------------------------
 
@@ -212,13 +229,13 @@ void LOGIC_LoggingProcess(volatile MeasureSample* Sample)
 	{
 		ScopeLogStep = 0;
 
-		CONTROL_ValuesVoltage[LocalCounter] = (Int16U)Sample->Voltage;
+		CONTROL_ValuesVoltage[LocalCounter] = (Int16U)(Sample->Voltage * 10);
 
 		switch(DISOPAMP_GetCurrentRange())
 		{
 			case CURRENT_RANGE0:
 			case CURRENT_RANGE1:
-				CONTROL_ValuesCurrent[LocalCounter] = (Int16U)(Sample->Current * 10);
+				CONTROL_ValuesCurrent[LocalCounter] = (Int16U)(Sample->Current * 100);
 				break;
 
 			case CURRENT_RANGE2:
@@ -258,24 +275,36 @@ void LOGIC_ClearVariables()
 		RingBuffer_Voltage[i] = 0;
 	}
 
+	RingBufferIndex = 0;
 	Qi = 0;
 	RegulatorPulseCounter = 0;
 	VoltageTarget = 0;
 	LOGIC_TestTime = 0;
+
+	DataTable[REG_TARGET_VOLTAGE_FLAG] = false;
 }
 //-----------------------------
 
-void LOGIC_SetCurrentCutOff(float Current)
+void LOGIC_SetCurrentRange()
 {
-	DISOPAMP_SetCurrentCutOff(Current);
+	if(DataTable[REG_TARGET_VOLTAGE_FLAG])
+		DISOPAMP_SetCurrentCutOff(CurrentCutOff);
+	else
+		DISOPAMP_SetCurrentCutOff(DISOPAMP_CURRENT_THRESHOLD_RANGE_3);
 }
 //-----------------------------
 
 bool LOGIC_CheckExcessCurrentCutOff(float Current)
 {
-	if(!DataTable[REG_MUTE_EXCESS_CURRENT] && (Current >= CurrentCutOff))
-		return true;
-	else
-		return false;
+	if(!DataTable[REG_MUTE_EXCESS_CURRENT])
+	{
+		if(!DataTable[REG_TARGET_VOLTAGE_FLAG] && (Current >= DISOPAMP_CURRENT_THRESHOLD_RANGE_3))
+			return true;
+
+		if(DataTable[REG_TARGET_VOLTAGE_FLAG] && (Current >= CurrentCutOff))
+			return true;
+	}
+
+	return false;
 }
 //-----------------------------

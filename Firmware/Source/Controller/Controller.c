@@ -249,6 +249,8 @@ void CONTROL_HighPriorityProcess()
 	{
 		MEASURE_SampleParams(&SampleParams);
 
+		LOGIC_LoggingProcess(&SampleParams);
+
 		ExcessCurrent = LOGIC_CheckExcessCurrentCutOff(SampleParams.Current);
 
 		if(!ExcessCurrent)
@@ -259,8 +261,6 @@ void CONTROL_HighPriorityProcess()
 			CONTROL_StopProcess();
 			CONTROL_SaveTestResult(ExcessCurrent, Problem);
 		}
-
-		LOGIC_LoggingProcess(&SampleParams);
 	}
 }
 //-----------------------------------------------
@@ -304,7 +304,7 @@ void CONTROL_SaveTestResult(bool ExcessCurrent, Int16U Problem)
 		{
 			DataTable[REG_WARNING] = WARNING_CURRENT_CUTOFF;
 
-			Current = (Int32U)LOGIC_GetLastSampledCurrent();
+			Current = (Int32U)(LOGIC_GetLastSampledCurrent() * 100);
 			DataTable[REG_RESULT_CURRENT_H] = (Int16U)(Current >> 16);
 			DataTable[REG_RESULT_CURRENT_L] = (Int16U)Current;
 			DataTable[REG_RESULT_VOLTAGE] = (Int16U)(LOGIC_GetLastSampledVoltage() * 10);

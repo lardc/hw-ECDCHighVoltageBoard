@@ -18,5 +18,6 @@ float LOGIC_GetAverageVoltage();
 float LOGIC_GetAverageCurrent();
 float LOGIC_GetLastSampledVoltage();
 float LOGIC_GetLastSampledCurrent();
+void LOGIC_SetCurrentRange();
 
 #endif /* LOGIC_H_ */
