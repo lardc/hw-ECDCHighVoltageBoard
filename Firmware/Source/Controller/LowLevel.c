@@ -1,4 +1,4 @@
-// Header
+п»ї// Header
 #include "LowLevel.h"
 // Include
 #include "Board.h"
@@ -102,13 +102,13 @@ void LL_SetCurrentRange3()
 
 void LL_WriteDACx(Int16U Data, Int16U CellStartNumber, Int16U CellTotal, bool ToggleLDAC)
 {
-	// Установка линий CS_SYNC в 0
+	// РЈСЃС‚Р°РЅРѕРІРєР° Р»РёРЅРёР№ CS_SYNC РІ 0
 	for(int i = CellStartNumber; i < (CellStartNumber + CellTotal); i++)
 		LL_CsSyncControl[i](false);
 
 	SPI_WriteByte(SPI1, Data);
 
-	// Установка линий CS_SYNC в 1
+	// РЈСЃС‚Р°РЅРѕРІРєР° Р»РёРЅРёР№ CS_SYNC РІ 1
 	for(int i = CellStartNumber; i < (CellStartNumber + CellTotal); i++)
 		LL_CsSyncControl[i](true);
 

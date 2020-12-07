@@ -1,4 +1,4 @@
-#ifndef __CONSTRAINTS_H
+п»ї#ifndef __CONSTRAINTS_H
 #define __CONSTRAINTS_H
 
 // Include
@@ -10,9 +10,9 @@
 #define NO		0
 #define YES		1
 
-#define PS_ACTIVITY_TIME_MIN		100			// мс
-#define PS_ACTIVITY_TIME_MAX		10000		// мс
-#define PS_ACTIVITY_TIME_DEF		1500		// мс
+#define PS_ACTIVITY_TIME_MIN		100			// РјСЃ
+#define PS_ACTIVITY_TIME_MAX		10000		// РјСЃ
+#define PS_ACTIVITY_TIME_DEF		1500		// РјСЃ
 //
 #define COEF_P2_MIN					0
 #define COEF_P2_MAX					INT16U_MAX
@@ -34,13 +34,13 @@
 #define REGULATOR_KI_MAX			INT16U_MAX
 #define REGULATOR_KI_DEF			0
 //
-#define PULSE_WIDTH_MIN				1			// (мс)
-#define PULSE_WIDTH_MAX				200			// (мс)
-#define PULSE_WIDTH_DEF				100			// (мс)
+#define PULSE_WIDTH_MIN				1			// (РјСЃ)
+#define PULSE_WIDTH_MAX				200			// (РјСЃ)
+#define PULSE_WIDTH_DEF				100			// (РјСЃ)
 //
-#define FRONT_WIDTH_MIN				1			// (мс)
-#define FRONT_WIDTH_MAX				200			// (мс)
-#define FRONT_WIDTH_DEF				30			// (мс)
+#define FRONT_WIDTH_MIN				1			// (РјСЃ)
+#define FRONT_WIDTH_MAX				200			// (РјСЃ)
+#define FRONT_WIDTH_DEF				30			// (РјСЃ)
 //
 #define ALOWED_ERROR_MIN			0			// (% * 10)
 #define ALOWED_ERROR_MAX			1000		// (% * 10)
@@ -50,20 +50,20 @@
 #define HW_I_CUTOFF_K_MAX			30			// (%)
 #define HW_I_CUTOFF_K_DEF			10			// (%)
 //
-#define START_DELAY_MIN				0			// (мс)
-#define START_DELAY_MAX				100			// (мс)
-#define START_DELAY_DEF				50			// (мс)
+#define START_DELAY_MIN				0			// (РјСЃ)
+#define START_DELAY_MAX				100			// (РјСЃ)
+#define START_DELAY_DEF				50			// (РјСЃ)
 //
-#define AFTER_PULSE_PAUSE_MIN		1000		// (мс)
-#define AFTER_PULSE_PAUSE_MAX		5000		// (мс)
-#define AFTER_PULSE_PAUSE_DEF		2000		// (мс)
+#define AFTER_PULSE_PAUSE_MIN		1000		// (РјСЃ)
+#define AFTER_PULSE_PAUSE_MAX		5000		// (РјСЃ)
+#define AFTER_PULSE_PAUSE_DEF		2000		// (РјСЃ)
 //
-#define VOLTAGE_SETPOINT_MIN		250			// (В * 10)
-#define VOLTAGE_SETPOINT_MAX		20000		// (В * 10)
+#define VOLTAGE_SETPOINT_MIN		250			// (Р’ * 10)
+#define VOLTAGE_SETPOINT_MAX		20000		// (Р’ * 10)
 //
-#define POST_CHARGE_WAIT_MIN		200			// (мс)
-#define POST_CHARGE_WAIT_MAX		5000		// (мс)
-#define POST_CHARGE_WAIT_DEF		1000		// (мс)
+#define POST_CHARGE_WAIT_MIN		200			// (РјСЃ)
+#define POST_CHARGE_WAIT_MAX		5000		// (РјСЃ)
+#define POST_CHARGE_WAIT_DEF		1000		// (РјСЃ)
 
 // Types
 typedef struct __TableItemConstraint

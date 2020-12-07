@@ -1,4 +1,4 @@
-#include "InitConfig.h"
+п»ї#include "InitConfig.h"
 #include "Board.h"
 #include "SysConfig.h"
 #include "BCCIxParams.h"
@@ -14,11 +14,11 @@ Boolean INITCFG_ConfigSystemClock()
 
 void INITCFG_ConfigIO()
 {
-	// Включение тактирования портов
+	// Р’РєР»СЋС‡РµРЅРёРµ С‚Р°РєС‚РёСЂРѕРІР°РЅРёСЏ РїРѕСЂС‚РѕРІ
 	RCC_GPIO_Clk_EN(PORTA);
 	RCC_GPIO_Clk_EN(PORTB);
 	
-	// Выходы
+	// Р’С‹С…РѕРґС‹
 	GPIO_InitPushPullOutput(GPIO_PS_EN);
 	GPIO_InitPushPullOutput(GPIO_LDAC);
 	GPIO_InitPushPullOutput(GPIO_VOLTAGE_RANGE);
@@ -38,7 +38,7 @@ void INITCFG_ConfigIO()
 	GPIO_InitPushPullOutput(GPIO_CS_SYNC7);
 	GPIO_InitPushPullOutput(GPIO_CS_SYNC8);
 
-	// Начальная установка состояний выводов
+	// РќР°С‡Р°Р»СЊРЅР°СЏ СѓСЃС‚Р°РЅРѕРІРєР° СЃРѕСЃС‚РѕСЏРЅРёР№ РІС‹РІРѕРґРѕРІ
 	GPIO_SetState(GPIO_EXT_LED2, true);
 	GPIO_SetState(GPIO_CS_SYNC1, true);
 	GPIO_SetState(GPIO_CS_SYNC2, true);
@@ -54,7 +54,7 @@ void INITCFG_ConfigIO()
 	GPIO_SetState(GPIO_R2_M, true);
 
 
-	// Альтернативные функции
+	// РђР»СЊС‚РµСЂРЅР°С‚РёРІРЅС‹Рµ С„СѓРЅРєС†РёРё
 	GPIO_InitAltFunction(GPIO_ALT_CAN_RX, AltFn_9);
 	GPIO_InitAltFunction(GPIO_ALT_CAN_TX, AltFn_9);
 	GPIO_InitAltFunction(GPIO_ALT_UART1_RX, AltFn_7);
@@ -141,14 +141,14 @@ void INITCFG_ConfigDMA()
 	DMA_Clk_Enable(DMA1_ClkEN);
 	DMA_Clk_Enable(DMA2_ClkEN);
 
-	// DMA для АЦП напряжения на DUT
+	// DMA РґР»СЏ РђР¦Рџ РЅР°РїСЂСЏР¶РµРЅРёСЏ РЅР° DUT
 	DMA_Reset(DMA_ADC_DUT_U_CHANNEL);
 	DMAChannelX_Config(DMA_ADC_DUT_U_CHANNEL, DMA_MEM2MEM_DIS, DMA_LvlPriority_LOW, DMA_MSIZE_16BIT, DMA_PSIZE_16BIT,
 							DMA_MINC_EN, DMA_PINC_DIS, DMA_CIRCMODE_EN, DMA_READ_FROM_PERIPH);
 	DMAChannelX_DataConfig(DMA_ADC_DUT_U_CHANNEL, (uint32_t)(&MEASURE_ADC_VoltageRaw[0]), (uint32_t)(&ADC1->DR), ADC_DMA_BUFF_SIZE);
 	DMA_ChannelEnable(DMA_ADC_DUT_U_CHANNEL, true);
 
-	// DMA для АЦП тока на DUT
+	// DMA РґР»СЏ РђР¦Рџ С‚РѕРєР° РЅР° DUT
 	DMA_Reset(DMA_ADC_DUT_I_CHANNEL);
 	DMAChannelX_Config(DMA_ADC_DUT_I_CHANNEL, DMA_MEM2MEM_DIS, DMA_LvlPriority_LOW, DMA_MSIZE_16BIT, DMA_PSIZE_16BIT,
 							DMA_MINC_EN, DMA_PINC_DIS, DMA_CIRCMODE_EN, DMA_READ_FROM_PERIPH);

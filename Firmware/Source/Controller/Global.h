@@ -1,15 +1,15 @@
-#ifndef __GLOBAL_H
+п»ї#ifndef __GLOBAL_H
 #define __GLOBAL_H
 
 // Definitions
 // 
-#define	SCCI_TIMEOUT_TICKS						1000	// Таймаут интерфейса SCCI (в мс)
-#define EP_WRITE_COUNT							0		// Количество массивов для записи
-#define EP_COUNT								3		// Количество массивов для чтения
-#define VALUES_x_SIZE							300		// Размер массивов
-#define ENABLE_LOCKING							FALSE	// Защита NV регистров паролем
+#define	SCCI_TIMEOUT_TICKS						1000	// РўР°Р№РјР°СѓС‚ РёРЅС‚РµСЂС„РµР№СЃР° SCCI (РІ РјСЃ)
+#define EP_WRITE_COUNT							0		// РљРѕР»РёС‡РµСЃС‚РІРѕ РјР°СЃСЃРёРІРѕРІ РґР»СЏ Р·Р°РїРёСЃРё
+#define EP_COUNT								3		// РљРѕР»РёС‡РµСЃС‚РІРѕ РјР°СЃСЃРёРІРѕРІ РґР»СЏ С‡С‚РµРЅРёСЏ
+#define VALUES_x_SIZE							300		// Р Р°Р·РјРµСЂ РјР°СЃСЃРёРІРѕРІ
+#define ENABLE_LOCKING							FALSE	// Р—Р°С‰РёС‚Р° NV СЂРµРіРёСЃС‚СЂРѕРІ РїР°СЂРѕР»РµРј
 
-// Параметры DiscreteOpAmp
+// РџР°СЂР°РјРµС‚СЂС‹ DiscreteOpAmp
 #define DISOPAMP_CURRENT_RANGE_QUANTITY			4
 #define DISOPAMP_CURRENT_THRESHOLD_RANGE_3		20000	// uA
 #define DISOPAMP_CURRENT_THRESHOLD_RANGE_2		2000	// uA
@@ -28,7 +28,7 @@
 #define DISOPAMP_POSITION_CELL7					7
 #define DSIOPAMP_STACK_VOLTAGE_MAX				(DISOPAMP_CELL_VOLATGE_MAX * DISOPAMP_TOTAL_CELL)
 
-// Временные параметры
-#define TIME_LED_BLINK							500		// Мигание светодиодом (в мс)
+// Р’СЂРµРјРµРЅРЅС‹Рµ РїР°СЂР°РјРµС‚СЂС‹
+#define TIME_LED_BLINK							500		// РњРёРіР°РЅРёРµ СЃРІРµС‚РѕРґРёРѕРґРѕРј (РІ РјСЃ)
 
 #endif //  __GLOBAL_H

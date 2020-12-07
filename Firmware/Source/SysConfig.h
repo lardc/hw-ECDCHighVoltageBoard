@@ -1,4 +1,4 @@
-#ifndef __SYSCONFIG_H
+п»ї#ifndef __SYSCONFIG_H
 #define __SYSCONFIG_H
 
 
@@ -9,35 +9,35 @@
 //-----------------------------------------------
 
 // System clock
-#define SYSCLK							70000000	// Тактовая частота системной шины процессора
-#define QUARTZ_FREQUENCY				20000000	// Частота кварца
+#define SYSCLK							70000000	// РўР°РєС‚РѕРІР°СЏ С‡Р°СЃС‚РѕС‚Р° СЃРёСЃС‚РµРјРЅРѕР№ С€РёРЅС‹ РїСЂРѕС†РµСЃСЃРѕСЂР°
+#define QUARTZ_FREQUENCY				20000000	// Р§Р°СЃС‚РѕС‚Р° РєРІР°СЂС†Р°
 // ----------------------------------------------
 
 // USART
-#define USART_BAUDRATE					115200		// Скорость USART
-#define USART_FIFOlen					32			// Длина FIFO USART
+#define USART_BAUDRATE					115200		// РЎРєРѕСЂРѕСЃС‚СЊ USART
+#define USART_FIFOlen					32			// Р”Р»РёРЅР° FIFO USART
 // ----------------------------------------------
 
 // Timers
-#define TIMER7_uS						1000		// в мкс
-#define TIMER6_uS						150			// в мкс
+#define TIMER7_uS						1000		// РІ РјРєСЃ
+#define TIMER6_uS						150			// РІ РјРєСЃ
 // ----------------------------------------------
 
 // CAN
-#define CAN_BAUDRATE					1000000		// Битрейт CAN
+#define CAN_BAUDRATE					1000000		// Р‘РёС‚СЂРµР№С‚ CAN
 // ----------------------------------------------
 
 // SPI
-#define SPI1_BAUDRATE_BITS				0x1			// Биты задания битрейта SPI
-#define SPI1_LSB_FIRST					false		// Передача младшим битов вперед
+#define SPI1_BAUDRATE_BITS				0x1			// Р‘РёС‚С‹ Р·Р°РґР°РЅРёСЏ Р±РёС‚СЂРµР№С‚Р° SPI
+#define SPI1_LSB_FIRST					false		// РџРµСЂРµРґР°С‡Р° РјР»Р°РґС€РёРј Р±РёС‚РѕРІ РІРїРµСЂРµРґ
 // ----------------------------------------------
 
 // ADC
-#define DMA_ADC_DUT_U_CHANNEL			DMA1_Channel1	// Канал DMA для АЦП тока
-#define DMA_ADC_DUT_I_CHANNEL			DMA2_Channel1	// Канал DMA для АЦП тока
-#define ADC1_VOLTAGE_CHANNEL			1				// АЦП1 номер канала напряжения
-#define ADC2_CURRENT_CHANNEL			3				// АЦП1 номер канала тока
-#define ADC_DMA_BUFF_SIZE				5				// Количество данных для DMA
+#define DMA_ADC_DUT_U_CHANNEL			DMA1_Channel1	// РљР°РЅР°Р» DMA РґР»СЏ РђР¦Рџ С‚РѕРєР°
+#define DMA_ADC_DUT_I_CHANNEL			DMA2_Channel1	// РљР°РЅР°Р» DMA РґР»СЏ РђР¦Рџ С‚РѕРєР°
+#define ADC1_VOLTAGE_CHANNEL			1				// РђР¦Рџ1 РЅРѕРјРµСЂ РєР°РЅР°Р»Р° РЅР°РїСЂСЏР¶РµРЅРёСЏ
+#define ADC2_CURRENT_CHANNEL			3				// РђР¦Рџ1 РЅРѕРјРµСЂ РєР°РЅР°Р»Р° С‚РѕРєР°
+#define ADC_DMA_BUFF_SIZE				5				// РљРѕР»РёС‡РµСЃС‚РІРѕ РґР°РЅРЅС‹С… РґР»СЏ DMA
 // ----------------------------------------------
 
 #endif // __SYSCONFIG_H

@@ -1,4 +1,4 @@
-// Includes
+﻿// Includes
 #include "Measurement.h"
 #include "ConvertUtils.h"
 #include "Board.h"

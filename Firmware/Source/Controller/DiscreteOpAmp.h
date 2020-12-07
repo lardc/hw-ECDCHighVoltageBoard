@@ -1,4 +1,4 @@
-#ifndef DISCRETEOPAMP_H_
+﻿#ifndef DISCRETEOPAMP_H_
 #define DISCRETEOPAMP_H_
 
 // Includes

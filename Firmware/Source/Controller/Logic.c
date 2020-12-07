@@ -1,4 +1,4 @@
-// Includes
+п»ї// Includes
 #include "Board.h"
 #include "Logic.h"
 #include "ConvertUtils.h"
@@ -65,7 +65,7 @@ bool LOGIC_RegulatorCycle(float Voltage, Int16U *Problem)
 	static Int16U FollowingErrorCounter = 0;
 	float RegulatorError, Qp, RegulatorOut, ErrorX;
 
-	// Формирование линейно нарастающего фронта импульса напряжения
+	// Р¤РѕСЂРјРёСЂРѕРІР°РЅРёРµ Р»РёРЅРµР№РЅРѕ РЅР°СЂР°СЃС‚Р°СЋС‰РµРіРѕ С„СЂРѕРЅС‚Р° РёРјРїСѓР»СЊСЃР° РЅР°РїСЂСЏР¶РµРЅРёСЏ
 	if(VoltageTarget < VoltageSetpoint)
 		VoltageTarget += dV;
 
@@ -137,7 +137,7 @@ void LOGIC_SaveRegulatorErr(float Error)
 {
 	static Int16U ScopeLogStep = 0, LocalCounter = 0;
 
-	// Сброс локального счетчика в начале логгирования
+	// РЎР±СЂРѕСЃ Р»РѕРєР°Р»СЊРЅРѕРіРѕ СЃС‡РµС‚С‡РёРєР° РІ РЅР°С‡Р°Р»Рµ Р»РѕРіРіРёСЂРѕРІР°РЅРёСЏ
 	if (CONTROL_RegulatorErr_Counter == 0)
 		LocalCounter = 0;
 
@@ -151,11 +151,11 @@ void LOGIC_SaveRegulatorErr(float Error)
 		++LocalCounter;
 	}
 
-	// Условие обновления глобального счетчика данных
+	// РЈСЃР»РѕРІРёРµ РѕР±РЅРѕРІР»РµРЅРёСЏ РіР»РѕР±Р°Р»СЊРЅРѕРіРѕ СЃС‡РµС‚С‡РёРєР° РґР°РЅРЅС‹С…
 	if (CONTROL_RegulatorErr_Counter < VALUES_x_SIZE)
 		CONTROL_RegulatorErr_Counter = LocalCounter;
 
-	// Сброс локального счетчика
+	// РЎР±СЂРѕСЃ Р»РѕРєР°Р»СЊРЅРѕРіРѕ СЃС‡РµС‚С‡РёРєР°
 	if (LocalCounter >= VALUES_x_SIZE)
 		LocalCounter = 0;
 }
@@ -221,7 +221,7 @@ void LOGIC_LoggingProcess(volatile MeasureSample* Sample)
 {
 	static Int16U ScopeLogStep = 0, LocalCounter = 0;
 
-	// Сброс локального счётчика в начале логгирования
+	// РЎР±СЂРѕСЃ Р»РѕРєР°Р»СЊРЅРѕРіРѕ СЃС‡С‘С‚С‡РёРєР° РІ РЅР°С‡Р°Р»Рµ Р»РѕРіРіРёСЂРѕРІР°РЅРёСЏ
 	if (CONTROL_Values_Counter == 0)
 		LocalCounter = 0;
 
@@ -249,11 +249,11 @@ void LOGIC_LoggingProcess(volatile MeasureSample* Sample)
 
 	LOGIC_SaveToRingBuffer(Sample);
 
-	// Условие обновления глобального счётчика данных
+	// РЈСЃР»РѕРІРёРµ РѕР±РЅРѕРІР»РµРЅРёСЏ РіР»РѕР±Р°Р»СЊРЅРѕРіРѕ СЃС‡С‘С‚С‡РёРєР° РґР°РЅРЅС‹С…
 	if (CONTROL_Values_Counter < VALUES_x_SIZE)
 		CONTROL_Values_Counter = LocalCounter;
 
-	// Сброс локального счётчика
+	// РЎР±СЂРѕСЃ Р»РѕРєР°Р»СЊРЅРѕРіРѕ СЃС‡С‘С‚С‡РёРєР°
 	if (LocalCounter >= VALUES_x_SIZE)
 		LocalCounter = 0;
 }

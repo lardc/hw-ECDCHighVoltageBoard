@@ -1,4 +1,4 @@
-// Include
+п»ї// Include
 //
 #include "Global.h"
 #include "Controller.h"
@@ -51,16 +51,16 @@ void ConfigSysClk()
 
 void ConfigGPIO()
 {
-	// Включение тактирования портов
+	// Р’РєР»СЋС‡РµРЅРёРµ С‚Р°РєС‚РёСЂРѕРІР°РЅРёСЏ РїРѕСЂС‚РѕРІ
 	RCC_GPIO_Clk_EN(PORTA);
 	RCC_GPIO_Clk_EN(PORTB);
 	
-	//Выходы
+	//Р’С‹С…РѕРґС‹
 	GPIO_Config(LED_BLINK_PORT, LED_BLINK_PIN, Output, PushPull, HighSpeed, NoPull);
 	GPIO_Config(LED_POWER_PORT, LED_POWER_PIN, Output, OpenDrain, HighSpeed, NoPull);
 	GPIO_Bit_Rst(LED_POWER_PORT, LED_POWER_PIN);
 	
-	//Альтернативные функции портов
+	//РђР»СЊС‚РµСЂРЅР°С‚РёРІРЅС‹Рµ С„СѓРЅРєС†РёРё РїРѕСЂС‚РѕРІ
 	GPIO_Config(GPIOA, Pin_9, AltFn, PushPull, HighSpeed, NoPull); //PA9(USART1 TX)
 	GPIO_AltFn(GPIOA, Pin_9, AltFn_7);
 	

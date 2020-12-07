@@ -1,4 +1,4 @@
-// Includes
+п»ї// Includes
 //
 #include "ConvertUtils.h"
 #include "Global.h"
@@ -88,7 +88,7 @@ float CU_ADCtoV(Int16U Data, Int16U VoltageRange)
 
 void CU_LoadConvertParams()
 {
-	// Параметры преобразования напряжения
+	// РџР°СЂР°РјРµС‚СЂС‹ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ РЅР°РїСЂСЏР¶РµРЅРёСЏ
 	DisOpAmpVParams.K = (float)DataTable[REG_DAC_V_CELL_K] / 1000;
 	DisOpAmpVParams.B = (Int16S)DataTable[REG_DAC_V_CELL_B];
 
@@ -104,7 +104,7 @@ void CU_LoadConvertParams()
 	MeasureVParams[MEASURE_VOLTAGE_RANGE_1].K = (float)DataTable[REG_ADC_V_RANGE1_K] / 1000;
 	MeasureVParams[MEASURE_VOLTAGE_RANGE_1].B = (Int16S)DataTable[REG_ADC_V_RANGE1_B] / 10;
 
-	// Параметры преобразования тока
+	// РџР°СЂР°РјРµС‚СЂС‹ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёСЏ С‚РѕРєР°
 	for(int i = 0; i < DISOPAMP_CURRENT_RANGE_QUANTITY; i++)
 	{
 		MeasureIParams[i].P2 = (float)(Int16S)DataTable[REG_ADC_I_RANGE0_P2 + i * 6] / 1e6;

@@ -1,4 +1,4 @@
-// Includes
+﻿// Includes
 #include "DiscreteOpAmp.h"
 #include "LowLevel.h"
 #include "ConvertUtils.h"

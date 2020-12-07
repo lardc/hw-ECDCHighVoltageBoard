@@ -1,4 +1,4 @@
-#ifndef MEASUREMENT_H_
+п»ї#ifndef MEASUREMENT_H_
 #define MEASUREMENT_H_
 
 // Includes
@@ -12,7 +12,7 @@ typedef struct __MeasureSample
 }MeasureSample;
 
 // Definitions
-#define PULSE_ARR_MAX_LENGTH					300				// Количество точек оцифровки
+#define PULSE_ARR_MAX_LENGTH					300				// РљРѕР»РёС‡РµСЃС‚РІРѕ С‚РѕС‡РµРє РѕС†РёС„СЂРѕРІРєРё
 //
 #define MEASURE_VOLTAGE_RANGE_THRESHOLD			100
 #define MEASURE_VOLTAGE_RANGE_QUANTITY			2
